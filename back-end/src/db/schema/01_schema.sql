@@ -1,0 +1,64 @@
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS sports CASCADE;
+DROP TABLE IF EXISTS events CASCADE;
+DROP TABLE IF EXISTS booked_events CASCADE;
+DROP TABLE IF EXISTS reviews CASCADE;
+DROP TABLE IF EXISTS comments CASCADE;
+
+CREATE TABLE users ( 
+  id SERIAL PRIMARY KEY NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(32) NOT NULL,
+  age INTEGER NOT NULL, 
+  gender VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE sports (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255) NOT NULL, 
+  goalie BOOLEAN NOT NULL
+); 
+
+CREATE TABLE events (
+  id SERIAL PRIMARY KEY NOT NULL, 
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE, 
+  sport_id INTEGER REFERENCES sports(id) ON DELETE CASCADE, 
+  date DATE NOT NULL, 
+  start_time TIME NOT NULL, 
+  end_time TIME NOT NULL, 
+  title VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL, 
+  city VARCHAR(255) NOT NULL, 
+  province VARCHAR(32) NOT NULL, 
+  current_participants INTEGER NOT NULL, 
+  max_participants INTEGER, 
+  skill_level VARCHAR(255) NOT NULL, 
+  gender_restriction VARCHAR(255) NOT NULL, 
+  referee BOOLEAN NOT NULL, 
+  additional_info TEXT
+); 
+
+CREATE TABLE booked_events (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, 
+  event_id INTEGER REFERENCES events(id) ON DELETE CASCADE
+); 
+
+CREATE TABLE reviews (
+  id SERIAL PRIMARY KEY NOT NULL, 
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, 
+  event_id INTEGER REFERENCES events(id) ON DELETE CASCADE, 
+  rating INTEGER NOT NULL
+); 
+
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY NOT NULL, 
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, 
+  event_id INTEGER REFERENCES events(id) ON DELETE CASCADE, 
+  comment TEXT NOT NULL, 
+  time TIMESTAMP
+);
