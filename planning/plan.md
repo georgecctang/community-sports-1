@@ -24,12 +24,14 @@
 - Organizer can edit/delete events 0
 - Filter by sport/skill-level/date/time/location/gender? 1
 - Make and view details about the event i.e. current/max participants, time, location, specific rules, skill level category/co-ed/male/female 1
+- Postion selction following event sign up. 2
 - Map showing where the location of the event is 2
 - Driving time estimate when looking filtering and viewing individual events. User can have the option to change it to walking or puiblic transport. 2
 
 - Group messaging for each event. Message board/comments. 3
 - Rating system to show reputable oraganizers and players 3
 - In app messaging system 4
+- Visual position selection 4
 - Pay for 3rd party Referee 5
 - Promoting system to allow for users to boost their event in search for more players/specific people ie goalies 5
 - User page where they can update info and write a bio
@@ -97,4 +99,4 @@ Team Members: Bill, Ozge, George
 - /events/myevents/host
 
 #Pull down memu
-- renders with the right events list (without changing the url)
+- renders with the right events list (without changing the url) 
