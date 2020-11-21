@@ -1,14 +1,14 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/days", (request, response) => {
+  router.get("/users", (request, response) => {
     db.query(
       `
       SELECT * FROM users;
       
     `
-    ).then(({ rows: days }) => {
-      response.json(days);
+    ).then(({ rows: users }) => {
+      response.json(users);
     });
   });
   router.get ("/test", (req, res) => {
