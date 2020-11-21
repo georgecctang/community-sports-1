@@ -1,8 +1,10 @@
-const router = require("express").Router();
+const router = require("express").Router(); 
 
 module.exports = db => {
-  router.get("/login", (req, res) => {
+  router.post("/login", (req, res) => {
+
     //Currently using hardcoded data from schema
+    console.log(req.body)
     db.query(`
       SELECT id 
       FROM users 
