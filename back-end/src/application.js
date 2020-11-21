@@ -10,8 +10,7 @@ const app = express();
 
 const db = require("./db");
 
-// const days = require("./routes/days");
-
+const days = require("./routes/days");
 const events = require("./routes/events");
 
 
@@ -38,8 +37,8 @@ module.exports = function application(
   app.use(helmet());
   app.use(bodyparser.json());
 
-  // app.use("/api", days(db));
-  app.use("/events", events(db));
+  app.use("/api", days(db));
+  app.use("/api", events(db));
 
 
   // if (ENV === "development" || ENV === "test") {

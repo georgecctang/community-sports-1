@@ -4,29 +4,60 @@ const router = require("express").Router();
 
 module.exports = db => {
   // PUT: User to join event or update info (e.g change team and position) 
-  router.put("/:event_id", (req, res) => {
+
+  router.get("/events", (req, res) => {
+    res.json({status: 'get okay'});
+  })
+
+
+  router.post("/events/:event_id", (req, res) => {
     
     const eventId = req.params.event_id;
+    // const eventId = 100;/
     // need the user id from cookie
-    const userId = req.session.user_id;
+    // const userId = req.session.user_id;
+    const userId = 20;
+    
     // set an object named data from server
-    const { teamNumber, position } = req.body.data;
+    const { teamNumber, position } = req.body;
     
     db.query(
       `
       INSERT INTO teams (event_id, user_id, team_number, position)
       VALUES ($1, $2, $3, $4)
-      ON CONFLICT (event_id, user_id) DO
-      UPDATE SET team_number = $3, position = $4;
+      ;
     `,
-     [eventId, userId, teamNumber, position])
-     .then(() => res.status(204).json())
+     [eventId, userId, Number(teamNumber), position])
+     .then(() => res.json({status: "put okay"}))
      .catch(error => console.log(error));
 
     });
 
+    // PUT: user update settings
+    router.put("/events/:event_id", (req, res) => {
+    
+      const eventId = req.params.event_id;
+      // const eventId = 100;/
+      // need the user id from cookie
+      // const userId = req.session.user_id;
+      const userId = 20;
+      
+      // set an object named data from server
+      const { teamNumber, position } = req.body;
+      
+      db.query(
+        `
+        UPDATE teams SET team_number = $3, position = $4
+        WHERE event_id = $1 AND user_id = $2;
+      `,
+       [eventId, userId, Number(teamNumber), position])
+       .then(() => res.json({status: "put okay"}))
+       .catch(error => console.log(error));
+  
+      });
+
   // DELETE: User to leave event
-  router.delete("/:event_id", (req, res) => {
+  router.delete("/events/:event_id", (req, res) => {
     
     const eventId = req.params.event_id;
     // need the user id from cookie
@@ -41,7 +72,6 @@ module.exports = db => {
      .then(() => res.status(204).json())
      .catch(error => console.log(error));
      
-  
     });
 
   return router;
