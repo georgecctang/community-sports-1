@@ -17,7 +17,8 @@ module.exports = db => {
     ) .then((data) => { 
         const id = data.rows[0].id
         req.session.user_id = id //saves user as as cookie
-        res.json('Updated')
+        res.json('Updated') 
+        return data
       }) 
       .catch((err) => {
         console.log(err)
