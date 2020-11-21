@@ -4,28 +4,16 @@ const path = require("path");
 const express = require("express");
 const bodyparser = require("body-parser");
 const helmet = require("helmet");
-const cors = require("cors");
+const cors = require("cors"); 
+const morgan = require("morgan");
 
 const app = express();
 
 const db = require("./db");
 
-const days = require("./routes/days");
+const days = require("./routes/days"); 
+const register = require("./routes/register");
 
-// function read(file) {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(
-//       file,
-//       {
-//         encoding: "utf-8"
-//       },
-//       (error, data) => {
-//         if (error) return reject(error);
-//         resolve(data);
-//       }
-//     );
-//   });
-// }
 
 module.exports = function application(
   ENV,
@@ -36,26 +24,7 @@ module.exports = function application(
   app.use(bodyparser.json());
 
   app.use("/api", days(db));
-
-  // if (ENV === "development" || ENV === "test") {
-  //   Promise.all([
-  //     read(path.resolve(__dirname, `db/schema/create.sql`)),
-  //     read(path.resolve(__dirname, `db/schema/${ENV}.sql`))
-  //   ])
-  //     .then(([create, seed]) => {
-  //       app.get("/api/debug/reset", (request, response) => {
-  //         db.query(create)
-  //           .then(() => db.query(seed))
-  //           .then(() => {
-  //             console.log("Database Reset");
-  //             response.status(200).send("Database Reset");
-  //           });
-  //       });
-  //     })
-  //     .catch(error => {
-  //       console.log(`Error setting up the reset route: ${error}`);
-  //     });
-  // }
+  app.use("/api", register(db));
 
   app.close = function() {
     return db.end();
