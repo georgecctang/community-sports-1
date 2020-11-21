@@ -5,7 +5,6 @@ module.exports = db => {
     db.query(
       `
       SELECT * FROM users;
-      
     `
     ).then(({ rows: days }) => {
       response.json(days);

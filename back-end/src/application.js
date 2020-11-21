@@ -10,7 +10,10 @@ const app = express();
 
 const db = require("./db");
 
-const days = require("./routes/days");
+// const days = require("./routes/days");
+
+const events = require("./routes/events");
+
 
 // function read(file) {
 //   return new Promise((resolve, reject) => {
@@ -35,7 +38,9 @@ module.exports = function application(
   app.use(helmet());
   app.use(bodyparser.json());
 
-  app.use("/api", days(db));
+  // app.use("/api", days(db));
+  app.use("/events", events(db));
+
 
   // if (ENV === "development" || ENV === "test") {
   //   Promise.all([
