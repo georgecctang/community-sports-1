@@ -1,19 +1,18 @@
 const router = require("express").Router(); 
 
 module.exports = db => {
-  router.post("/login", (req, res) => {
-
-    //Currently using hardcoded data from schema
-    console.log(req.body)
+  router.post("/login", (req, res) => { 
+    const {email, password} = req.body 
     db.query(`
-      SELECT id 
+      SELECT id, first_name, last_name 
       FROM users 
       WHERE email= $1 AND password=$2
       `
-    , ['apple13@gmail.com', 'pasdad'])
+    , [email, password])
     .then((data) => {
       req.session.user_id = data.rows[0].id 
-      res.json('Cookie Saved')
+      res.json('Cookie Saved') 
+      return data
     })
   })
   return router;
