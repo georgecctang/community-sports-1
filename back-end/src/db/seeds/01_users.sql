@@ -8,7 +8,7 @@ VALUES ('Tam', 'Zhu', 'apple123@gmail.com', 'password', '6132205587', 19, 'Male'
 ('Jeny', 'Williams', 'jerrywill@gmail.com','password','4166996554', 23, 'Female'),
 ('Serena', 'Seward', 'serenase@gmail.com','password','2506831087', 45, 'Female'),
 ('Carolle', 'Martin', 'martinca@gmail.com','password','8195831602', 50, 'Other'),
-('Tam', 'Zhu', 'apple123@gmail.com', 'password', '6132205587', 19, 'Male'),
+('Tam', 'Zhu', 'applesssaaa123@gmail.com', 'password', '6132205587', 19, 'Male'),
 ('Sammy', 'Zane', 'ape13@gmail.com', 'paddddad', '6132204597', 30, 'Female'), 
 ('Sean', 'Lane', 'apple1ss2@gmail.com', 'daussi', '6137205585', 31, 'Other'),
 ('Chris', 'John', 'jbens@email.com', 'passworwwd', '4167332222', 28, 'Male'),
