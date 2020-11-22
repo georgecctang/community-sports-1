@@ -1,7 +1,7 @@
-import  { useState, useEffect, React } from "react";
-import { Redirect, Link } from "react-router-dom";
+import  { useState, React } from "react";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
 import './Login.scss'
 
 export default function Login (props) {
@@ -37,14 +37,19 @@ export default function Login (props) {
 
   return (
     <>
-    <nav>
-    <div>
-      <Link to='/'>Sports</Link>
-    </div>
-    <ul className="menu">
-      <li><Link to='/register'>Signup</Link></li>
-    </ul>
-    </nav>
+    <Navbar bg="light" expand="lg">
+    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+    
+      <Nav.Link href="/login">Login</Nav.Link>
+      <Nav.Link href="/register">Register</Nav.Link>
+    
+    </Nav> 
+    </Navbar.Collapse>
+      
+  </Navbar>
     <div className="Login">
     <Form 
     id="login"
@@ -77,6 +82,7 @@ export default function Login (props) {
     </Form>
     <h2>{error}</h2>
     </div>
-  </>
+    </>
   );
+ 
 }; 

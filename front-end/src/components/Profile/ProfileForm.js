@@ -1,26 +1,42 @@
 import { Link, Redirect } from 'react-router-dom';
-import React from 'react'
-
-
+import axios from 'axios';
+import { React, useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap/';
 import './Profile.scss'
-export default function ProfileForm () {
- 
+export default function ProfileForm (props) {
+  const [isLogout, setisLogout] = useState(false)
+  function logout_validation() {
+    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
+  };
+  if (isLogout) {
+    return <Redirect to="/"/>
+  };
   return (
-    <React.Fragment>
-    <nav>
-    <div>
-      <Link to='/'>Sports</Link>
-    </div>
-    <ul className="menu">
-      <li><Link to='/profile'>My Profile</Link></li>
-      <li><Link to="/logout">Logout</Link></li> 
-    </ul>
-  </nav>
+    <>
+    <Navbar bg="light" expand="lg">
+    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+      <NavDropdown title="Events" id="basic-nav-dropdown">
+        <NavDropdown.Item href="#action/3.1">Upcoming Events</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.2">Past Events</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.3">My Events</NavDropdown.Item>
+      </NavDropdown>
+    <Nav.Link href="/profile">My Profile</Nav.Link>
+    <Button onClick={() => {logout_validation()}}>Logout</Button>
+    
+    </Nav> 
+    </Navbar.Collapse>
+      
+  </Navbar>
+
     <div className="profile">
-  <p>
-  User information
-  </p>
-  </div>   
-  </React.Fragment> 
+    <p>
+    User information
+    </p>
+    </div>   
+ </>
   )
 }

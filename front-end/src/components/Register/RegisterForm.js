@@ -29,15 +29,6 @@ export default function Register (props) {
     return <Redirect to="/profile"/>
   }
   return (
-    <>
-    <nav>
-    <div>
-      <Link to='/'>Sports</Link>
-    </div>
-    <ul className="menu">
-      <li><Link to='/login'>Login</Link></li>
-    </ul>
-    </nav>
     <div className="Register">
       <Form onSubmit={event => {
                             event.preventDefault();
@@ -105,6 +96,5 @@ export default function Register (props) {
      </Form>
     <h2>{error}</h2>
     </div>
-    </>
   );
 }

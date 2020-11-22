@@ -9,6 +9,7 @@ import Login from './Login/LoginForm'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
+import Navigation from './Navigation/Navigation'
 import Main from './Main';
 import { useState } from 'react';
 
@@ -31,10 +32,10 @@ export default function App(props) {
             <Register />
           </Route> 
           <Route path='/profile'>
-            <ProfileForm />
+            <ProfileForm /> 
           </Route>
           <Route path='/events'>
-            {islogin ? <EventsIndex /> : <Redirect to="/login" />}
+            <EventsIndex /> 
           </Route>
          
         </Switch>
