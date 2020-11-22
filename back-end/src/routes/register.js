@@ -7,10 +7,9 @@ module.exports = db => {
     db.query(`SELECT * FROM users WHERE email=$1`, 
     [email]) 
     .then((user) => {
-      console.log(user.rows[0])
       //If user exists stop and send email already exists
       if (user.rows[0]) {
-        res.send("Email already in use")
+        res.send('Email already in use')
         //if user email does not exist add to DB
       } else {
         db.query(`
@@ -22,9 +21,8 @@ module.exports = db => {
         ) .then(({rows}) => { 
             const id = rows[0].id
             req.session.user_id = id //saves user as as cookie
-            
             //returning the whole user object 
-            res.send(rows[0])
+            res.send(rows[0]) 
          }) 
           .catch((err) => {
             console.log(err)
