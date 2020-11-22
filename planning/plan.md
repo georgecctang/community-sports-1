@@ -76,6 +76,17 @@ Team Members: Bill, Ozge, George
 - /events/:event_id Get/Put/D
 - events/new Post 
 
+### Owners to create, edit and cancel event
+- /owners/events/:event_id/create
+- /owners/events/:event_id/edit
+- /owners/events/:event_id/delete
+
+## Users to join, edit, and leave event
+- /users/events/:event_id/create
+- /users/events/:event_id/edit
+- /users/events/:event_id/delete
+
+
 - /events/:event_id/messages/new Post - Post new message to event message board 
 - /events/:event_id/messages/:message_id - Put/Delete existing message
 

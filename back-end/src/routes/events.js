@@ -120,14 +120,6 @@ module.exports = db => {
   return router;
 };
 
-    // db.query(
-    //   `
-    //   INSERT INTO interviews (student, interviewer_id, appointment_id) VALUES ($1::text, $2::integer, $3::integer)
-    //   ON CONFLICT (appointment_id) DO
-    //   UPDATE SET student = $1::text, interviewer_id = $2::integer
-    // `,
-    //   [student, interviewer, Number(request.params.id)]
-    // )
 const router = require("express").Router(); 
 
 module.exports = db => {  
