@@ -19,6 +19,7 @@ app.use(cookieSession({
 const users = require("./routes/users"); 
 const register = require("./routes/register");
 const login = require("./routes/login");
+const events = require("./routes/events");
 
 module.exports = function application(
   ENV,
@@ -31,6 +32,7 @@ module.exports = function application(
   app.use("/api", users(db));
   app.use("/api", register(db)); 
   app.use("/api", login(db));
+  app.use("/api", events(db));
 
   app.close = function() {
     return db.end();

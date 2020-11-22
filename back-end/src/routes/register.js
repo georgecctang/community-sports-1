@@ -7,16 +7,15 @@ module.exports = db => {
     db.query(`SELECT * FROM users WHERE email=$1`, 
     [email]) 
     .then((user) => {
-      console.log(user.rows[0])
       //If user exists stop and send email already exists
       if (user.rows[0]) {
-        return 'Email already in use'
+        res.send('Email already in use')
         //if user email does not exist add to DB
       } else {
         db.query(`
           INSERT INTO users (first_name, last_name, email, password, phone, age, gender) 
           VALUES ($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text)
-          RETURNING id;
+          RETURNING id, first_name, last_name;
           `
           , [first_name, last_name, email, password, phone, age, gender ]
         ) .then(({rows}) => { 
