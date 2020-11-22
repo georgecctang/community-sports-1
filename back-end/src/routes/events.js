@@ -17,10 +17,32 @@ module.exports = db => {
         gender_restriction, referee, additional_info;`
         , [owner_id, date, start_time, end_time, title, address, city, province, current_participants, 
         max_participants, skill_level, gender_restriction, referee, additional_info]
-        ) .then(({rows}) => {
-          res.send('Successfuly Created')
+        ) .then(() => {
+          //When it saved
+          res.send('Successfully Created')
         }) 
-        .catch((err) => res.send('Error'))
+        //When it fails
+        .catch((err) => {
+          console.log(err)
+          res.send('Error')
+        })
+  }) 
+
+  router.delete("/events/delete", (req, res) => {
+    const {id} = req.body 
+    db.query(` 
+    DELETE FROM events 
+    WHERE id=$1` 
+    , [id]
+    ) .then(() => {
+      //When it is Deleted
+      res.send('Successfully Deleted')
+    }) 
+    //When it fails
+    .catch((err) => {
+      console.log(err)
+      res.send('Error')
+    })
   })
   return router
 }

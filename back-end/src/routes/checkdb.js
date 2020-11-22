@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/users", (request, response) => {
+  router.get("/checkdb/users", (request, response) => {
     db.query(
       `
       SELECT * FROM users;
@@ -13,7 +13,17 @@ module.exports = db => {
   });
   router.get ("/test", (req, res) => {
     res.json('It works')
-  })
+  }) 
+  router.get("/checkdb/events", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM events;
+      
+    `
+    ).then(({ rows: events }) => {
+      response.json(events);
+    });
+  });
 
   return router;
 };

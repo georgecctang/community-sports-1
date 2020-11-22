@@ -16,7 +16,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
-const users = require("./routes/users"); 
+const checkdb = require("./routes/checkdb"); 
 const register = require("./routes/register");
 const login = require("./routes/login");
 const events = require("./routes/events");
@@ -29,7 +29,7 @@ module.exports = function application(
   app.use(helmet());
   app.use(bodyparser.json());
 
-  app.use("/api", users(db));
+  app.use("/api", checkdb(db));
   app.use("/api", register(db)); 
   app.use("/api", login(db));
   app.use("/api", events(db));
