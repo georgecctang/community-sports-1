@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const router = require("express").Router();
 
 // For the routes /events/...
@@ -120,6 +121,8 @@ module.exports = db => {
   return router;
 };
 
+=======
+>>>>>>> 27b7cb4e33acfe528e775a0052bbfd995aece22f
 const router = require("express").Router(); 
 
 module.exports = db => {  
