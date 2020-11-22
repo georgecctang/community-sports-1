@@ -1,9 +1,7 @@
-const router = require("express").Router();
+const router = require("express").Router(); 
 
-// For the routes /events/...
+module.exports = db => {  
 
-module.exports = db => {
-  
     // GET: All future events with the closest one on top
     router.get("/events", (req, res) => {
       const currentDate = new Date();
@@ -46,4 +44,4 @@ module.exports = db => {
     })
 
   return router;
-};
+}
