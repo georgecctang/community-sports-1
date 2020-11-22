@@ -1,3 +1,5 @@
+// Leftover from scheduler.api; used for reference
+
 const router = require("express").Router();
 
 module.exports = db => {
