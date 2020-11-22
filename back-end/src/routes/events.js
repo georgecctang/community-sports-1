@@ -38,11 +38,6 @@ module.exports = db => {
       //When it is Deleted
       res.send('Successfully Deleted')
     }) 
-    //When it fails
-    .catch((err) => {
-      console.log(err)
-      res.send('Error')
-    })
   })
   return router
 }
