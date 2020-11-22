@@ -9,7 +9,7 @@ export default function Login (props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError ] = useState("")
-  const [islogin, setisLogin] = useState(false)
+  
 
   const userLoggedin =  function() {
     if (email === "") {
@@ -26,12 +26,12 @@ export default function Login (props) {
          setError(res.data)
         
        } else {
-        setisLogin(true);
+        props.setisLogin(true);
        }
       }
     )
   }
-  if (islogin) {
+  if (props.islogin) {
     return <Redirect to="/events"/>
   };
 

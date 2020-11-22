@@ -10,9 +10,11 @@ import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
 import Main from './Main';
+import { useState } from 'react';
 
 export default function App(props) {
-  
+  const [islogin, setisLogin] = useState(false)
+
   return (
     <div className="App">
       <Router>
@@ -21,20 +23,20 @@ export default function App(props) {
             <Main />
           </Route>
           <Route path='/login'>
-            <Login />
+            <Login 
+            islogin ={islogin}
+            setisLogin = {setisLogin} />
           </Route>
           <Route path='/register'>
             <Register />
-          </Route>
+          </Route> 
           <Route path='/profile'>
             <ProfileForm />
           </Route>
           <Route path='/events'>
-            <EventsIndex />
+            {islogin ? <EventsIndex /> : <Redirect to="/login" />}
           </Route>
-          <Route to='/logout' component={Main}>
-            <Redirect to='/'/>
-          </Route>
+         
         </Switch>
       </Router>
     </div>
