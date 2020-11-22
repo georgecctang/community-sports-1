@@ -19,7 +19,8 @@ app.use(cookieSession({
 const checkdb = require("./routes/checkdb"); 
 const register = require("./routes/register");
 const login = require("./routes/login");
-const events = require("./routes/events");
+const events = require("./routes/events"); 
+const logout = require("./routes/logout");
 
 module.exports = function application(
   ENV,
@@ -32,7 +33,8 @@ module.exports = function application(
   app.use("/api", checkdb(db));
   app.use("/api", register(db)); 
   app.use("/api", login(db));
-  app.use("/api", events(db));
+  app.use("/api", events(db)); 
+  app.use("/api", logout(db));
 
   app.close = function() {
     return db.end();
