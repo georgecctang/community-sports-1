@@ -38,6 +38,19 @@ module.exports = db => {
       //When it is Deleted
       res.send('Successfully Deleted')
     }) 
+  }) 
+
+  router.get("/events/:id", (req, res) => {
+    const id = req.params.id 
+    db.query(` 
+    SELECT * 
+    FROM events 
+    WHERE id=$1`
+    , [id]
+    ) .then(({rows}) => {
+      //Sending all the feilds back to the front end to prefill the fields
+      res.send(rows[0])
+    })
   })
   return router
 }
