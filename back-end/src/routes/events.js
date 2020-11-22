@@ -1,7 +1,7 @@
 const router = require("express").Router(); 
 
 module.exports = db => {  
-  router.post("/events", (req, res) => {
+  router.post("/events/new", (req, res) => {
     const {owner_id , date, start_time, end_time, title,
       address, city, province, current_participants, max_participants, skill_level, 
       gender_restriction, referee, additional_info} = req.body 
