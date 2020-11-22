@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const router = require("express").Router();
 
 // For the routes /events/...
@@ -86,7 +85,6 @@ module.exports = db => {
     // `,
     //   [student, interviewer, Number(request.params.id)]
     // )
-=======
 const router = require("express").Router(); 
 
 module.exports = db => {  
@@ -143,4 +141,3 @@ module.exports = db => {
   })
   return router
 }
->>>>>>> master
