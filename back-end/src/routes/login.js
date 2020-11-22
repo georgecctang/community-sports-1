@@ -1,5 +1,4 @@
 const router = require("express").Router(); 
-
 module.exports = db => {
   router.post("/login", (req, res) => { 
     const {email, password} = req.body 
@@ -10,8 +9,10 @@ module.exports = db => {
       `
     , [email, password])
     .then(({rows}) => {
-      if (rows) {
+      if (rows.length !== 0) {
         req.session.user_id = rows[0].id 
+      } else {
+        res.send("Email does not exist")
       }
       res.send(rows[0]) 
     })
