@@ -4,51 +4,9 @@ const router = require("express").Router();
 
 module.exports = db => {
   
-    // GET: All future events with the closest one on top
-    router.get("/events", (req, res) => {
-      const currentDate = new Date();
-
-      db.query(
-        `
-        SELECT * FROM events
-        WHERE date >= $1
-        ORDER BY date DESC
-        ;
-        `,
-      [currentDate]).then(({rows}) => res.json(rows))
-    })
-
-    // GET: All past events with the most recent one on top
-    router.get("/events/past", (req, res) => {
-      const currentDate = new Date();
-
-      db.query(
-        `
-        SELECT * FROM events
-        WHERE date < $1
-        ORDER BY date DESC
-        ;
-        `,
-      [currentDate]).then(({rows}) => res.json(rows))
-    })
-
-    // GET: All event data and associated team data based on event id
-    router.get("/events/:event_id", (req, res) => {
-
-      db.query(
-        `
-        SELECT e.*, t.*, c.* FROM events AS e
-        WHERE id = $1
-        JOIN teams AS t ON t.event_id = e.id
-        JOIN comments AS c ON c.event_id = e.id
-        ;
-        `,
-      [eventId]).then(({rows}) => res.json(rows))
-    })
-
   // PUT: User to join event or update info (e.g change team and position) 
 
-  router.post("/events/:event_id", (req, res) => {
+  router.post("/user/events/:event_id/create", (req, res) => {
     
     const eventId = req.params.event_id;
     // const eventId = 100;/
@@ -74,7 +32,7 @@ module.exports = db => {
     });
 
     // PUT: user update settings
-    router.put("/events/:event_id", (req, res) => {
+    router.put("/user/events/:event_id/edit", (req, res) => {
     
       const eventId = req.params.event_id;
       // const eventId = 100;/
@@ -99,7 +57,7 @@ module.exports = db => {
       });
 
   // DELETE: User to leave event
-  router.delete("/events/:event_id", (req, res) => {
+  router.delete("/user/events/:event_id/delete", (req, res) => {
     
     const eventId = req.params.event_id;
     // need the user id from cookie
@@ -115,7 +73,6 @@ module.exports = db => {
      .catch(error => console.log(error));
      
     });
-
 
   return router;
 };
