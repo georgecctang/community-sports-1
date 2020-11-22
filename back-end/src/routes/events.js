@@ -28,8 +28,8 @@ module.exports = db => {
         })
   }) 
 
-  router.delete("/events/delete", (req, res) => {
-    const {id} = req.body 
+  router.delete("/events/:id/delete", (req, res) => {
+    const id = req.params.id 
     db.query(` 
     DELETE FROM events 
     WHERE id=$1` 
