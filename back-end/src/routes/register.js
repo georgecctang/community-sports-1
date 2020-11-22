@@ -7,7 +7,6 @@ module.exports = db => {
     db.query(`SELECT * FROM users WHERE email=$1`, 
     [email]) 
     .then((user) => {
-      console.log(user.rows[0])
       //If user exists stop and send email already exists
       if (user.rows[0]) {
         res.send('Email already in use')
