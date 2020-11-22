@@ -19,12 +19,11 @@ module.exports = db => {
           RETURNING id;
           `
           , [first_name, last_name, email, password, phone, age, gender ]
-        ) .then((data) => { 
-            const id = data.rows[0].id
+        ) .then(({rows}) => { 
+            const id = rows[0].id
             req.session.user_id = id //saves user as as cookie
-            res.json('Updated') 
             //returning the whole user object 
-            return data
+            res.send(rows[0]) 
          }) 
           .catch((err) => {
             console.log(err)
