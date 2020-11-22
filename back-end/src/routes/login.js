@@ -8,10 +8,13 @@ module.exports = db => {
       WHERE email= $1 AND password=$2
       `
     , [email, password])
-    .then((data) => {
-      req.session.user_id = data.rows[0].id 
-      res.json('Cookie Saved') 
-      return data
+    .then(({rows}) => {
+      if (rows.length !== 0) {
+        req.session.user_id = rows[0].id 
+      } else {
+        res.send("Email does not exist")
+      }
+      res.send(rows[0]) 
     })
   })
   return router;
