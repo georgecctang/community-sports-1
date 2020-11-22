@@ -54,6 +54,8 @@ module.exports = db => {
     // const eventId = 100;/
     // need the user id from cookie
     // const userId = req.session.user_id;
+
+    // Temp user ID for testing
     const userId = 20;
     
     // set an object named data from server
@@ -78,6 +80,8 @@ module.exports = db => {
       // const eventId = 100;/
       // need the user id from cookie
       // const userId = req.session.user_id;
+      
+      // Temp user ID for testing
       const userId = 20;
       
       // set an object named data from server
