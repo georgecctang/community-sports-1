@@ -38,9 +38,9 @@ export default function App(props) {
           <Route exact path='/events'>
             {islogin ? <EventsIndex /> : <Redirect to="/login" />}
           </Route>
-          <Route exact path='/events/:id'> 
+          <Route exact path='/events/:eventId' > 
           <EventId />
-          </Route>
+          </Route > 
         </Switch>
       </Router>
     </div>
