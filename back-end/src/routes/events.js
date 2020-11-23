@@ -62,6 +62,22 @@ module.exports = db => {
     .catch(err => console.log(err));
   })
 
+  router.get("/events/:event_id/comments", (req, res) => {
+
+    const eventId = req.params.event_id;
+
+    db.query(
+      `
+      SELECT * FROM comments
+      WHERE event_id = $1
+      ORDER BY time DESC
+      ;
+      `,
+    [Number(eventId)])
+    .then(({rows}) => res.json(rows))
+    .catch(err => console.log(err));
+  })
+
   // PUT: User to join event or update info (e.g change team and position)
 
   router.post("/events/:event_id", (req, res) => {
