@@ -19,11 +19,18 @@ app.use(cookieSession({
 const checkdb = require("./routes/checkdb"); 
 const register = require("./routes/register");
 const login = require("./routes/login");
+<<<<<<< HEAD
+const logout = require("./routes/logout");
+const events = require("./routes/events");
+const owners = require("./routes/owners");
+const users = require("./routes/users");
+=======
 const events = require("./routes/events");
 const owners = require("./routes/owners");
 const users = require("./routes/users");
 const logout = require("./routes/logout"); 
 const cookies = require("./routes/cookies")
+>>>>>>> origin
 
 module.exports = function application(
   ENV,
@@ -40,7 +47,10 @@ module.exports = function application(
   app.use("/api", events(db));
   app.use("/api", owners(db));
   app.use("/api", users(db));
+<<<<<<< HEAD
+=======
   app.use("/api", cookies(db))
+>>>>>>> origin
 
   app.close = function() {
     return db.end();
