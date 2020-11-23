@@ -30,7 +30,11 @@ CREATE TABLE events (
   skill_level VARCHAR(255) NOT NULL, 
   gender_restriction VARCHAR(255) NOT NULL, 
   referee BOOLEAN NOT NULL, 
+<<<<<<< HEAD
   additional_info TEXT 
+=======
+  additional_info TEXT, 
+>>>>>>> ef0250bdabe74c748e9cfb3550743e0bf7f0fc70
   location POINT
 ); 
 
