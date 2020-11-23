@@ -22,7 +22,8 @@ const login = require("./routes/login");
 const events = require("./routes/events");
 const owners = require("./routes/owners");
 const users = require("./routes/users");
-const logout = require("./routes/logout");
+const logout = require("./routes/logout"); 
+const cookies = require("./routes/cookies")
 
 module.exports = function application(
   ENV,
@@ -39,6 +40,7 @@ module.exports = function application(
   app.use("/api", events(db));
   app.use("/api", owners(db));
   app.use("/api", users(db));
+  app.use("/api", cookies(db))
 
   app.close = function() {
     return db.end();
