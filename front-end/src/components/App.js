@@ -13,7 +13,8 @@ import Main from './Main';
 import { useState } from 'react';
 
 export default function App(props) {
-  const [islogin, setisLogin] = useState(false)
+  const [islogin, setisLogin] = useState(false) 
+  //Create useffect hook to get user info 
 
   return (
     <div className="App">
@@ -33,10 +34,12 @@ export default function App(props) {
           <Route path='/profile'>
             <ProfileForm />
           </Route>
-          <Route path='/events'>
+          <Route exact path='/events'>
             {islogin ? <EventsIndex /> : <Redirect to="/login" />}
           </Route>
-         
+          <Route exact path='/events/:id'> 
+          <EventId />
+          </Route>
         </Switch>
       </Router>
     </div>
