@@ -1,4 +1,5 @@
 import './App.scss';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,12 +10,21 @@ import Login from './Login/LoginForm'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
-import Navigation from './Navigation/Navigation'
 import Main from './Main';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
+import  useAppData  from "../hooks/useAppData";
+
 
 export default function App(props) {
   const [islogin, setisLogin] = useState(false)
+  const [currentUser, setCurrentUser] = useState(false)
+  useEffect(() => {
+    axios.get('http://localhost:8001/api/login').then((res) => {
+      console.log(res)
+      setisLogin(true) 
+       //? we need the current user name
+  })
+  },[])
 
   return (
     <div className="App">
@@ -32,10 +42,11 @@ export default function App(props) {
             <Register />
           </Route> 
           <Route path='/profile'>
-            <ProfileForm /> 
+            <ProfileForm 
+            /> 
           </Route>
-          <Route path='/events'>
-            <EventsIndex /> 
+          <Route path='/events' > 
+           <EventsIndex  /> {/* in eventsIndex, props.state is {events:{}, users:{}}*/}
           </Route>
          
         </Switch>
