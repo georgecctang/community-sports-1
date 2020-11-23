@@ -1,7 +1,9 @@
-const router = require("express").Router(); 
+const router = require("express").Router();
 
-module.exports = db => {  
+// For the routes /events/...
 
+module.exports = db => {
+  
     // GET: All future events with the closest one on top
     router.get("/events", (req, res) => {
       const currentDate = new Date();
@@ -10,7 +12,7 @@ module.exports = db => {
         `
         SELECT * FROM events
         WHERE date >= $1
-        ORDER BY date
+        ORDER BY date DESC
         ;
         `,
       [currentDate]).then(({rows}) => res.json(rows))
@@ -30,18 +32,106 @@ module.exports = db => {
       [currentDate]).then(({rows}) => res.json(rows))
     })
 
-    // GET: All event data and associated team data based on event id
+    // GET:  Event data based on event id
     router.get("/events/:event_id", (req, res) => {
+
+      const eventId = req.params.event_id;
 
       db.query(
         `
-        SELECT e.*, t.*, c.* FROM events AS e
-        WHERE id = $1
-        JOIN teams AS t ON t.event_id = e.id
-        ;
+        SELECT * FROM events
+        WHERE id = $1;
         `,
-      [eventId]).then(({rows}) => res.json(rows))
+      [Number(eventId)])
+      .then(({rows}) => res.json(rows))
+      .catch(err => console.log(err));
     })
 
+  // GET: team data for a specific :event_id
+  router.get("/events/:event_id/teams", (req, res) => {
+
+    const eventId = req.params.event_id;
+
+    db.query(
+      `
+      SELECT * FROM teams
+      WHERE event_id = $1;
+      `,
+    [Number(eventId)])
+    .then(({rows}) => res.json(rows))
+    .catch(err => console.log(err));
+  })
+
+  // PUT: User to join event or update info (e.g change team and position)
+
+  router.post("/events/:event_id", (req, res) => {
+    
+    const eventId = req.params.event_id;
+    // const eventId = 100;/
+    // need the user id from cookie
+    // const userId = req.session.user_id;
+
+    // Temp user ID for testing
+    const userId = 20;
+    
+    // set an object named data from server
+    const { teamNumber, position } = req.body;
+    
+    db.query(
+      `
+      INSERT INTO teams (event_id, user_id, team_number, position)
+      VALUES ($1, $2, $3, $4)
+      ;
+    `,
+     [eventId, userId, Number(teamNumber), position])
+     .then(() => res.json({status: "post okay"}))
+     .catch(error => console.log(error));
+
+    });
+
+    // PUT: user update settings
+    router.put("/events/:event_id", (req, res) => {
+    
+      const eventId = req.params.event_id;
+      // const eventId = 100;/
+      // need the user id from cookie
+      // const userId = req.session.user_id;
+      
+      // Temp user ID for testing
+      const userId = 20;
+      
+      // set an object named data from server
+      const { teamNumber, position } = req.body;
+      
+      db.query(
+        `
+        UPDATE teams SET team_number = $3, position = $4
+        WHERE event_id = $1 AND user_id = $2;
+      `,
+       [eventId, userId, Number(teamNumber), position])
+       .then(() => res.json({status: "put okay"}))
+       .catch(error => console.log(error));
+  
+      });
+
+  // DELETE: User to leave event
+  router.delete("/events/:event_id", (req, res) => {
+    
+    const eventId = req.params.event_id;
+    // need the user id from cookie
+    const userId = req.params.user_id;
+    
+    db.query(
+      `
+      DELETE FROM teams
+      WHERE event_id = $1 AND user_id = $2;
+    `,
+     [eventId, userId])
+     .then(() => res.status(204).json({status: 'delete okay'}))
+     .catch(error => console.log(error));
+     
+    });
+
+
   return router;
-}
+};
