@@ -116,6 +116,12 @@ module.exports = db => {
      
     });
 
+  //Add a comment to an event page 
+  router.post("/events/:event_id/comments", (req, res) => {
+    const eventId = req.params.event_id 
+    
+
+  })
 
   return router;
 };
