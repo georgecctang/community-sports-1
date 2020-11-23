@@ -7,28 +7,29 @@ export default function EventID (props) {
   const {eventId} = useParams() 
   let [state, setState] = useState({})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
-  let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
+  let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] }) 
+  let [comments, setComments] = useState([])
 
 
   useEffect(() => {
     //URLS to query
     const event = `http://localhost:8001/api/events/${eventId}`
     const team = `http://localhost:8001/api/events/${eventId}/teams`
-    //const comment = `http://localhost:8001/api/events/${eventId}/comments`
+    const comment = `http://localhost:8001/api/events/${eventId}/comments`
 
     //Request to plug in to axios.all
     const eventRequest = axios.get(event)
     const teamRequest = axios.get(team, {eventId}) 
-    //const commentRequest = axios.get(comment, {eventId})
+    const commentRequest = axios.get(comment, {eventId})
 
     //Making all 3 requests
-    axios.all([eventRequest, teamRequest])
+    axios.all([eventRequest, teamRequest, commentRequest])
     .then(axios.spread((...responses) => {
       
       //Request data
       const eventData = responses[0] 
       const teamData = responses[1] 
-      //const commentData = responses[2] 
+      const commentData = responses[2] 
       
       //Destructuring data from request
       const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
@@ -48,7 +49,7 @@ export default function EventID (props) {
       const defenders1 = []
       const defenders2 = []
 
-      for (const player of responses[1].data){
+      for (const player of teamData.data){
         if (player.team_number === 1) {
           if (player.position === 'Goalie'){
             goalies1.push(player.user_id)
@@ -80,10 +81,10 @@ export default function EventID (props) {
       } 
       setTeam1({...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
       setTeam2({...team2, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }) 
+
+      console.log(commentData)
     })) 
   }, [])
-  console.log('team1', team1)
-  console.log('team2', team2)
   
   return( 
     <section>
