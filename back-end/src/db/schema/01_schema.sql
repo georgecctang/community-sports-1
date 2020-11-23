@@ -30,7 +30,8 @@ CREATE TABLE events (
   skill_level VARCHAR(255) NOT NULL, 
   gender_restriction VARCHAR(255) NOT NULL, 
   referee BOOLEAN NOT NULL, 
-  additional_info TEXT
+  additional_info TEXT 
+  location POINT
 ); 
 
 CREATE TABLE teams (
