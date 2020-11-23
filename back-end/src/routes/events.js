@@ -33,8 +33,8 @@ module.exports = db => {
     })
 
     // GET: All event data and associated team data based on event id
-    router.get("/events/:event_id", (req, res) => {
-
+    router.get("/events/:event_id", (req, res) => { 
+      const eventId = req.params
       db.query(
         `
         SELECT e.*, t.*, c.* FROM events AS e
@@ -123,9 +123,10 @@ module.exports = db => {
     db.query(` 
     INSERT INTO comments (user_id, event_id, comment) 
     VALUES ($1::integer, $2::integer, $3::text)`
-    , [userId, eventId, comment]) 
-  }) 
+    , [userId, eventId, comment]
+  ) 
   .then(() => res.send('Comment Added'))
+  }) 
 
   return router;
 };
