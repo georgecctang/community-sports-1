@@ -54,7 +54,8 @@ module.exports = db => {
 
     db.query(
       `
-      SELECT * FROM teams
+      SELECT * FROM teams AS t
+      JOIN users AS u ON t.user_id = u.id
       WHERE event_id = $1;
       `,
     [Number(eventId)])
@@ -62,13 +63,16 @@ module.exports = db => {
     .catch(err => console.log(err));
   })
 
+    // GET: comment data for a specific :event_id
+
   router.get("/events/:event_id/comments", (req, res) => {
 
     const eventId = req.params.event_id;
 
     db.query(
       `
-      SELECT * FROM comments
+      SELECT * FROM comments AS c
+      JOIN users AS u ON c.user_id = users.id
       WHERE event_id = $1
       ORDER BY time DESC
       ;
