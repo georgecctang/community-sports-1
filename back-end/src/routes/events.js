@@ -119,9 +119,13 @@ module.exports = db => {
   //Add a comment to an event page 
   router.post("/events/:event_id/comments", (req, res) => {
     const eventId = req.params.event_id 
-    
-
-  })
+    const {userId, comment} = req.body
+    db.query(` 
+    INSERT INTO comments (user_id, event_id, comment) 
+    VALUES ($1::integer, $2::integer, $3::text)`
+    , [userId, eventId, comment]) 
+  }) 
+  .then(() => res.send('Comment Added'))
 
   return router;
 };
