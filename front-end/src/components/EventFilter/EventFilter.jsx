@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
 
-const events = [
+// Fake data for testing
+const data = [
   {id: 1, gender: 'Male', level:"Intermediate", date: '2020-11-25'},
   {id: 2, gender: 'Female', level:"Beginner", date: '2020-11-25'},
   {id: 3, gender: 'Other', level:"Open", date: '2020-12-03'},
@@ -25,19 +25,16 @@ const events = [
 // Props to change filter state
 export default function EventFilter (props) {
   
-  // Temporary put the state here, eventually the state will be 
+  // The states should be in EventIndex and pass to EventFilter component
+  const [allEvents, setallEvents] = useState(data);
   const [filter, setFilter] = useState({}); 
-
-  let filteredData = filter.gender ? data.filter(item => item.gender === filter.gender) : data;
-  filteredData = filter.level ? filteredData.filter(item => item.level === filter.level) : filteredData;
-
 
   // The functions below  should be in be EventIndex Component
 
   const filterEvents = () => {
-    let filteredEvents = events;
+    let filteredEvents = allEvents;
     for (let category in filter) {
-      filteredEvents = filter[category] ? events.filter(event => event[category] === filterObj[category]) : filteredEvents;
+      filteredEvents = filter[category] ? filteredEvents.filter(event => event[category] === filter[category]) : filteredEvents;
     }
     return filteredEvents;
   }
@@ -51,10 +48,17 @@ export default function EventFilter (props) {
     return eventsByDate;
   }
 
-  const filteredEvents = filterEvents();
-  const eventsByDate = makeEventsByDateObj(filteredEvents);
+  const handleChange = (category, value) => {
+    setFilter(prev => ({...prev, [category]: value}));
+    // filteredEvents = filterEvents();
+    // eventsByDate = makeEventsByDateObj(filteredEvents);
+  } 
 
+  let filteredEvents = filterEvents();
+  let eventsByDate = makeEventsByDateObj(filteredEvents);
     
+  console.log(filteredEvents);
+
   const eventElements = Object.keys(eventsByDate).map((date) => {
     return (
       <div key={date}>
@@ -80,7 +84,7 @@ export default function EventFilter (props) {
     <div className='App-header'>
     
     <Form>
-      <div onChange={(e) => setFilter(prev => ({...prev, gender: e.target.value}))} className="mb-3">
+      <div onChange={(e) => handleChange('gender', e.target.value)} >
         <Form.Label>Gender</Form.Label>
         <Form.Check type="radio" value="" name="gender" label="(Show All)" defaultChecked />
         <Form.Check type="radio" value="Male" name="gender" label="Male" /> 
@@ -88,7 +92,7 @@ export default function EventFilter (props) {
         <Form.Check type="radio" value="Other" name="gender" label="Other" /> 
         <Form.Check type="radio" value="Co-ed" name="gender" label="Co-ed" /> 
       </div>
-      <div onChange={(e) => setFilter(prev => ({...prev, level: e.target.value}))} className="mb-3">
+      <div onChange={(e) => handleChange('level', e.target.value)} >
         <Form.Label>Level</Form.Label>
         <Form.Check type="radio" value="" name="level" label="(Show All)" defaultChecked />
         <Form.Check type="radio" value="Beginner" name="level" label="Beginner" />
@@ -103,5 +107,3 @@ export default function EventFilter (props) {
       </div>
     </div>);
 };
-
-export default App;
