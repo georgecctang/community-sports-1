@@ -5,21 +5,21 @@ import { Form } from 'react-bootstrap';
 
 // Fake data for testing
 const data = [
-  {id: 1, gender: 'Male', level:"Intermediate", date: '2020-11-25'},
-  {id: 2, gender: 'Female', level:"Beginner", date: '2020-11-25'},
-  {id: 3, gender: 'Other', level:"Open", date: '2020-12-03'},
-  {id: 4, gender: 'Female', level:"Open", date: '2020-11-25'},
-  {id: 5, gender: 'Co-ed', level:"Open", date: '2020-11-25'},
-  {id: 6, gender: 'Male', level:"Beginner", date: '2020-11-25'},
-  {id: 7, gender: 'Co-ed', level:"Intermediate", date: '2020-12-03'},
-  {id: 8, gender: 'Female', level:"Advanced", date: '2020-11-25'},
-  {id: 9, gender: 'Other', level:"Intermediate", date: '2020-11-25'},
-  {id: 10, gender: 'Male', level:"Beginner", date: '2020-12-03'},
-  {id: 11, gender: 'Co-ed', level:"Advanced", date: '2020-11-25'},
-  {id: 12, gender: 'Female', level:"Beginner", date: '2020-12-03'},
-  {id: 13, gender: 'All', level:"Intermediate", date: '2020-11-25'},
-  {id: 14, gender: 'Male', level:"Beginner", date: '2020-12-03'},
-  {id: 15, gender: 'Male', level:"Intermediate", date: '2020-11-25'},
+  {id: 1, gender_restriction: 'Male Only', skill_level:"Intermediate", date: '2020-11-25'},
+  {id: 2, gender_restriction: 'Female Only', skill_level:"Beginner", date: '2020-11-25'},
+  {id: 3, gender_restriction: 'Other Only', skill_level:"Open", date: '2020-12-03'},
+  {id: 4, gender_restriction: 'Female Only', skill_level:"Open", date: '2020-11-25'},
+  {id: 5, gender_restriction: 'None', skill_level:"Open", date: '2020-11-25'},
+  {id: 6, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-11-25'},
+  {id: 7, gender_restriction: 'None', skill_level:"Intermediate", date: '2020-12-03'},
+  {id: 8, gender_restriction: 'Female Only', skill_level:"Advanced", date: '2020-11-25'},
+  {id: 9, gender_restriction: 'Other Only', skill_level:"Intermediate", date: '2020-11-25'},
+  {id: 10, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-12-03'},
+  {id: 11, gender_restriction: 'None', skill_level:"Advanced", date: '2020-11-25'},
+  {id: 12, gender_restriction: 'Female Only', skill_level:"Beginner", date: '2020-12-03'},
+  {id: 13, gender_restriction: 'None', skill_level:"Intermediate", date: '2020-11-25'},
+  {id: 14, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-12-03'},
+  {id: 15, gender_restriction: 'Male Only', skill_level:"Intermediate", date: '2020-11-25'},
 ];
 
 // Props to change filter state
@@ -50,15 +50,11 @@ export default function EventFilter (props) {
 
   const handleChange = (category, value) => {
     setFilter(prev => ({...prev, [category]: value}));
-    // filteredEvents = filterEvents();
-    // eventsByDate = makeEventsByDateObj(filteredEvents);
   } 
 
   let filteredEvents = filterEvents();
   let eventsByDate = makeEventsByDateObj(filteredEvents);
     
-  console.log(filteredEvents);
-
   const eventElements = Object.keys(eventsByDate).map((date) => {
     return (
       <div key={date}>
@@ -67,7 +63,7 @@ export default function EventFilter (props) {
         eventsByDate[date].map(event => {
           return (
             <div key={event.id}>
-            <p>{event.gender} | {event.level}</p>
+            <p>{event.gender_restriction} | {event.skill_level}</p>
             <p></p>
             </div>
           )
@@ -84,21 +80,21 @@ export default function EventFilter (props) {
     <div className='App-header'>
     
     <Form>
-      <div onChange={(e) => handleChange('gender', e.target.value)} >
-        <Form.Label>Gender</Form.Label>
-        <Form.Check type="radio" value="" name="gender" label="(Show All)" defaultChecked />
-        <Form.Check type="radio" value="Male" name="gender" label="Male" /> 
-        <Form.Check type="radio" value="Female" name="gender" label="Female" /> 
-        <Form.Check type="radio" value="Other" name="gender" label="Other" /> 
-        <Form.Check type="radio" value="Co-ed" name="gender" label="Co-ed" /> 
+      <div onChange={(e) => handleChange('gender_restriction', e.target.value)} >
+        <Form.Label>Gender Restriction</Form.Label>
+        <Form.Check type="radio" value="" name="gender_restriction" label="(Show All)" defaultChecked />
+        <Form.Check type="radio" value="Male Only" name="gender_restriction" label="Male Only" /> 
+        <Form.Check type="radio" value="Female Only" name="gender_restriction" label="Female Only" /> 
+        <Form.Check type="radio" value="Other Only" name="gender_restriction" label="Other Only" /> 
+        <Form.Check type="radio" value="None" name="gender_restriction" label="None" /> 
       </div>
-      <div onChange={(e) => handleChange('level', e.target.value)} >
+      <div onChange={(e) => handleChange('skill_level', e.target.value)} >
         <Form.Label>Level</Form.Label>
-        <Form.Check type="radio" value="" name="level" label="(Show All)" defaultChecked />
-        <Form.Check type="radio" value="Beginner" name="level" label="Beginner" />
-        <Form.Check type="radio" value="Intermediate" name="level" label="Intermediate" />
-        <Form.Check type="radio" value="Advanced" name="level" label="Advanced" />
-        <Form.Check type="radio" value="Open" name="level" label="Open" />
+        <Form.Check type="radio" value="" name="skill_level" label="(Show All)" defaultChecked />
+        <Form.Check type="radio" value="Beginner" name="skill_level" label="Beginner" />
+        <Form.Check type="radio" value="Intermediate" name="skill_level" label="Intermediate" />
+        <Form.Check type="radio" value="Advanced" name="skill_level" label="Advanced" />
+        <Form.Check type="radio" value="Open" name="skill_level" label="Open" />
       </div>
     </Form>
       <div>
