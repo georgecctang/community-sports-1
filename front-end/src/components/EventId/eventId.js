@@ -6,8 +6,8 @@ import './eventId.scss';
 export default function EventID (props) { 
   const {eventId} = useParams() 
   let [state, setState] = useState({})
-  let [team1, setTeam1] = useState({Goalies: [], Strikers: [], Midfielders: [], Defenders: [] })
-  let [team2, setTeam2] = useState({Goalies: [], Strikers: [], Midfielders: [], Defenders: [] })
+  let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
+  let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
 
 
   useEffect(() => {
@@ -78,15 +78,17 @@ export default function EventID (props) {
 
         }
       } 
-      setTeam1({...state, Goalies: goalies1 })
+      setTeam1({...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
+      setTeam2({...team2, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }) 
     })) 
   }, [])
   console.log('team1', team1)
+  console.log('team2', team2)
   return( 
     <section>
       <h1>Hello</h1>
       <h1> {state.title} </h1> 
-      <h1> {team1.Goalies}</h1>
+      <h1> {team1.goalies}</h1>
     </section>
   )
 }
