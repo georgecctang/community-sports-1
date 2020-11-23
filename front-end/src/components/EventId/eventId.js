@@ -84,6 +84,7 @@ export default function EventID (props) {
   }, [])
   console.log('team1', team1)
   console.log('team2', team2)
+  
   return( 
     <section>
       <h1>Hello</h1>
