@@ -6,6 +6,7 @@ import {
   Redirect,
   } from "react-router-dom";
 import Login from './Login/LoginForm'
+import EventId from './EventId/eventId'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';

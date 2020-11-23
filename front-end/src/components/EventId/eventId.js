@@ -9,9 +9,10 @@ export default function EventsIndex (props) {
 
   axios.get(`http://localhost:8001/api/event/${eventId}`, {}).then((res) => {
     eventInfo = res.data
+    console.log(eventInfo)
   })
-  
+
   return( 
-    {eventInfo}
+    <h1>Hello</h1>
   )
 }
