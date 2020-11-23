@@ -6,6 +6,9 @@ import './eventId.scss';
 export default function EventID (props) { 
   const {eventId} = useParams() 
   let [state, setState] = useState({})
+  let [team1, setTeam1] = useState({Goalies: [], Strikers: [], Midfielders: [], Defenders: [] })
+  let [team2, setTeam2] = useState({Goalies: [], Strikers: [], Midfielders: [], Defenders: [] })
+
 
   useEffect(() => {
     //URLS to query
@@ -21,6 +24,7 @@ export default function EventID (props) {
     //Making all 3 requests
     axios.all([eventRequest, teamRequest])
     .then(axios.spread((...responses) => {
+      
       //Request data
       const eventData = responses[0] 
       const teamData = responses[1] 
@@ -29,10 +33,53 @@ export default function EventID (props) {
       //Destructuring data from request
       const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
       province, referee, skill_level, title} = responses[0].data[0] 
-      console.log(responses[1].data)
+      
       //Adding data to the setstate
       setState({...state, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
         province, referee, skill_level, title})  
+      
+      //Sorting players by team
+      const goalies1 = []
+      const goalies2 = [] 
+      const midfielders1 = []
+      const midfielders2 = []
+      const strikers1 = []
+      const strikers2 = [] 
+      const defenders1 = []
+      const defenders2 = []
+
+      for (const player of responses[1].data){
+        if (player.team_number === 1) {
+          if (player.position === 'Goalie'){
+            goalies1.push(player)
+          } 
+          else if (player.position === 'Striker') {
+            strikers1.push(player)
+          } 
+          else if (player.position === 'Defender') {
+            defenders1.push(player)
+          } 
+          else if (player.position === 'Midfielder') {
+            midfielders1.push(player)
+          } 
+        } else {
+          if (player.position === 'Goalie'){
+            goalies2.push(player)
+          } 
+          else if (player.position === 'Striker') {
+            strikers2.push(player)
+          } 
+          else if (player.position === 'Defender') {
+            defenders2.push(player)
+          } 
+          else if (player.position === 'Midfielder') {
+            midfielders2.push(player)
+          } 
+
+        }
+      } 
+      console.log(goalies1, goalies2)
+      //setTeam1({...state, })
     })) 
   }, [])
 
