@@ -54,7 +54,7 @@ module.exports = db => {
 
     db.query(
       `
-      SELECT * FROM teams AS t
+      SELECT t.*, u.first_name, u.last_name, u.gender FROM teams AS t
       JOIN users AS u ON t.user_id = u.id
       WHERE event_id = $1;
       `,
@@ -71,8 +71,8 @@ module.exports = db => {
 
     db.query(
       `
-      SELECT * FROM comments AS c
-      JOIN users AS u ON c.user_id = users.id
+      SELECT c.*, u.first_name, u.last_name FROM comments AS c
+      JOIN users AS u ON c.user_id = u.id
       WHERE event_id = $1
       ORDER BY time DESC
       ;
