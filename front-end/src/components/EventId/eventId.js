@@ -51,42 +51,42 @@ export default function EventID (props) {
       for (const player of responses[1].data){
         if (player.team_number === 1) {
           if (player.position === 'Goalie'){
-            goalies1.push(player)
+            goalies1.push(player.user_id)
           } 
           else if (player.position === 'Striker') {
-            strikers1.push(player)
+            strikers1.push(player.user_id)
           } 
           else if (player.position === 'Defender') {
-            defenders1.push(player)
+            defenders1.push(player.user_id)
           } 
           else if (player.position === 'Midfielder') {
-            midfielders1.push(player)
+            midfielders1.push(player.user_id)
           } 
         } else {
           if (player.position === 'Goalie'){
-            goalies2.push(player)
+            goalies2.push(player.user_id)
           } 
           else if (player.position === 'Striker') {
-            strikers2.push(player)
+            strikers2.push(player.user_id)
           } 
           else if (player.position === 'Defender') {
-            defenders2.push(player)
+            defenders2.push(player.user_id)
           } 
           else if (player.position === 'Midfielder') {
-            midfielders2.push(player)
+            midfielders2.push(player.user_id)
           } 
 
         }
       } 
-      console.log(goalies1, goalies2)
-      //setTeam1({...state, })
+      setTeam1({...state, Goalies: goalies1 })
     })) 
   }, [])
-
+  console.log('team1', team1)
   return( 
     <section>
       <h1>Hello</h1>
-      <h1> {state.title} </h1>
+      <h1> {state.title} </h1> 
+      <h1> {team1.Goalies}</h1>
     </section>
   )
 }
