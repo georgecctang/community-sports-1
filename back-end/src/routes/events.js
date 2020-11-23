@@ -34,7 +34,7 @@ module.exports = db => {
 
     // GET: All event data and associated team data based on event id
     router.get("/events/:event_id", (req, res) => { 
-      const eventId = req.params
+      const eventId = req.params.event_id
       db.query(
         `
         SELECT e.*, t.*, c.* FROM events AS e
