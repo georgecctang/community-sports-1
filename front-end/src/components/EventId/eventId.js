@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import './eventId.scss';
 
-export default function EventID (props) { 
+export default function EventId (props) { 
   const {eventId} = useParams() 
   let [state, setState] = useState({})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
@@ -88,9 +88,7 @@ export default function EventID (props) {
           ...comment, 
           fullName: `${comment.first_name} ${comment.last_name}`
       }))
-      setComments(comments, [commentFormatted]) 
-      console.log('comments state',comments) 
-      console.log('comments[0][0].fullName', comments[0].fullName)
+      setComments(commentFormatted) 
     })) 
   }, [])
   
