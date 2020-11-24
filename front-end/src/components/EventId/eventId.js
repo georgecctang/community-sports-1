@@ -8,7 +8,7 @@ export default function EventId (props) {
   let [state, setState] = useState({})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
   let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] }) 
-  let [comments, setComments] = useState([])
+  let [comments, setComments] = useState([{}])
 
 
   useEffect(() => {
