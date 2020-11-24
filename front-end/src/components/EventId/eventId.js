@@ -88,9 +88,7 @@ export default function EventId (props) {
           ...comment, 
           fullName: `${comment.first_name} ${comment.last_name}`
       }))
-      setComments(comments, [commentFormatted]) 
-      console.log('comments state',comments) 
-      console.log('comments[0][0].fullName', comments[0].fullName)
+      setComments(commentFormatted) 
     })) 
   }, [])
   return( 
