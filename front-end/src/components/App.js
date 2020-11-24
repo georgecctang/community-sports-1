@@ -53,7 +53,7 @@ export default function App(props) {
           
             currentUser = {currentUser.user}/> 
           </Route>
-          <Route exact path='/events/:eventsId' > 
+          <Route exact path='/events/:eventId' > 
           <EventId />
           </Route > 
         </Switch>
