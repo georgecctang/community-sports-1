@@ -32,21 +32,57 @@ module.exports = db => {
       [currentDate]).then(({rows}) => res.json(rows))
     })
 
-    // GET: All event data and associated team data based on event id
-    router.get("/events/:event_id", (req, res) => { 
-      const eventId = req.params.event_id
+    // GET:  Event data based on event id
+    router.get("/events/:event_id", (req, res) => {
+
+      const eventId = req.params.event_id;
+
       db.query(
         `
-        SELECT e.*, t.*, c.* FROM events AS e
-        WHERE id = $1
-        JOIN teams AS t ON t.event_id = e.id
-        JOIN comments AS c ON c.event_id = e.id
-        ;
+        SELECT * FROM events
+        WHERE id = $1;
         `,
-      [eventId]).then(({rows}) => res.json(rows))
+      [Number(eventId)])
+      .then(({rows}) => res.json(rows))
+      .catch(err => console.log(err));
     })
 
-  // PUT: User to join event or update info (e.g change team and position) 
+  // GET: team data for a specific :event_id
+  router.get("/events/:event_id/teams", (req, res) => {
+
+    const eventId = req.params.event_id;
+
+    db.query(
+      `
+      SELECT t.*, u.first_name, u.last_name, u.gender FROM teams AS t
+      JOIN users AS u ON t.user_id = u.id
+      WHERE event_id = $1;
+      `,
+    [Number(eventId)])
+    .then(({rows}) => res.json(rows))
+    .catch(err => console.log(err));
+  })
+
+    // GET: comment data for a specific :event_id
+
+  router.get("/events/:event_id/comments", (req, res) => {
+
+    const eventId = req.params.event_id;
+
+    db.query(
+      `
+      SELECT c.*, u.first_name, u.last_name FROM comments AS c
+      JOIN users AS u ON c.user_id = u.id
+      WHERE event_id = $1
+      ORDER BY time DESC
+      ;
+      `,
+    [Number(eventId)])
+    .then(({rows}) => res.json(rows))
+    .catch(err => console.log(err));
+  })
+
+  // PUT: User to join event or update info (e.g change team and position)
 
   router.post("/events/:event_id", (req, res) => {
     

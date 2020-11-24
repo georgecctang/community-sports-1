@@ -2,7 +2,7 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { React, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap/';
+import { Navbar, Nav, NavItem, NavDropdown , Card} from 'react-bootstrap/';
 import './Profile.scss'
 export default function ProfileForm (props) {
   const [isLogout, setisLogout] = useState(false)
@@ -33,9 +33,17 @@ export default function ProfileForm (props) {
   </Navbar>
 
     <div className="profile">
-    <p>
-    User information
-    </p>
+    <Card border="info" >
+    <Card.Img variant="top" src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" />
+    
+    <Card.Body>
+      <Card.Title>{props.first_name} {props.last_name}</Card.Title>
+      <Card.Text>
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </Card.Text>
+    </Card.Body>
+  </Card>
     </div>   
  </>
   )

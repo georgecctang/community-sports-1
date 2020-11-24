@@ -1,7 +1,7 @@
-import { Redirect } from 'react-router-dom';
+import { Redirect, useRouteMatch ,Link} from 'react-router-dom';
 import axios from 'axios';
-import { React, useState, useEffect, } from 'react';
-import EventFilter from '../EventFilter/EventFilter';
+import { React, useState, useEffect } from 'react';
+import EventFilter from './EventFilter';
 
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card'
 import './Events.scss'
 
 export default function EventsIndex (props) {
+  const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
@@ -59,7 +60,7 @@ export default function EventsIndex (props) {
 
   let filteredEvents = filterEvents();
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-
+  // 
   const eventElements = Object.keys(eventsByDate).map((date) => {
     return (
       <div key={date}>
@@ -69,6 +70,7 @@ export default function EventsIndex (props) {
           return (
             <div className="events">
             <Card >
+              {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
               <Card.Header > {event.start_time} - {event.end_time}</Card.Header>

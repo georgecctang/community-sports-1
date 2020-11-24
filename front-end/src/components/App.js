@@ -7,6 +7,7 @@ import {
   Redirect,
   } from "react-router-dom";
 import Login from './Login/LoginForm'
+import EventId from './EventId/eventId'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
@@ -20,12 +21,12 @@ export default function App(props) {
     setTimeout(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       {
-        // console.log(islogin)
         return setCurrentUser(prev => ({...prev ,currentUser : res.data}))
-        // console.log('inside',islogin)
+        
       })
     }, 2000)
     },[islogin])
+  
 
   return (
     <div className="App">
@@ -43,13 +44,16 @@ export default function App(props) {
             <Register />
           </Route> 
           <Route path='/profile'>
-            <ProfileForm 
+            <ProfileForm currentUser = {currentUser}
             /> 
           </Route>
-          <Route path='/events' > 
-           <EventsIndex  currentUser = {currentUser}/> 
+          <Route exact path='/events' > 
+           <EventsIndex  
+            currentUser = {currentUser}/> 
           </Route>
-         
+          <Route exact path='/events/:eventsId' > 
+          <EventId />
+          </Route > 
         </Switch>
       </Router>
     </div>
