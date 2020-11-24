@@ -52,37 +52,45 @@ export default function EventID (props) {
       for (const player of teamData.data){
         if (player.team_number === 1) {
           if (player.position === 'Goalie'){
-            goalies1.push(player.user_id)
+            goalies1.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Striker') {
-            strikers1.push(player.user_id)
+            strikers1.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Defender') {
-            defenders1.push(player.user_id)
+            defenders1.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Midfielder') {
-            midfielders1.push(player.user_id)
+            midfielders1.push(`${player.first_name} ${player.last_name}`)
           } 
         } else {
           if (player.position === 'Goalie'){
-            goalies2.push(player.user_id)
+            goalies2.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Striker') {
-            strikers2.push(player.user_id)
+            strikers2.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Defender') {
-            defenders2.push(player.user_id)
+            defenders2.push(`${player.first_name} ${player.last_name}`)
           } 
           else if (player.position === 'Midfielder') {
-            midfielders2.push(player.user_id)
+            midfielders2.push(`${player.first_name} ${player.last_name}`)
           } 
 
         }
       } 
       setTeam1({...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
-      setTeam2({...team2, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }) 
-
+      setTeam2({...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }) 
+      
+      //Formatting Comments
       console.log(commentData)
+      const commentFormatted = commentData.data.map((comment, index) => ({
+          ...comment, 
+          fullName: `${comment.first_name} ${comment.last_name}`
+      }))
+      setComments(comments, [commentFormatted]) 
+      console.log('comments state',comments) 
+      console.log('comments[0][0].fullName', comments[0].fullName)
     })) 
   }, [])
   
@@ -91,6 +99,8 @@ export default function EventID (props) {
       <h1>Hello</h1>
       <h1> {state.title} </h1> 
       <h1> {team1.goalies}</h1>
+      <h1> {comments[0].fullName} </h1> 
+      <h1> {comments[0].comment} </h1>
     </section>
   )
 }
