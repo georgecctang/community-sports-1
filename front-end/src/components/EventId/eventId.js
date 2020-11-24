@@ -8,7 +8,7 @@ export default function EventId (props) {
   let [state, setState] = useState({})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
   let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] }) 
-  let [comments, setComments] = useState([])
+  let [comments, setComments] = useState([{}])
 
 
   useEffect(() => {
@@ -16,24 +16,25 @@ export default function EventId (props) {
     const event = `http://localhost:8001/api/events/${eventId}`
     const team = `http://localhost:8001/api/events/${eventId}/teams`
     const comment = `http://localhost:8001/api/events/${eventId}/comments`
-
+    console.log(eventId)
     //Request to plug in to axios.all
     const eventRequest = axios.get(event)
     const teamRequest = axios.get(team, {eventId}) 
     const commentRequest = axios.get(comment, {eventId})
-
+    console.log('before axios')
     //Making all 3 requests
     axios.all([eventRequest, teamRequest, commentRequest])
     .then(axios.spread((...responses) => {
-      
-      //Request data
-      const eventData = responses[0] 
-      const teamData = responses[1] 
-      const commentData = responses[2] 
+      console.log('Check')
+       //Request data
+       const eventData = responses[0] 
+       const teamData = responses[1] 
+       const commentData = responses[2]  
+       console.log(responses)
       
       //Destructuring data from request
       const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
-      province, referee, skill_level, title} = responses[0].data[0] 
+      province, referee, skill_level, title} = eventData.data[0] 
       
       //Adding data to the setstate
       setState({...state, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
@@ -87,9 +88,10 @@ export default function EventId (props) {
       const commentFormatted = commentData.data.map((comment, index) => ({
           ...comment, 
           fullName: `${comment.first_name} ${comment.last_name}`
-      }))
+      })) 
+      console.log(commentFormatted)
       setComments(commentFormatted) 
-    })) 
+     })) 
   }, [])
   
   return( 
