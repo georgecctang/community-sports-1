@@ -20,18 +20,20 @@ export default function Login (props) {
       setError("this cannot be blank")
       return;
     }
-    axios.post('http://localhost:8001/api/login', { email, password }).then((res) =>
+    axios.post('http://localhost:8001/api/login', { email, password }, {withCredentials:true}).then((res) =>
      { 
        if(res.data === "Email does not exist") {
          setError(res.data)
         
        } else {
+        console.log('setisLogin to true');
         props.setisLogin(true);
        }
       }
     )
   }
   if (props.islogin) {
+    console.log('should redirect');
     return <Redirect to="/events"/>
   };
 
