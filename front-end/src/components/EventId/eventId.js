@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import MapContainer from '../MapContainer/MapContainer'
+import Player from './Player'
 import './eventId.scss';
 
 export default function EventId (props) { 
@@ -85,18 +86,29 @@ export default function EventId (props) {
           ...comment, 
           fullName: `${comment.first_name} ${comment.last_name}`
       })) 
-      setComments(commentFormatted) 
+      setComments(commentFormatted)  
      })) 
   }, [])
-  
+  console.log(team1.goalies)
   return( 
     <section>
       <h1>Hello</h1>
       <h1> {state.title} </h1> 
-      <h1> {team1.goalies}</h1>
+      <h1> {team1.midfielders}</h1>
       <h1> {comments[0].fullName} </h1> 
       <h1> {comments[0].comment} </h1> 
-      <MapContainer location={state.location} title={state.title}/>
+      <table>
+        <tr>
+          <th> Goalies </th>
+          <th> Defenders </th> 
+          <th> Midfielders </th> 
+          <th> Strikers </th>
+        </tr>
+        <tr> 
+          {team1.goalies.map(player => <Player key={player.id} fullName={player.fullName} />)}
+        </tr>
+      </table>
+      {state.location && (<MapContainer location={state.location} title={state.title}/>)}
     </section>
   )
 }
