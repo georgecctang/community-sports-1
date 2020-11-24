@@ -9,13 +9,16 @@ export default function ProfileForm (props) {
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
+  console.log('profile', props.islogin)
+  console.log(props.currentUser)
   if (isLogout) {
     return <Redirect to="/"/>
   };
+  console.log(props)
   return (
     <>
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Brand href="/events">Sports</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
@@ -35,14 +38,15 @@ export default function ProfileForm (props) {
     <div className="profile">
     <Card border="info" >
     <Card.Img variant="top" src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" />
-    
+    {props.currentUser &&
     <Card.Body>
-      <Card.Title>{props.first_name} {props.last_name}</Card.Title>
+      <Card.Title>{props.currentUser.first_name} {props.currentUser.last_name} </Card.Title>
       <Card.Text>
         Some quick example text to build on the card title and make up the bulk
         of the card's content.
       </Card.Text>
     </Card.Body>
+}
   </Card>
     </div>   
  </>

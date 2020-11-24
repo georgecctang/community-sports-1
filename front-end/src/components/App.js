@@ -20,14 +20,15 @@ export default function App(props) {
   useEffect(() => {
     setTimeout(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
-      {
-        return setCurrentUser(prev => ({...prev ,currentUser : res.data}))
+      { console.log('before',islogin)
+      console.log('aftertrue',islogin)
+        return setCurrentUser(prev => ({...prev ,user : res.data}))
         
       })
     }, 2000)
     },[islogin])
-  
-
+  console.log('after',islogin)
+// console.log(currentUser.user.id)
   return (
     <div className="App">
       <Router>
@@ -44,12 +45,13 @@ export default function App(props) {
             <Register />
           </Route> 
           <Route path='/profile'>
-            <ProfileForm currentUser = {currentUser}
+            <ProfileForm  currentUser = {currentUser.user}
             /> 
           </Route>
           <Route exact path='/events' > 
            <EventsIndex  
-            currentUser = {currentUser}/> 
+          
+            currentUser = {currentUser.user}/> 
           </Route>
           <Route exact path='/events/:eventsId' > 
           <EventId />
@@ -61,3 +63,6 @@ export default function App(props) {
   );
 }
 
+//id = {currentUser.user.id}
+// first_name = {currentUser.user.first_name}
+// last_name = {currentUser.user.last_name}

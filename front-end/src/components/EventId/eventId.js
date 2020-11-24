@@ -91,6 +91,7 @@ export default function EventId (props) {
       setComments(commentFormatted) 
     })) 
   }, [])
+  
   return( 
     <section>
       <h1>Hello</h1>

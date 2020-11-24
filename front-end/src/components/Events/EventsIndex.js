@@ -28,7 +28,7 @@ export default function EventsIndex (props) {
        return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
     })
   },[])
- 
+ console.log('in event', props.currentUser)
   if (isLogout) {
     return <Redirect to="/"/>
   };
@@ -114,11 +114,12 @@ export default function EventsIndex (props) {
           </NavDropdown>
        
       </Nav> 
+      {props.currentUser &&
       <Nav className="justify-content-end">
-          <Nav.Link href="/profile">My Profile</Nav.Link>
+          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
           <Button size="sm" onClick={(event) => {event.preventDefault();
                           logout_validation()}}>Logout</Button>
-      </Nav>   
+      </Nav>   }
     </Navbar.Collapse>
   </Navbar>
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
