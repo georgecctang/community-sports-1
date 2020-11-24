@@ -23,7 +23,18 @@ module.exports = db => {
     ).then(({ rows: events }) => {
       response.json(events);
     });
-  });
+  }); 
+
+  router.get("/checkdb/comments", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM comments;
+      
+    `
+    ).then(({ rows: comments }) => {
+      response.json(comments);
+    });
+  })
 
   return router;
 };

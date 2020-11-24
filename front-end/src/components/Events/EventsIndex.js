@@ -1,8 +1,10 @@
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { React, useState, useEffect, } from 'react';
+import EventFilter from '../EventFilter/EventFilter';
+
 import { Button } from 'react-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap/';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import './Events.scss'
 
@@ -12,7 +14,8 @@ export default function EventsIndex (props) {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
   
-  const [state, setState] = useState({})
+  const [state, setState] = useState({users : [], events: []})
+  const [filter, setFilter] = useState({}); 
 
   useEffect(() => {
     const first = axios.get('http://localhost:8001/api/events')
@@ -28,72 +31,99 @@ export default function EventsIndex (props) {
   if (isLogout) {
     return <Redirect to="/"/>
   };
+  
+  function getOwnerNames(state, owner_id) {
+      const ownerUser = state.users && (state.users.find((user) => {
+      return (user.id === owner_id) 
+    })
+    )
+    return ownerUser ? ownerUser.first_name : 'not exist'
+  }
 
+  const filterEvents = () => {
+    let filteredEvents = state.events;
+    for (let category in filter) {
+      filteredEvents = filter[category] ? filteredEvents.filter(event => event[category] === filter[category]) : filteredEvents;
+    }
+    return filteredEvents;
+  }
+
+  const makeEventsByDateObj = (events) => {
+    let dates = [...new Set(events.map(event => event.date).sort())];
+    const eventsByDate = {};
+    for (let date of dates) {
+        eventsByDate[date] = events.filter(item => item.date === date)
+    }
+    return eventsByDate;
+  }
+
+  let filteredEvents = filterEvents();
+  let eventsByDate = makeEventsByDateObj(filteredEvents);
+
+  const eventElements = Object.keys(eventsByDate).map((date) => {
+    return (
+      <div key={date}>
+      <h3>{date}</h3>
+      {
+        eventsByDate[date].map(event => {
+          return (
+            <div className="events">
+            <Card >
+              <Card.Link href={`/events/${event.id}`}>
+              <div id="card-top">
+              <Card.Header > {event.start_time} - {event.end_time}</Card.Header>
+              <Card.Header>{getOwnerNames(state,event.owner_id)}</Card.Header>
+              </div>
+              <Card.Body >
+                <Card.Title>{event.title}</Card.Title>
+                <Card.Text>
+                  <small className="text-muted">{event.province}</small>
+                </Card.Text>
+                <div id="card-bottom">
+                  <Card.Text>
+                    {event.skill_level}
+                  </Card.Text>
+                  <Card.Text>
+                  {event.current_participants}/{event.max_participants}
+                  </Card.Text>
+                </div>
+              </Card.Body>
+              </Card.Link>
+            </Card>
+            
+            </div>
+          )
+        }) 
+      }
+      </div>
+    ) 
+  });  
   return (
     <>
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Brand href="/events">Sports</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-   
-      <NavDropdown title="Events" id="basic-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1">Upcoming Events</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Past Events</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">My Events</NavDropdown.Item>
-      </NavDropdown>
-    <Nav.Link href="/profile">My Profile</Nav.Link>
-    <Button onClick={(event) => {event.preventDefault();
+      <Nav>
+          <NavDropdown title="Events" id="basic-nav-dropdown">
+            <NavDropdown.Item href="#action/3.1">Upcoming Events</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">Past Events</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">My Events</NavDropdown.Item>
+          </NavDropdown>
+       
+      </Nav> 
+      <Nav className="justify-content-end">
+          <Nav.Link href="/profile">My Profile</Nav.Link>
+          <Button size="sm" onClick={(event) => {event.preventDefault();
                           logout_validation()}}>Logout</Button>
-    </Nav> 
+      </Nav>   
     </Navbar.Collapse>
   </Navbar>
-
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-  <div className="sidebar-sticky"></div>
-            <Nav.Item>
-                <Nav.Link href="/home">Active</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="link-1">Link</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="link-2">Link</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="disabled" disabled>
-                Disabled
-                </Nav.Link>
-            </Nav.Item>
+    <div className="sidebar-sticky"></div>
+      <EventFilter setFilter={setFilter} />
   </Nav>
-  {state.events && 
-    <div className="events">
-      <Card className="cards-container">
-        <Card.Header> {state.events[0].start_time} - {state.events[0].end_time}</Card.Header>
-        <Card.Body className="card_body">
-        <Card.Title>{state.events[0].title}</Card.Title>
-        <Card.Text className="text_body">
-        
-      </Card.Text>
-      <Card.Text>
-        <small className="text-muted">{state.events[0].province}</small>
-      </Card.Text>
-      </Card.Body>
-      </Card>
-      {/* <span>{state.events[1].date}</span> */}
-     <Card className="cards-container">
-     
-      <Card.Header> {state.events[0].start_time} - {state.events[0].end_time}</Card.Header>
-        <Card.Body className="card_body">
-        <Card.Title>{state.events[1].title}</Card.Title>
-        <Card.Text>
-        With supporting text below as a natural lead-in to additional content.
-      </Card.Text>
-      </Card.Body>
-    </Card>
-    
-   </div>   
-        }
+    {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
   </>
   )
 }
@@ -117,3 +147,28 @@ export default function EventsIndex (props) {
 //     start_time= {event.start_time}
 //     title= {event.title} }
   // 
+
+  // {state.events && state.events.map(event => {
+  //   return (<div className="events">
+  //     <Card >
+  //       <div id="card-top">
+  //       <Card.Header > {event.start_time} - {event.end_time}</Card.Header>
+  //       <Card.Header>{getOwnerNames(state,event.owner_id)}</Card.Header>
+  //       </div>
+  //       <Card.Body >
+  //       <Card.Title>{event.title}</Card.Title>
+  //     <Card.Text>
+  //       <small className="text-muted">{event.province}</small>
+  //     </Card.Text>
+  //     <div id="card-bottom">
+  //     <Card.Text>
+  //       {event.skill_level}
+  //     </Card.Text>
+  //     <Card.Text>
+  //       {event.current_participants}/{event.max_participants}
+  //     </Card.Text>
+  //     </div>
+  //     </Card.Body>
+  //     </Card>
+  //  </div>   
+  //  ) })}

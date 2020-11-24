@@ -20,8 +20,8 @@ export default function Login (props) {
       setError("this cannot be blank")
       return;
     }
-    axios.post('http://localhost:8001/api/login', { email, password }).then((res) =>
-     { 
+    axios.post('http://localhost:8001/api/login', { email, password },{withCredentials:true}).then((res) =>
+     { console.log('before',res.data)
        if(res.data === "Email does not exist") {
          setError(res.data)
         

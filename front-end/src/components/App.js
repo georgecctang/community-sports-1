@@ -12,19 +12,20 @@ import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
 import Main from './Main';
 import { useState , useEffect} from 'react';
-import  useAppData  from "../hooks/useAppData";
-
 
 export default function App(props) {
   const [islogin, setisLogin] = useState(false)
-  const [currentUser, setCurrentUser] = useState(false)
+  const [currentUser, setCurrentUser] = useState("")
   useEffect(() => {
-    axios.get('http://localhost:8001/api/login').then((res) => {
-      console.log(res)
-      setisLogin(true) 
-       //? we need the current user name
-  })
-  },[])
+    setTimeout(() => {
+      axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
+      {
+        // console.log(islogin)
+        return setCurrentUser(prev => ({...prev ,currentUser : res.data}))
+        // console.log('inside',islogin)
+      })
+    }, 2000)
+    },[islogin])
 
   return (
     <div className="App">
@@ -46,7 +47,7 @@ export default function App(props) {
             /> 
           </Route>
           <Route path='/events' > 
-           <EventsIndex  /> {/* in eventsIndex, props.state is {events:{}, users:{}}*/}
+           <EventsIndex  currentUser = {currentUser}/> 
           </Route>
          
         </Switch>
