@@ -4,8 +4,8 @@ require('dotenv').config()
 
 
 const mapStyles = {
-  width: '20%',
-  height: '20%'
+  width: '40%',
+  height: '40%'
 }; 
 
 export class MapContainer extends Component {
