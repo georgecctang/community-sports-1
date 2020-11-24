@@ -1,13 +1,35 @@
-import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import {React, Component, useState } from 'react';
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 require('dotenv').config()
 
+
 const mapStyles = {
-  width: '100%',
-  height: '100%'
+  width: '20%',
+  height: '20%'
 }; 
 
 export class MapContainer extends Component {
+  state = {
+    showingInfoWindow: false,  // Hides or shows the InfoWindow
+    activeMarker: this.props.location,          // Shows the active marker upon click
+    selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
+  };
+
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+
+  onClose = props => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
+  };
   render() {
     return (
       <Map
@@ -20,7 +42,21 @@ export class MapContainer extends Component {
             lng: this.props.location.y
           }
         }
-      />
+      >
+        <Marker
+          onClick={this.onMarkerClick}
+          location={this.props.location}
+        />
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
+          onClose={this.onClose}
+        >
+          <div>
+            <h4>{this.props.title}</h4>
+          </div>
+        </InfoWindow> 
+      </Map>
     );
   }
 }

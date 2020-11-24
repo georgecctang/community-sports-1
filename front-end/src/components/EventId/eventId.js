@@ -96,7 +96,7 @@ export default function EventId (props) {
       <h1> {team1.goalies}</h1>
       <h1> {comments[0].fullName} </h1> 
       <h1> {comments[0].comment} </h1> 
-      <MapContainer location={state.location}/>
+      <MapContainer location={state.location} title={state.title}/>
     </section>
   )
 }
