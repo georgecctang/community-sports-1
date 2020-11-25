@@ -8,9 +8,11 @@ module.exports = db => {
     router.get("/events", (req, res) => {
       const currentDate = new Date();
 
+      console.log('GET events');
       db.query(
         `
-        SELECT * FROM events
+        SELECT e.*, u.first_name, u.last_name FROM events AS e
+        JOIN users AS u ON u.id = e.owner_id
         WHERE date >= $1
         ORDER BY date DESC
         ;
@@ -162,7 +164,39 @@ module.exports = db => {
     , [userId, eventId, comment]
   ) 
   .then(() => res.send('Comment Added'))
-  }) 
+  })
+
+  //GET all upcoming events for a specific user
+  router.get("/events/users/:user_id", (req, res) => {
+
+    const userId = req.params.user_id;
+    const currentDate = new Date();
+
+    db.query(`
+      SELECT * FROM events AS e
+      JOIN teams AS t ON e.id = t.event_id
+      WHERE t.user_id = $1
+      AND date >= $2;
+    `,
+    [userId, currentDate])
+    .then(({rows}) => res.json(rows));
+  })
+
+  //GET all upcoming events for a specific user
+  router.get("/events/users/:user_id/past", (req, res) => {
+
+    const userId = req.params.user_id;
+    const currentDate = new Date();
+
+    db.query(`
+      SELECT * FROM events AS e
+      JOIN teams AS t ON e.id = t.event_id
+      WHERE t.user_id = $1
+      AND date < $2;
+    `,
+    [userId, currentDate])
+    .then(({rows}) => res.json(rows));
+  })
 
   return router;
 };

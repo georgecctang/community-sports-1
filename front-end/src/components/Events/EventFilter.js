@@ -4,13 +4,17 @@ import '../Events/Events.scss'
 import { Form } from 'react-bootstrap';
 
 // Props to change filter state
-export default function EventFilter ({setFilter}) {
+export default function EventFilter ({setEventFilter, setCategoryFilter}) {
   
   // The states should be in EventIndex and pass to EventFilter component
   // const [allEvents, setallEvents] = useState(data);
  
-  const handleChange = (category, value) => {
-    setFilter(prev => ({...prev, [category]: value}));
+  const handleEventChange = (category, value) => {
+    setEventFilter(prev => ({...prev, [category]: value}));
+  } 
+
+  const handleCategoryChange = (category, value) => {
+    setCategoryFilter(prev => ({...prev, [category]: value}));
   } 
 
 
@@ -29,7 +33,7 @@ export default function EventFilter ({setFilter}) {
         </Form.Group>
       </div> 
       <div onChange={(e) => handleChange('skill_level', e.target.value)} >
-      <Form.Group controlId="gender-form">
+      <Form.Group controlId="level-form">
         <Form.Label>Level</Form.Label>
           <Form.Control as="select" size="sm" className="select-button">
             <option type="radio" value="" name="skill_level" label="(Show All)" defaultChecked>1</option>

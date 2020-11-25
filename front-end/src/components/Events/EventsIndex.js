@@ -11,39 +11,51 @@ import './Events.scss'
 export default function EventsIndex (props) {
   const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
-  function logout_validation() {
-    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
-  };
-  
-  const [state, setState] = useState({users : [], events: [], pastEvents:[]});
-  const [filter, setFilter] = useState({}); 
+
+ 
+  // const [state, setState] = useState({users : [], events: []})
+  // const [filter, setFilter] = useState({}); 
+
+  const [allUpcomingEvents, setAllUpcomingEvents] = useState([{}]);
+  const [allPastEvents, setAllPastEvents] = useState([{}]);
+  const [myUpcomingEvents, setMyUpcomingEvents] = useState([{}]);
+  const [myPastEvents, setMyPastEvents] = useState([{}]);
+  const [isAllEvent, setIsAllEvent] = useState(true); 
+  const [isUpcoming, setIsUpcoming] = useState(true); 
+  const [categoryFilter, setCategoryFilter] = useState({}); 
 
   useEffect(() => {
     const first = axios.get('http://localhost:8001/api/events')
-    const second = axios.get('http://localhost:8001/api/checkdb/users')
+    const second = axios.get('http://localhost:8001/api/events/past')
+    const third = axios.get(`http://localhost:8001/api/events/users/${props.currentUser}`)
+    const forth = axios.get(`http://localhost:8001/api/events/users/${props.currentUser}/past`)
     Promise.all([
       first,
-      second
+      second,
+      third
     ]).then(all => {
-       return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
+       setAllUpcomingEvents(prev => all[0].data);
+       setAllPastEvents(prev => all[1].data);
+       setMyUpcomingEvents(prev => all[2].data);
+       setMyPastEvents(prev => all[3].data);
     })
   },[])
+
+  function logout_validation() {
+    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
+  };
+
+
  // console.log('in event', props.currentUser)
   if (isLogout) {
     return <Redirect to="/"/>
   };
   
-  function getOwnerNames(state, owner_id) {
-      const ownerUser = state.users && (state.users.find((user) => {
-      return (user.id === owner_id) 
-    })
-    )
-    return ownerUser ? ownerUser.first_name : 'not exist'
-  }
 
-  const filterEvents = () => {
-    let filteredEvents = state.events;
-    for (let category in filter) {
+  // 
+  const filterEvents = (eventsList, categoryFilter) => {
+    let filteredEvents = eventsList;
+    for (let category in categoryFilter) {
       filteredEvents = filter[category] ? filteredEvents.filter(event => event[category] === filter[category]) : filteredEvents;
     }
     return filteredEvents;
@@ -57,6 +69,11 @@ export default function EventsIndex (props) {
     }
     return eventsByDate;
   }
+
+
+  let subsetEvents;
+  
+  if ()
 
   let filteredEvents = filterEvents();
   let eventsByDate = makeEventsByDateObj(filteredEvents);
@@ -74,7 +91,7 @@ export default function EventsIndex (props) {
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
               <Card.Header > {event.start_time.slice(0,5)} - {event.end_time.slice(0,5)}</Card.Header>
-              <Card.Header>{getOwnerNames(state,event.owner_id)}</Card.Header>
+              <Card.Header>{event.first_name} {event.last_name}</Card.Header>
               </div>
               <Card.Body >
                 <Card.Title>{event.title}</Card.Title>
@@ -134,3 +151,15 @@ export default function EventsIndex (props) {
   </>
   )
 }
+
+
+// useEffect(() => {
+//   const first = axios.get('http://localhost:8001/api/events')
+//   const second = axios.get('http://localhost:8001/api/checkdb/users')
+//   Promise.all([
+//     first,
+//     second
+//   ]).then(all => {
+//      return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
+//   })
+// },[])
