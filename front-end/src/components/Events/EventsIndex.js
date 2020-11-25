@@ -12,7 +12,7 @@ export default function EventsIndex (props) {
   const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
 
- 
+  console.log('props.currentUser', props.currentUser);
   // const [state, setState] = useState({users : [], events: []})
   // const [filter, setFilter] = useState({}); 
 
@@ -20,19 +20,20 @@ export default function EventsIndex (props) {
   const [allPastEvents, setAllPastEvents] = useState([{}]);
   const [myUpcomingEvents, setMyUpcomingEvents] = useState([{}]);
   const [myPastEvents, setMyPastEvents] = useState([{}]);
-  const [isAllEvent, setIsAllEvent] = useState(true); 
-  const [isUpcoming, setIsUpcoming] = useState(true); 
+  const [isAllEvents, setIsAllEvents] = useState("All Events"); 
+  const [isUpcoming, setIsUpcoming] = useState("Upcoming"); 
   const [categoryFilter, setCategoryFilter] = useState({}); 
 
   useEffect(() => {
     const first = axios.get('http://localhost:8001/api/events')
     const second = axios.get('http://localhost:8001/api/events/past')
-    const third = axios.get(`http://localhost:8001/api/events/users/${props.currentUser}`)
-    const forth = axios.get(`http://localhost:8001/api/events/users/${props.currentUser}/past`)
+    const third = axios.get(`http://localhost:8001/api/events/users/${props.currentUser.id}`)
+    const fourth = axios.get(`http://localhost:8001/api/events/users/${props.currentUser.id}/past`)
     Promise.all([
       first,
       second,
-      third
+      third,
+      fourth
     ]).then(all => {
        setAllUpcomingEvents(prev => all[0].data);
        setAllPastEvents(prev => all[1].data);
@@ -40,6 +41,11 @@ export default function EventsIndex (props) {
        setMyPastEvents(prev => all[3].data);
     })
   },[])
+
+  console.log(allUpcomingEvents)
+  console.log(allPastEvents)
+  console.log(myUpcomingEvents)
+  console.log(myPastEvents)
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
@@ -52,15 +58,16 @@ export default function EventsIndex (props) {
   };
   
 
-  // 
-  const filterEvents = (eventsList, categoryFilter) => {
+  // Function to filter event based on category
+  const filterEvents = (eventsList, filter) => {
     let filteredEvents = eventsList;
-    for (let category in categoryFilter) {
+    for (let category in filter) {
       filteredEvents = filter[category] ? filteredEvents.filter(event => event[category] === filter[category]) : filteredEvents;
     }
     return filteredEvents;
   }
 
+  // Create an object that 
   const makeEventsByDateObj = (events) => {
     let dates = [...new Set(events.map(event => event.date).sort())];
     const eventsByDate = {};
@@ -73,9 +80,13 @@ export default function EventsIndex (props) {
 
   let subsetEvents;
   
-  if ()
+  if (isAllEvents === "All Events") {
+    subsetEvents = isUpcoming === "Upcoming" ? allUpcomingEvents : allPastEvents;
+  } else {
+    subsetEvents = isUpcoming === "Upcoming"  ? myUpcomingEvents : myPastEvents;
+  }
 
-  let filteredEvents = filterEvents();
+  let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
   // 
   const eventElements = Object.keys(eventsByDate).map((date) => {
@@ -90,7 +101,7 @@ export default function EventsIndex (props) {
               {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
-              <Card.Header > {event.start_time.slice(0,5)} - {event.end_time.slice(0,5)}</Card.Header>
+              <Card.Header > {event.start_time} - {event.end_time}</Card.Header>
               <Card.Header>{event.first_name} {event.last_name}</Card.Header>
               </div>
               <Card.Body >
@@ -145,7 +156,7 @@ export default function EventsIndex (props) {
   </Navbar>
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
     <div className="sidebar-sticky"></div>
-      <EventFilter setFilter={setFilter} />
+      <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents}  />
   </Nav>
     {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
   </>
