@@ -9,7 +9,7 @@ require('dotenv').config()
 export default function EventId (props) { 
   const {eventId} = useParams() 
   const {latitude, longitude, error} = usePosition()
-  let [state, setState] = useState({})
+  let [state, setState] = useState({some: ''})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
   let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] }) 
   let [comments, setComments] = useState([{}]) 
@@ -33,74 +33,85 @@ export default function EventId (props) {
        const teamData = responses[1] 
        const commentData = responses[2]  
       
-      //Destructuring data from request
-      const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
-      province, referee, skill_level, title} = eventData.data[0] 
-      //Adding data to the setstate
-      setState({...state, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
-        province, referee, skill_level, title})  
-      
-      //Sorting players by team
-      const goalies1 = []
-      const goalies2 = [] 
-      const midfielders1 = []
-      const midfielders2 = []
-      const strikers1 = []
-      const strikers2 = [] 
-      const defenders1 = []
-      const defenders2 = []
-
-      for (const player of teamData.data){
-        if (player.team_number === 1) {
-          if (player.position === 'Goalie'){
-            goalies1.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Striker') {
-            strikers1.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Defender') {
-            defenders1.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Midfielder') {
-            midfielders1.push(`${player.first_name} ${player.last_name}`)
-          } 
-        } else {
-          if (player.position === 'Goalie'){
-            goalies2.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Striker') {
-            strikers2.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Defender') {
-            defenders2.push(`${player.first_name} ${player.last_name}`)
-          } 
-          else if (player.position === 'Midfielder') {
-            midfielders2.push(`${player.first_name} ${player.last_name}`)
-          } 
-
-        }
-      } 
-      setTeam1({...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
-      setTeam2({...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }) 
-      
-      //Formatting Comments
-      const commentFormatted = commentData.data.map((comment, index) => ({
-          ...comment, 
-          fullName: `${comment.first_name} ${comment.last_name}`
-      })) 
-      setComments(commentFormatted)  
-      console.log('My location', latitude, longitude)
-      console.log('event location', state.location)
+      setTimeout(() => {
+        //Destructuring data from request
+        const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
+        province, referee, skill_level, title} = eventData.data[0] 
+        //Adding data to the setstate
+        setState({...state, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
+          province, referee, skill_level, title})  
+        
+        //Sorting players by team
+        const goalies1 = []
+        const goalies2 = [] 
+        const midfielders1 = []
+        const midfielders2 = []
+        const strikers1 = []
+        const strikers2 = [] 
+        const defenders1 = []
+        const defenders2 = []
+  
+        for (const player of teamData.data){
+          if (player.team_number === 1) {
+            if (player.position === 'Goalie'){
+              goalies1.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Striker') {
+              strikers1.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Defender') {
+              defenders1.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Midfielder') {
+              midfielders1.push(`${player.first_name} ${player.last_name}`)
+            } 
+          } else {
+            if (player.position === 'Goalie'){
+              goalies2.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Striker') {
+              strikers2.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Defender') {
+              defenders2.push(`${player.first_name} ${player.last_name}`)
+            } 
+            else if (player.position === 'Midfielder') {
+              midfielders2.push(`${player.first_name} ${player.last_name}`)
+            } 
+  
+          }
+        } 
+        setTeam1({...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
+        setTeam2({...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }) 
+        
+        //Formatting Comments
+        const commentFormatted = commentData.data.map((comment, index) => ({
+            ...comment, 
+            fullName: `${comment.first_name} ${comment.last_name}`
+        })) 
+        setComments(commentFormatted)  
+      }, 200)
      }))
-    //  .then(() => {
-    //   //Distance Matrix API
-    //   setTimeout(() => {
-    //     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${state.location.x}%2C${state.location.y}&key=${process.env.REACT_APP_geocodeKey}`)
-    //     .then((data) => {
-    //       console.log('this is it', data) 
-    //     })
-    //   }, 5000)
-    // })
+     .then(() => {
+        setTimeout(() => {
+          //Distance Matrix API
+            if (state.location) {
+              console.log('My location', latitude, longitude)
+              console.log('event location', state.location)
+              const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${state.location.x}%2C${state.location.y}&key=${process.env.REACT_APP_geocodeKey}`
+              const myInit ={
+                method: 'GET', 
+                mode: 'no-cors',
+              }
+              const distanceRequest = new Request(URL, myInit) 
+              fetch(distanceRequest)
+              .then(response => response.text()) 
+              .then(data => {
+                return data ? JSON.parse(data) : {}
+              })
+            }
+        }, 1200)
+    })
   }, [])
 
   return( 
