@@ -1,9 +1,55 @@
-.team-container {
-  display: flex; 
-  flex-flow: row nowrap;
-
-  .position-container {
+section {
+  .midpage{
     display: flex;
-    flex-flow: column nowrap;
+    border: purple solid;
+    justify-content: space-between;
+    padding-left: 15%;
+
+    .additional-info {
+      display: flex; 
+      border: solid green;
+    }
+    
+    .map-container {
+      display: flex;
+      border: solid red;
+    }
+  }
+  .right-column {
+    height: 100%;
+    width: 15%;
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    background-color: lightgreen;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  .game-container {
+    display: flex;
+    padding-left: 15%;
+    width: 100%;
+    
+    .team1-container {
+      display: flex; 
+      flex-flow: row nowrap;
+    
+      .position-container {
+        background-color: lightblue;
+      }
+    }
+    .team2-container {
+      display: flex; 
+      flex-flow: row nowrap;
+
+      .position-container{
+        background-color: lightcoral;
+      }
+    }
+  }
+  .comments-conatiner {
+    display: flex;
+    
   }
 }

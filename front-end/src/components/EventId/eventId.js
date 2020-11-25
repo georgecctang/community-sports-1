@@ -127,25 +127,27 @@ export default function EventId(props) {
     <section>
       <h1> {event.title} </h1>
       <h3> Hosted By: </h3>
-      <div className='additional-info'>
-        <p> {event.additional_info} </p>
-      </div>
-      <div className='map'>
+      <div className='midpage'>
+        <div className='additional-info'>
+          <p> {event.additional_info} </p>
+        </div>
+        <div className='map'>
           <p> This location is {distance.distance} away</p>
           <p> It will take you {distance.time} to get there</p>
           {event.location && (<MapContainer location={event.location} title={event.title} />)}
         </div>
+      </div>
       <aside className='right-column'>
         <h4> Event Details </h4>
         <h5> {event.current_participants}/{event.max_participants}</h5>
         <h5> {event.start_time}-{event.end_time}</h5>
         <h5> {event.address}, {event.city}</h5>
-        <h5> From Your Location: {distance.distance} {distance.time}</h5>
+        <h5> From Your Location: {distance.distance} | {distance.time}</h5>
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
       </aside>
       <div className='game-container'>
-        <div className='team-container'>
+        <div className='team1-container'>
           <div className='position-container'>
             <h1> Goalies</h1>
             {team1.goalies.map(player => (
@@ -172,7 +174,7 @@ export default function EventId(props) {
           </div>
         </div>
 
-        <div className='team-container'>
+        <div className='team2-container'>
           <div className='position-container'>
             <h1> Goalies</h1>
             {team2.goalies.map(player => (
@@ -198,14 +200,14 @@ export default function EventId(props) {
             ))}
           </div>
         </div>
-        <div className='comments-container'>
-          {comments.map(comment => (
-            <div className='comment'>
-              <h1> {comment.fullName} </h1>
-              <h5> {comment.comment} </h5>
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className='comments-container'>
+        {comments.map(comment => (
+          <div className='comment'>
+            <h1> {comment.fullName} </h1>
+            <h5> {comment.comment} </h5>
+          </div>
+        ))}
       </div>
     </section>
   )

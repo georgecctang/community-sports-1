@@ -1,4 +1,5 @@
 import {React, Component} from 'react';
+import './map.scss'
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 require('dotenv').config()
 
@@ -6,6 +7,7 @@ require('dotenv').config()
 const mapStyles = {
   width: '40%',
   height: '40%'
+
 }; 
 
 export class MapContainer extends Component {
