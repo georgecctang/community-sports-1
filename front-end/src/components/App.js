@@ -38,9 +38,7 @@ export default function App(props) {
           <Route exact path='/events'>
             {islogin ? <EventsIndex /> : <Redirect to="/login" />}
           </Route>
-          <Route exact path='/events/:eventId' > 
-          <EventId />
-          </Route > 
+          <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId}/>} /> 
         </Switch>
       </Router>
     </div>
