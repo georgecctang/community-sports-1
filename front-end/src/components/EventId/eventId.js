@@ -81,6 +81,7 @@ export default function EventId(props) {
 
           }
         }
+        console.log('asda')
         setTeam1({ ...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
         setTeam2({ ...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 })
 
@@ -103,15 +104,14 @@ export default function EventId(props) {
             method: 'GET',
             mode: 'no-cors',
           }
-          const distanceRequest = new Request(URL, myInit)
           fetch(proxyurl + URL)
             .then(response => response.text())
             .then(data => {
               return data ? JSON.parse(data) : {}
             })
-            .then(data =>  {
+            .then(data => {
               console.log('data', data.rows[0].elements[0].distance)
-              setDistance({...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text})
+              setDistance({ ...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text })
             })
         }
       })
@@ -125,72 +125,87 @@ export default function EventId(props) {
 
   return (
     <section>
-      <h1>Hello</h1>
       <h1> {event.title} </h1>
-      <h1> {distance.distance} </h1>
-      <div className='team-container'>
-        <div className='position-container'>
-          <h1> Goalies</h1>
-          {team1.goalies.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-        <div className='position-container'>
-          <h1> Defenders</h1>
-          {team1.defenders.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-        <div className='position-container'>
-          <h1> Midfielders</h1>
-          {team1.midfielders.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-        <div className='position-container'>
-          <h1> Strikers</h1>
-          {team1.strikers.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
+      <h3> Hosted By: </h3>
+      <div className='additional-info'>
+        <p> {event.additional_info} </p>
       </div>
-
-      <div className='team-container'>
-        <div className='position-container'>
-          <h1> Goalies</h1>
-          {team2.goalies.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
+      <div className='map'>
+          <p> This location is {distance.distance} away</p>
+          <p> It will take you {distance.time} to get there</p>
+          {event.location && (<MapContainer location={event.location} title={event.title} />)}
         </div>
-        <div className='position-container'>
-          <h1> Defenders</h1>
-          {team2.defenders.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-        <div className='position-container'>
-          <h1> Midfielders</h1>
-          {team2.midfielders.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-        <div className='position-container'>
-          <h1> Strikers</h1>
-          {team2.strikers.map(player => (
-            <div className='player-info'> {player} </div>
-          ))}
-        </div>
-      </div>
-      <aside className='map'>
-        {event.location && (<MapContainer location={event.location} title={event.title} />)}
+      <aside className='right-column'>
+        <h4> Event Details </h4>
+        <h5> {event.current_participants}/{event.max_participants}</h5>
+        <h5> {event.start_time}-{event.end_time}</h5>
+        <h5> {event.address}, {event.city}</h5>
+        <h5> From Your Location: {distance.distance} {distance.time}</h5>
+        <h5> Gender Restriction: {event.gender_restriction}</h5>
+        <h5> Skill Level: {event.skill_level}</h5>
       </aside>
-      <div className='comments'>
-        {comments.map(comment => (
-          <div>
-            <h1> {comment.fullName} </h1>
-            <h5> {comment.comment} </h5>
+      <div className='game-container'>
+        <div className='team-container'>
+          <div className='position-container'>
+            <h1> Goalies</h1>
+            {team1.goalies.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
           </div>
-        ))}
+          <div className='position-container'>
+            <h1> Defenders</h1>
+            {team1.defenders.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+          <div className='position-container'>
+            <h1> Midfielders</h1>
+            {team1.midfielders.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+          <div className='position-container'>
+            <h1> Strikers</h1>
+            {team1.strikers.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+        </div>
+
+        <div className='team-container'>
+          <div className='position-container'>
+            <h1> Goalies</h1>
+            {team2.goalies.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+          <div className='position-container'>
+            <h1> Defenders</h1>
+            {team2.defenders.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+          <div className='position-container'>
+            <h1> Midfielders</h1>
+            {team2.midfielders.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+          <div className='position-container'>
+            <h1> Strikers</h1>
+            {team2.strikers.map(player => (
+              <div className='player-info'> {player} </div>
+            ))}
+          </div>
+        </div>
+        <div className='comments-container'>
+          {comments.map(comment => (
+            <div className='comment'>
+              <h1> {comment.fullName} </h1>
+              <h5> {comment.comment} </h5>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
