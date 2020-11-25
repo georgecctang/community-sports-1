@@ -1,0 +1,9 @@
+.team-container {
+  display: flex; 
+  flex-flow: row nowrap;
+
+  .position-container {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+}

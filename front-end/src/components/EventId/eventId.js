@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import MapContainer from '../MapContainer/MapContainer'
-import Player from './Player'
 import './eventId.scss';
 
 export default function EventId (props) { 
@@ -87,28 +86,80 @@ export default function EventId (props) {
           fullName: `${comment.first_name} ${comment.last_name}`
       })) 
       setComments(commentFormatted)  
+      console.log(strikers1)
      })) 
   }, [])
-  console.log(team1.goalies)
+
+  console.log(comments)
+
   return( 
     <section>
       <h1>Hello</h1>
       <h1> {state.title} </h1> 
-      <h1> {team1.midfielders}</h1>
-      <h1> {comments[0].fullName} </h1> 
-      <h1> {comments[0].comment} </h1> 
-      <table>
-        <tr>
-          <th> Goalies </th>
-          <th> Defenders </th> 
-          <th> Midfielders </th> 
-          <th> Strikers </th>
-        </tr>
-        <tr> 
-          {team1.goalies.map(player => <Player key={player.id} fullName={player.fullName} />)}
-        </tr>
-      </table>
-      {state.location && (<MapContainer location={state.location} title={state.title}/>)}
+      <div className='team-container'>
+        <div className='position-container'>
+          <h1> Goalies</h1>
+          {team1.goalies.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Defenders</h1>
+          {team1.defenders.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Midfielders</h1>
+          {team1.midfielders.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Strikers</h1>
+          {team1.strikers.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+      </div>
+
+      <div className='team-container'>
+        <div className='position-container'>
+          <h1> Goalies</h1>
+          {team2.goalies.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Defenders</h1>
+          {team2.defenders.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Midfielders</h1>
+          {team2.midfielders.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+        <div className='position-container'>
+          <h1> Strikers</h1>
+          {team2.strikers.map(player => (
+            <div className='player-info'> {player} </div>
+          ))}
+        </div>
+      </div>
+      <aside className='map'>
+        {state.location && (<MapContainer location={state.location} title={state.title}/>)}
+      </aside>
+      <div className='comments'>
+        {comments.map(comment => (
+          <div>
+            <h1> {comment.fullName} </h1>
+            <h5> {comment.comment} </h5>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }
