@@ -1,0 +1,65 @@
+
+.card {
+  margin-left: 15em;
+  margin-right: 3em;
+  margin-top: 5em;
+}
+.card:hover {
+  box-shadow: 5px 5px rgba(170, 197, 219, 0.658);
+}
+#card-top {
+  display: flex;
+  justify-content: space-between;
+}
+#card-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+.card-header {
+  display: flex;
+ 
+  border: none;
+  background-color: white;
+}
+.sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  left: 0;
+  padding: 48px 0 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+#sidebar-wrapper{
+  min-height: 100vh !important;
+  width: 100vw;
+  margin-left: -1rem;
+  // -webkit-transition: margin .25s ease-out;
+  // -moz-transition: margin .25s ease-out;
+  // -o-transition: margin .25s ease-out;
+  // transition: margin .25s ease-out;
+}
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
+.select-button {
+  width: 13em;
+  margin: 0.5em;
+}
+.navbar-collapse {
+  display: flex;
+  justify-content: flex-end;
+}
+.navbar-brand {
+  padding-left: 3em;
+}
