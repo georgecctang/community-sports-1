@@ -50,7 +50,7 @@ export default function EventId(props) {
         const strikers2 = []
         const defenders1 = []
         const defenders2 = []
-        console.log('sss')
+        console.log('Line 53')
         for (const player of teamData.data) {
           if (player.team_number === 1) {
             if (player.position === 'Goalie') {
@@ -107,21 +107,14 @@ export default function EventId(props) {
           fetch(proxyurl + URL)
             .then(response => response.text())
             .then(data => {
-              console.log('Line 109', data)
               return data ? JSON.parse(data) : {}
             })
-            .then(data => console.log('data', data))
+            .then(data =>  {
+              console.log('data', data.rows[0].elements[0].distance)
+              setDistance({...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text})
+            })
         }
       })
-
-    //  .then((res) => {
-    //     //Distance Matrix API
-    //     console.log("event", event)
-    //     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${position[0]},${position[1]}&destinations=${res.location.x}%2C${res.location.y}&key=${process.env.REACT_APP_geocodeKey}`)
-    //     .then((data) => {
-    //       console.log('Data from Distance Matrix API', data) 
-    //     })
-    // })
   }
 
 
@@ -134,6 +127,7 @@ export default function EventId(props) {
     <section>
       <h1>Hello</h1>
       <h1> {event.title} </h1>
+      <h1> {distance.distance} </h1>
       <div className='team-container'>
         <div className='position-container'>
           <h1> Goalies</h1>
