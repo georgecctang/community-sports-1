@@ -42,10 +42,6 @@ export default function EventsIndex (props) {
     })
   },[])
 
-  console.log(allUpcomingEvents)
-  console.log(allPastEvents)
-  console.log(myUpcomingEvents)
-  console.log(myPastEvents)
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
@@ -101,7 +97,7 @@ export default function EventsIndex (props) {
               {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
-              <Card.Header > {event.start_time} - {event.end_time}</Card.Header>
+            <Card.Header > {event.start_time && event.start_time.slice(0,5)} - {event.end_time && event.end_time.slice(0,5)}</Card.Header>
               <Card.Header>{event.first_name} {event.last_name}</Card.Header>
               </div>
               <Card.Body >
