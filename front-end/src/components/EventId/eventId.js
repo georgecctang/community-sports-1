@@ -2,14 +2,18 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import MapContainer from '../MapContainer/MapContainer'
+import {usePosition} from '../../hooks/usePosition'
 import './eventId.scss';
+require('dotenv').config()
 
 export default function EventId (props) { 
   const {eventId} = useParams() 
+  const {latitude, longitude, error} = usePosition()
   let [state, setState] = useState({})
   let [team1, setTeam1] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] })
   let [team2, setTeam2] = useState({goalies: [], strikers: [], midfielders: [], defenders: [] }) 
-  let [comments, setComments] = useState([{}])
+  let [comments, setComments] = useState([{}]) 
+  let [distance, setDistance] = useState({})
 
 
   useEffect(() => {
@@ -32,7 +36,6 @@ export default function EventId (props) {
       //Destructuring data from request
       const {id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
       province, referee, skill_level, title} = eventData.data[0] 
-      console.log('location', location)
       //Adding data to the setstate
       setState({...state, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants, 
         province, referee, skill_level, title})  
@@ -86,11 +89,19 @@ export default function EventId (props) {
           fullName: `${comment.first_name} ${comment.last_name}`
       })) 
       setComments(commentFormatted)  
-      console.log(strikers1)
-     })) 
+      console.log('My location', latitude, longitude)
+      console.log('event location', state.location)
+     }))
+    //  .then(() => {
+    //   //Distance Matrix API
+    //   setTimeout(() => {
+    //     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${state.location.x}%2C${state.location.y}&key=${process.env.REACT_APP_geocodeKey}`)
+    //     .then((data) => {
+    //       console.log('this is it', data) 
+    //     })
+    //   }, 5000)
+    // })
   }, [])
-
-  console.log(comments)
 
   return( 
     <section>
