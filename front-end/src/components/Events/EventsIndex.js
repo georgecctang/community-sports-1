@@ -2,6 +2,7 @@ import { Redirect, useRouteMatch ,Link} from 'react-router-dom';
 import axios from 'axios';
 import { React, useState, useEffect } from 'react';
 import EventFilter from './EventFilter';
+import NavBar from '../NavBar/NavBar';
 
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
@@ -84,7 +85,8 @@ export default function EventsIndex (props) {
 
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-  // 
+  
+  // Create card element array 
   const eventElements = Object.keys(eventsByDate).map((date) => {
     return (
       <div key={date}>
@@ -126,30 +128,7 @@ export default function EventsIndex (props) {
   });  
   return (
     <>
-    <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/events">Sports</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      <Nav>
-        <NavDropdown title="All Events" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-          <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-        </NavDropdown>
-
-        <NavDropdown title="My Events" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-          <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-        </NavDropdown>
-      
-      </Nav> 
-      {props.currentUser &&
-      <Nav className="justify-content-end">
-          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-          <Button size="sm" onClick={(event) => {event.preventDefault();
-                          logout_validation()}}>Logout</Button>
-      </Nav>   }
-    </Navbar.Collapse>
-  </Navbar>
+  <NavBar currentUser={props.currentUser} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents} logout_validation={logout_validation} />
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
     <div className="sidebar-sticky"></div>
       <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents}  />
