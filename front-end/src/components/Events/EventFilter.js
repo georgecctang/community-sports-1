@@ -4,40 +4,45 @@ import '../Events/Events.scss'
 import { Form } from 'react-bootstrap';
 
 // Props to change filter state
-export default function EventFilter ({setFilter}) {
+export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAllEvents}) {
   
-  // The states should be in EventIndex and pass to EventFilter component
-  // const [allEvents, setallEvents] = useState(data);
- 
-  const handleChange = (category, value) => {
-    setFilter(prev => ({...prev, [category]: value}));
+  const handleEventChange = (value) => {
+    setIsAllEvents(value);
   } 
 
-  // let filteredEvents = filterEvents();
-  // let eventsByDate = makeEventsByDateObj(filteredEvents);
-    
-  // const eventElements = Object.keys(eventsByDate).map((date) => {
-  //   return (
-  //     <div key={date}>
-  //     <h3>{date}</h3>
-  //     {
-  //       eventsByDate[date].map(event => {
-  //         return (
-  //           <div key={event.id}>
-  //           <p>{event.gender_restriction} | {event.skill_level}</p>
-  //           <p></p>
-  //           </div>
-  //         )
-  //       })
-  //     }
-  //     </div>
-  //   )
-  // });
+  const handleTimeChange = (value) => {
+    setIsUpcoming(value);
+  } 
+
+  const handleCategoryChange = (category, value) => {
+    setCategoryFilter(prev => ({...prev, [category]: value}));
+  } 
 
 
   return (
     <Form>
-      <div onChange={(e) => handleChange('gender_restriction', e.target.value)} >
+    <div onChange={(e) => handleEventChange(e.target.value)} >
+    <Form.Group controlId="event-form">
+      <Form.Label>Events</Form.Label>
+        <Form.Control as="select" size="sm" className="select-button">
+          <option type="radio" value="All Events" name="events" label="All Events" defaultChecked>1</option>
+          <option type="radio" value="My Events" name="events" label="My Events">2</option>
+        </Form.Control>
+      </Form.Group>
+    </div> 
+
+    <div onChange={(e) => handleTimeChange(e.target.value)} >
+    <Form.Group controlId="time-form">
+      <Form.Label>Time</Form.Label>
+        <Form.Control as="select" size="sm" className="select-button">
+          <option type="radio" value="Upcoming" name="time" label="Upcoming" defaultChecked>1</option>
+          <option type="radio" value="Past" name="time" label="Past">2</option>
+        </Form.Control>
+      </Form.Group>
+    </div> 
+
+
+      <div onChange={(e) => handleCategoryChange('gender_restriction', e.target.value)} >
       <Form.Group controlId="gender-form">
         <Form.Label>Gender Restriction</Form.Label>
           <Form.Control as="select" size="sm" className="select-button">
@@ -49,8 +54,8 @@ export default function EventFilter ({setFilter}) {
           </Form.Control>
         </Form.Group>
       </div> 
-      <div onChange={(e) => handleChange('skill_level', e.target.value)} >
-      <Form.Group controlId="gender-form">
+      <div onChange={(e) => handleCategoryChange('skill_level', e.target.value)} >
+      <Form.Group controlId="level-form">
         <Form.Label>Level</Form.Label>
           <Form.Control as="select" size="sm" className="select-button">
             <option  value="" name="skill_level" label="(Show All)" defaultChecked>1</option>

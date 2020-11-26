@@ -111,3 +111,14 @@ Team Members: Bill, Ozge, George
 
 #Pull down memu
 - renders with the right events list (without changing the url) 
+
+# Referee feature
+- Referee can log in / register
+- Refree can look at events that requires a referee (and all the info etc)
+- Referee can contact the owner (by email/phone or chat (stretch))
+- After confirmation, owner can update the events with the referee_id
+- Refreee can look at all his/her own events
+
+
+
+

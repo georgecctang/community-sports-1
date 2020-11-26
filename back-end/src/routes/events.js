@@ -8,11 +8,13 @@ module.exports = db => {
     router.get("/events", (req, res) => {
       const currentDate = new Date();
 
+      console.log('GET events');
       db.query(
         `
-        SELECT * FROM events
+        SELECT e.*, u.first_name, u.last_name FROM events AS e
+        JOIN users AS u ON u.id = e.owner_id
         WHERE date >= $1
-        ORDER BY date DESC
+        ORDER BY date
         ;
         `,
       [currentDate]).then(({rows}) => res.json(rows))
@@ -24,9 +26,10 @@ module.exports = db => {
 
       db.query(
         `
-        SELECT * FROM events
+        SELECT e.*, u.first_name, u.last_name FROM events AS e
+        JOIN users AS u ON u.id = e.owner_id
         WHERE date < $1
-        ORDER BY date DESC
+        ORDER BY date
         ;
         `,
       [currentDate]).then(({rows}) => res.json(rows))
@@ -39,7 +42,8 @@ module.exports = db => {
 
       db.query(
         `
-        SELECT * FROM events
+        SELECT *, u.first_name, u.last_name FROM events AS e
+        JOIN users AS u ON u.id = e.owner_id
         WHERE id = $1;
         `,
       [Number(eventId)])
@@ -162,7 +166,47 @@ module.exports = db => {
     , [userId, eventId, comment]
   ) 
   .then(() => res.send('Comment Added'))
-  }) 
+  })
+
+  //GET all upcoming events for a specific user
+  router.get("/events/users/:user_id", (req, res) => {
+
+    const userId = req.params.user_id;
+    const currentDate = new Date();
+
+    console.log("GET /events/users/:user_id");
+
+    db.query(`
+      SELECT *, u.first_name, u.last_name FROM events AS e
+      JOIN users AS u ON u.id = e.owner_id
+      JOIN teams AS t ON e.id = t.event_id
+      WHERE t.user_id = $1
+      AND date >= $2
+      ORDER BY date
+      ;
+    `,
+    [userId, currentDate])
+    .then(({rows}) => res.json(rows));
+  })
+
+  //GET all upcoming events for a specific user
+  router.get("/events/users/:user_id/past", (req, res) => {
+
+    const userId = req.params.user_id;
+    const currentDate = new Date();
+    console.log("GET /events/users/:user_id/past");
+    db.query(`
+      SELECT * FROM events AS e
+      JOIN users AS u ON u.id = e.owner_id
+      JOIN teams AS t ON e.id = t.event_id
+      WHERE t.user_id = $1
+      AND date < $2
+      ORDER BY date
+      ;
+    `,
+    [userId, currentDate])
+    .then(({rows}) => res.json(rows));
+  })
 
   return router;
 };

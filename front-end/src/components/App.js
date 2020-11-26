@@ -10,42 +10,46 @@ import EventId from './EventId/eventId'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
-import EventsPast from './Events/EventsPast';
 import CreateEvent from './Events/CreateEvent';
 import Navigation from './Navigation/Navigation'
+import MyEventsIndex from './MyEvents/MyEventsIndex';
 import Main from './Main';
+
 import { useState , useEffect} from 'react';
 
 export default function App(props) {
   const [islogin, setisLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState("")
-  const [state, setState] = useState({users : [], events: []})
+
+  // const [state, setState] = useState({users : [], events: []})
  
 
-  useEffect(() => {
-    const first = axios.get('http://localhost:8001/api/events')
-    const second = axios.get('http://localhost:8001/api/checkdb/users')
-    Promise.all([
-      first,
-      second
-    ]).then(all => {
-       return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
-    })
-  },[])
+  // useEffect(() => {
+  //   const first = axios.get('http://localhost:8001/api/events')
+  //   const second = axios.get('http://localhost:8001/api/checkdb/users')
+  //   Promise.all([
+  //     first,
+  //     second
+  //   ]).then(all => {
+  //      return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
+  //   })
+  // },[])
+  console.log('isLogin before useEffect', islogin);
 
   useEffect(() => {
-    setTimeout(() => {
+   
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
-      { console.log('before',islogin)
-      console.log('aftertrue',islogin)
+      { 
+        // console.log('before',islogin)
+      // console.log('aftertrue',islogin)
         return setCurrentUser(prev => ({...prev ,user : res.data}))
         
       })
-    }, 2000)
+    
     },[islogin])
-  console.log('after',islogin)
-  
-// console.log(currentUser.user.id)
+
+  console.log('isLogin after useeffect',islogin)
+console.log(currentUser.user)
   return (
     <div className="App">
       <Router>
@@ -77,23 +81,18 @@ export default function App(props) {
 
           <Route exact path='/events' > 
            <EventsIndex  
-            users = {state.users}
-            events = {state.events}
             currentUser = {currentUser.user}/> 
           </Route>
 
           <Route exact path='/owners/events/new' >
             <CreateEvent currentUser = {currentUser.user}/>
           </Route>
-
-          <Route exact path='/events/past' >
-            <EventsPast 
-            users = {state.users}/>
-          </Route>
-
           <Route exact path='/events/:eventId' > 
-          <EventId />
-          </Route > 
+            <EventId />
+          </Route>
+          <Route exact path='/my-events/:screen' > 
+          < MyEventsIndex currentUser = {currentUser.user}/>
+        </Route > 
         </Switch>
       </Router>
     </div>

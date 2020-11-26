@@ -26,12 +26,14 @@ export default function Login (props) {
          setError(res.data)
         
        } else {
+        console.log('setisLogin to true');
         props.setisLogin(true);
        }
       }
     )
   }
   if (props.islogin) {
+    console.log('should redirect');
     return <Redirect to="/events"/>
   };
 
