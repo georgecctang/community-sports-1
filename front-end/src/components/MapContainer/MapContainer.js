@@ -1,4 +1,4 @@
-import {React, Component} from 'react';
+import { React, Component, useState } from 'react';
 import './map.scss'
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 require('dotenv').config()
@@ -8,14 +8,18 @@ const mapStyles = {
   width: '40%',
   height: '40%'
 
-}; 
+};
 
 export class MapContainer extends Component {
-  state = {
-    showingInfoWindow: false,  // Hides or shows the InfoWindow
-    activeMarker: this.props.location,          // Shows the active marker upon click
-    selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showingInfoWindow: false,  // Hides or shows the InfoWindow
+      activeMarker: this.props.location,          // Shows the active marker upon click
+      selectedPlace: {}          // Shows the InfoWindow to the selected place upon a marker
+    };
+  }
+
 
   onMarkerClick = (props, marker, e) =>
     this.setState({
@@ -28,7 +32,8 @@ export class MapContainer extends Component {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
-        activeMarker: null
+        activeMarker: null, 
+        selectedPlace: {}
       });
     }
   };
@@ -57,7 +62,7 @@ export class MapContainer extends Component {
           <div>
             <h4>{this.props.title}</h4>
           </div>
-        </InfoWindow> 
+        </InfoWindow>
       </Map>
     );
   }

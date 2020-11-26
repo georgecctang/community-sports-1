@@ -1,14 +1,18 @@
 // Using browser geolocation, gets users lat/long
 // Set position into state
 export const GetPosition = (setPos) => {
-  navigator.geolocation.getCurrentPosition(success => {
-    const pos = [
-      success.coords.latitude,
-      success.coords.longitude
-    ];
-    setPos(pos)
-  }, failure => {
-    if (failure.message.startsWith("Only secure origins are allowed")) {
-    }
-  });
+  const userCoords = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(async success => {
+      const pos = [
+        success.coords.latitude,
+        success.coords.longitude
+      ];
+      console.log('pos', pos)
+      await setPos(pos)
+      resolve()
+    }, failure => {
+      reject()
+    });
+  })
+  return userCoords
 };

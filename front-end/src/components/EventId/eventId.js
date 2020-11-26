@@ -5,14 +5,42 @@ import { GetPosition } from '../../hooks/usePosition'
 import './eventId.scss';
 require('dotenv').config()
 
+
+
+
 export default function EventId(props) {
   const [position, setPosition] = useState([])
   const [team1, setTeam1] = useState({ goalies: [], strikers: [], midfielders: [], defenders: [] })
-  const [event, setEvent] = useState({})
+  const [event, setEvent] = useState({
+    id: 0, owner_id: 0, date: '', start_time: '', end_time: '', additional_info: '', address: '', city: '', current_participants: 0, gender_restriction: '', location: '', max_participants: 0,
+    province: '', referee: false, skill_level: '', title: ''
+  })
   const [team2, setTeam2] = useState({ goalies: [], strikers: [], midfielders: [], defenders: [] })
   const [comments, setComments] = useState([{}])
   const [distance, setDistance] = useState({})
   const eventId = { id: props.eventId }
+
+  const distanceApi = (coords, location) => {
+    //Distance Matrix API
+    console.log("Line 99")
+    console.log('My location', coords[0], coords[1])
+    console.log('event location', event.location)
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=${location.x}%2C${location.y}&key=${process.env.REACT_APP_geocodeKey}`
+    const myInit = {
+      method: 'GET',
+      mode: 'no-cors',
+    }
+    fetch(proxyurl + URL)
+      .then(response => response.text())
+      .then(data => {
+        return data ? JSON.parse(data) : {}
+      })
+      .then(data => {
+        console.log('data', data.rows[0].elements[0].distance)
+        setDistance({ ...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text })
+      })
+  }
 
   const eventData = () => {
     //URLS to query
@@ -24,8 +52,8 @@ export default function EventId(props) {
     const teamRequest = axios.get(team, eventId)
     const commentRequest = axios.get(comment, eventId)
     //Making all 3 requests
-    axios.all([eventRequest, teamRequest, commentRequest])
-      .then(axios.spread((...responses) => {
+    Promise.all([eventRequest, teamRequest, commentRequest])
+      .then((responses) => {
         //Request data
         const eventData = responses[0]
         console.log('eventData', eventData)
@@ -36,10 +64,10 @@ export default function EventId(props) {
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title } = eventData.data[0]
         //Adding data to the setstate
-        setEvent({
-          ...event, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
+        setEvent(prev => ({
+          ...prev, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title
-        })
+        }))
 
         //Sorting players by team
         const goalies1 = []
@@ -81,45 +109,31 @@ export default function EventId(props) {
 
           }
         }
-        console.log('asda')
-        setTeam1({ ...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
-        setTeam2({ ...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 })
+        setTeam1(prev => ({ ...prev, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }))
+        setTeam2(prev => ({ ...prev, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }))
 
+        console.log('Line 87')
         //Formatting Comments
         const commentFormatted = commentData.data.map((comment, index) => ({
           ...comment,
           fullName: `${comment.first_name} ${comment.last_name}`
         }))
         setComments(commentFormatted)
+        navigator.geolocation.getCurrentPosition(async success => {
+          const pos = [
+            success.coords.latitude,
+            success.coords.longitude
+          ];
+          console.log('pos', pos)
+          setPosition(pos)
+          distanceApi(pos, location)
+        })
         return eventData.data[0]
-      }))
-      .then((res) => {
-        //Distance Matrix API
-        if (event.location) {
-          console.log('My location', position[0], position[1])
-          console.log('event location', event.location)
-          const proxyurl = "https://cors-anywhere.herokuapp.com/";
-          const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${position[0]},${position[1]}&destinations=${res.location.x}%2C${res.location.y}&key=${process.env.REACT_APP_geocodeKey}`
-          const myInit = {
-            method: 'GET',
-            mode: 'no-cors',
-          }
-          fetch(proxyurl + URL)
-            .then(response => response.text())
-            .then(data => {
-              return data ? JSON.parse(data) : {}
-            })
-            .then(data => {
-              console.log('data', data.rows[0].elements[0].distance)
-              setDistance({ ...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text })
-            })
-        }
       })
   }
 
 
   useEffect(() => {
-    GetPosition(setPosition)
     eventData()
   }, [])
 
