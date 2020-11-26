@@ -19,34 +19,20 @@ import { useState , useEffect} from 'react';
 
 export default function App(props) {
   const [islogin, setisLogin] = useState(false)
-  const [currentUser, setCurrentUser] = useState("")
+  const [currentUser, setCurrentUser] = useState(JSON.parse(window.localStorage.getItem('userData')));
 
-  // const [state, setState] = useState({users : [], events: []})
- 
-
-  // useEffect(() => {
-  //   const first = axios.get('http://localhost:8001/api/events')
-  //   const second = axios.get('http://localhost:8001/api/checkdb/users')
-  //   Promise.all([
-  //     first,
-  //     second
-  //   ]).then(all => {
-  //      return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
-  //   })
-  // },[])
-  console.log('isLogin before useEffect', islogin);
 
   useEffect(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        // return setCurrentUser(prev => ({...prev ,user : res.data}))
+        return;
+        
       })
     },[islogin])
 
-  console.log('isLogin after useeffect',islogin)
-// console.log(currentUser.user)
   return (
     <div className="App">
       <Router>
@@ -65,11 +51,10 @@ export default function App(props) {
           <Route path='/register'>
             <Register />
           </Route> 
-
-          {/* <Route path='/profile'>
-            <ProfileForm  currentUser = {currentUser.user}
+          {/* <Route exact path='/profile'>
+            <ProfileForm  currentUser = {currentUser}
             /> 
-          </Route> */}
+          </Route>  */}
 
           <Route path='/navigation'>
             <Navigation
@@ -78,18 +63,22 @@ export default function App(props) {
 
           <Route exact path='/events' > 
           <EventsIndex  
-           currentUser = {currentUser.user}/> 
+           currentUser = {currentUser}/> 
           </Route>
 
           <Route exact path='/owners/events/new' >
-            <CreateEvent currentUser = {currentUser.user}/>
+            <CreateEvent currentUser = {currentUser}/>
           </Route>
           <Route exact path='/events/:eventId' > 
-            <EventId currentUser = {currentUser.user}/>
+            <EventId currentUser = {currentUser}/>
+           <EventsIndex  
+            currentUser = {currentUser}/> 
+
           </Route>
           <Route exact path='/my-events/:screen' > 
-          < MyEventsIndex currentUser = {currentUser.user}/>
+          < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
+          <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId}/>} /> 
         </Switch>
       </Router>
     </div>

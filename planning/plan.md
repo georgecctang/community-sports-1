@@ -119,6 +119,12 @@ Team Members: Bill, Ozge, George
 - After confirmation, owner can update the events with the referee_id
 - Refreee can look at all his/her own events
 
+# Plan for 11/26 (Thursday)
+## Remaining tasks
+
+
+
+## Today's goals
 
 
 
