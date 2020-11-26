@@ -59,12 +59,10 @@ console.log('after useEffect', currentUser)
            <EventsIndex  
             currentUser = {currentUser}/> 
           </Route>
-          <Route exact path='/events/:eventId'> 
-            <EventId />
-          </Route > 
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
+          <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId}/>} /> 
         </Switch>
       </Router>
     </div>
