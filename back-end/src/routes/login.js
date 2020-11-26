@@ -12,9 +12,9 @@ module.exports = db => {
       if (rows.length !== 0) {
         req.session.user_id = rows[0].id 
       } else {
-        res.send("Email does not exist")
+        res.json(rows[0])
       }
-      res.send(rows[0]) 
+      res.json(rows[0]) 
     })
   })
   return router;

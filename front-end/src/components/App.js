@@ -19,9 +19,9 @@ export default function App(props) {
 
 
   const [islogin, setisLogin] = useState(false)
-  const [currentUser, setCurrentUser] = useState("")
+  const [currentUser, setCurrentUser] = useState(JSON.parse(window.localStorage.getItem('userData')));
 
-  console.log('isLogin before useEffect', islogin);
+  console.log('before useEffect', currentUser)
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,13 +29,13 @@ export default function App(props) {
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        // return setCurrentUser(prev => ({...prev ,user : res.data}))
+        return;
         
       })
     }, 2000)
     },[islogin])
-  console.log('isLogin after useeffect',islogin)
-// console.log(currentUser.user.id)
+console.log('after useEffect', currentUser)
   return (
     <div className="App">
       <Router>
@@ -51,19 +51,19 @@ export default function App(props) {
           <Route path='/register'>
             <Register />
           </Route> 
-          <Route path='/profile'>
-            <ProfileForm  currentUser = {currentUser.user}
+          <Route exact path='/profile'>
+            <ProfileForm  currentUser = {currentUser}
             /> 
           </Route>
           <Route exact path='/events' > 
            <EventsIndex  
-            currentUser = {currentUser.user}/> 
+            currentUser = {currentUser}/> 
           </Route>
           <Route exact path='/events/:eventId'> 
             <EventId />
           </Route > 
           <Route exact path='/my-events/:screen' > 
-          < MyEventsIndex currentUser = {currentUser.user}/>
+          < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
         </Switch>
       </Router>
