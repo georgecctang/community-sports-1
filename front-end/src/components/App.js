@@ -24,15 +24,14 @@ export default function App(props) {
   console.log('isLogin before useEffect', islogin);
 
   useEffect(() => {
-    setTimeout(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
+        console.log('app res.data',res.data)
         return setCurrentUser(prev => ({...prev ,user : res.data}))
         
       })
-    }, 2000)
     },[islogin])
   console.log('isLogin after useeffect',islogin)
 // console.log(currentUser.user.id)
