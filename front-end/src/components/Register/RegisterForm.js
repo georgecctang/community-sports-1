@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useState} from 'react';
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 import './Register.scss'
 

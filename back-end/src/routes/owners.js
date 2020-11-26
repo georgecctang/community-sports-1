@@ -12,7 +12,6 @@ module.exports = db => {
       //Formatting variables for api request
       const geocodeAddress = address.replace(/\s/g, '+') 
       const geocodeCity = city.replace(/\s/g, '+') 
-
       //Retriving lat and long from google api
       axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
       .then((res) => {

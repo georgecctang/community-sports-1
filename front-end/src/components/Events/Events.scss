@@ -1,8 +1,14 @@
 
 .card {
-  margin-left: 15em;
-  margin-right: 3em;
+  width: 55%;
+  height: 30%;
+  // margin-left: 15em;
+  margin-right: 8em;
   margin-top: 5em;
+}
+.events {
+  display: flex;
+  justify-content: flex-end;
 }
 .card:hover {
   box-shadow: 5px 5px rgba(170, 197, 219, 0.658);
@@ -23,11 +29,12 @@
 }
 .sidebar {
   position: fixed;
-  width: 200px;
+  width: 250px;
   height: 100%;
   left: 0;
   padding: 48px 0 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  text-align: -webkit-center
 }
 
 #sidebar-wrapper{
@@ -63,3 +70,21 @@ a:-webkit-any-link {
 .navbar-brand {
   padding-left: 3em;
 }
+@media all and (min-width: 480px) {
+  .newEvent {
+    padding: 60px 0;
+  }
+
+  .newEvent form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}
+
+// @media all and (min-width: 480px) {
+//   .card {
+//     padding: 60px 0;
+//   }
+
+
+// }

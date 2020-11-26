@@ -3,20 +3,36 @@ import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
+  Route
   } from "react-router-dom";
 import Login from './Login/LoginForm'
 import EventId from './EventId/eventId'
 import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
+import EventsPast from './Events/EventsPast';
+import CreateEvent from './Events/CreateEvent';
+import Navigation from './Navigation/Navigation'
 import Main from './Main';
 import { useState , useEffect} from 'react';
 
 export default function App(props) {
   const [islogin, setisLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState("")
+  const [state, setState] = useState({users : [], events: []})
+ 
+
+  useEffect(() => {
+    const first = axios.get('http://localhost:8001/api/events')
+    const second = axios.get('http://localhost:8001/api/checkdb/users')
+    Promise.all([
+      first,
+      second
+    ]).then(all => {
+       return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
+    })
+  },[])
+
   useEffect(() => {
     setTimeout(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
@@ -28,31 +44,53 @@ export default function App(props) {
     }, 2000)
     },[islogin])
   console.log('after',islogin)
+  
 // console.log(currentUser.user.id)
   return (
     <div className="App">
       <Router>
         <Switch>
+
         <Route exact path='/'>
             <Main />
           </Route>
+
           <Route path='/login'>
             <Login 
             islogin ={islogin}
             setisLogin = {setisLogin} />
           </Route>
+
           <Route path='/register'>
             <Register />
           </Route> 
+
           <Route path='/profile'>
             <ProfileForm  currentUser = {currentUser.user}
             /> 
           </Route>
+
+          <Route path='/navigation'>
+            <Navigation
+            /> 
+          </Route>
+
           <Route exact path='/events' > 
            <EventsIndex  
-          
+            users = {state.users}
+            events = {state.events}
             currentUser = {currentUser.user}/> 
           </Route>
+
+          <Route exact path='/owners/events/new' >
+            <CreateEvent currentUser = {currentUser.user}/>
+          </Route>
+
+          <Route exact path='/events/past' >
+            <EventsPast 
+            users = {state.users}/>
+          </Route>
+
           <Route exact path='/events/:eventId' > 
           <EventId />
           </Route > 

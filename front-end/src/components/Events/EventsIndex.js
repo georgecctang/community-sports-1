@@ -1,48 +1,29 @@
-import { Redirect, useRouteMatch ,Link} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { React, useState, useEffect } from 'react';
+import { useState } from 'react';
 import EventFilter from './EventFilter';
-
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import './Events.scss'
+import { getOwnerNames } from "../../helpers/filterFunctions";
+
 
 export default function EventsIndex (props) {
-  const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
   
-  const [state, setState] = useState({users : [], events: []})
   const [filter, setFilter] = useState({}); 
-
-  useEffect(() => {
-    const first = axios.get('http://localhost:8001/api/events')
-    const second = axios.get('http://localhost:8001/api/checkdb/users')
-    Promise.all([
-      first,
-      second
-    ]).then(all => {
-       return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
-    })
-  },[])
- console.log('in event', props.currentUser)
+ 
   if (isLogout) {
     return <Redirect to="/"/>
   };
   
-  function getOwnerNames(state, owner_id) {
-      const ownerUser = state.users && (state.users.find((user) => {
-      return (user.id === owner_id) 
-    })
-    )
-    return ownerUser ? ownerUser.first_name : 'not exist'
-  }
 
   const filterEvents = () => {
-    let filteredEvents = state.events;
+    let filteredEvents = props.events;
     for (let category in filter) {
       filteredEvents = filter[category] ? filteredEvents.filter(event => event[category] === filter[category]) : filteredEvents;
     }
@@ -57,7 +38,7 @@ export default function EventsIndex (props) {
     }
     return eventsByDate;
   }
-
+  console.log("current user", props.currentUser)
   let filteredEvents = filterEvents();
   let eventsByDate = makeEventsByDateObj(filteredEvents);
   // 
@@ -70,11 +51,10 @@ export default function EventsIndex (props) {
           return (
             <div className="events">
             <Card >
-              {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
               <Card.Header > {event.start_time} - {event.end_time}</Card.Header>
-              <Card.Header>{getOwnerNames(state,event.owner_id)}</Card.Header>
+              <Card.Header>{getOwnerNames(props.users,event.owner_id)}</Card.Header>
               </div>
               <Card.Body >
                 <Card.Title>{event.title}</Card.Title>
@@ -108,15 +88,17 @@ export default function EventsIndex (props) {
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav>
           <NavDropdown title="Events" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Upcoming Events</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Past Events</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">My Events</NavDropdown.Item>
+          <NavDropdown.Item href="/events/past">Upcoming Events</NavDropdown.Item>
+            <NavDropdown.Item href="/events/past">Past Events</NavDropdown.Item>
+            <NavDropdown.Item href="/user/:id">My Events</NavDropdown.Item>
           </NavDropdown>
        
       </Nav> 
       {props.currentUser &&
       <Nav className="justify-content-end">
-          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+          {/* <Nav.Link href="/profile">My Profile */}
+          <span>{props.currentUser.first_name} {props.currentUser.last_name}</span>
+          {/* </Nav.Link> */}
           <Button size="sm" onClick={(event) => {event.preventDefault();
                           logout_validation()}}>Logout</Button>
       </Nav>   }

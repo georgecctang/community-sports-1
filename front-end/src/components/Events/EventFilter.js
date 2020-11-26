@@ -53,11 +53,11 @@ export default function EventFilter ({setFilter}) {
       <Form.Group controlId="gender-form">
         <Form.Label>Level</Form.Label>
           <Form.Control as="select" size="sm" className="select-button">
-            <option type="radio" value="" name="skill_level" label="(Show All)" defaultChecked>1</option>
-            <option type="radio" value="Beginner" name="skill_level" label="Beginner">2</option>
-            <option type="radio" value="Intermediate" name="skill_level" label="Intermediate">3</option>
-            <option type="radio" value="Advanced" name="skill_level" label="Advanced">4</option>
-            <option type="radio" value="Open" name="skill_level" label="Open">5</option>
+            <option  value="" name="skill_level" label="(Show All)" defaultChecked>1</option>
+            <option  value="Beginner" name="skill_level" label="Beginner">2</option>
+            <option value="Intermediate" name="skill_level" label="Intermediate">3</option>
+            <option value="Advanced" name="skill_level" label="Advanced">4</option>
+            <option  value="Open" name="skill_level" label="Open">5</option>
           </Form.Control>
         </Form.Group>
       </div>
