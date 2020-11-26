@@ -1,4 +1,6 @@
 section {
+  width: 100vmax;
+  overflow: hidden;
   .midpage{
     display: flex;
     border: purple solid;
@@ -25,6 +27,11 @@ section {
     background-color: lightgreen;
     overflow-x: hidden;
     padding-top: 20px;
+
+    img {
+      height: 1.5em; 
+      width: 1.5em;
+    }
   }
   .game-container {
     display: flex;
