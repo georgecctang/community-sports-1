@@ -1,7 +1,7 @@
 import  { useState, React } from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
-import { Form, Button, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
+import { Form, Button, Navbar, Nav } from 'react-bootstrap';
 import './Login.scss'
 
 export default function Login (props) {
