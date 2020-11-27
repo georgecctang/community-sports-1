@@ -135,10 +135,11 @@ export default function EventsIndex(props) {
   })
   }
   
-  function edit (id){
-    console.log("here", `owner/events/edit/${id}`)
+  //should redirect the edit form
+  function edit(id) {
     return <Redirect to={`owner/events/edit/${id}`}/>
   }
+
   //Check if the user is owner 
   function checkOwner (event) {
     if (event.owner_id === props.currentUser.id) {
@@ -177,8 +178,7 @@ export default function EventsIndex(props) {
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
   
-  const eventElements = Object.keys(eventsByDate).map((date) => {
-  
+  const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
       <div key={date}>
       <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
@@ -189,7 +189,8 @@ export default function EventsIndex(props) {
             <Card >
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
-                <Card.Header > {event.start_time && event.start_time.slice(0,5)} - {event.end_time && event.end_time.slice(0,5)}</Card.Header>
+              <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
+                      {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
                 <Card.Header>{event.first_name} {event.last_name} </Card.Header>
               </div>
               <Card.Body >

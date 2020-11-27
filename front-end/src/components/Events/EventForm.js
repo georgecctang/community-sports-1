@@ -131,6 +131,32 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           </Form.Control>
         </Form.Group>
 
+        <Form.Group size="lg" controlId="formGroupTeams">
+           <Form.Control
+            as="select" defaultValue="Choose..."
+            value={newEvent.team}
+            placeholder="Choose your team"
+            onChange={(event) => setnewEvent({...newEvent, team: event.target.value })}
+          > <option> Teams...</option>
+            <option> Team1 </option>
+            <option> Team2 </option>
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group size="lg" controlId="formGroupPosition">
+           <Form.Control
+            as="select" defaultValue="Choose..."
+            value={newEvent.position}
+            placeholder="Choose you position"
+            onChange={(event) => setnewEvent({...newEvent, position: event.target.value })}
+          > <option> Position...</option>
+            <option> Goalie </option>
+            <option> Striker </option>
+            <option> Midfield </option>
+            <option> Defender </option>
+          </Form.Control>
+        </Form.Group>
+
         <Form.Group size="lg" controlId="formGroupInfo" >
         <Form.Control
           value={newEvent.additional_info}
