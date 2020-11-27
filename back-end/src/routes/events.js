@@ -126,7 +126,7 @@ module.exports = db => {
     const currentDate = new Date();
     console.log("GET /events/users/:user_id/past");
     db.query(`
-      SELECT * FROM events AS e
+      SELECT e.*, u.first_name, u.last_name FROM events AS e
       JOIN users AS u ON u.id = e.owner_id
       JOIN teams AS t ON e.id = t.event_id
       WHERE t.user_id = $1

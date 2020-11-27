@@ -74,7 +74,7 @@ module.exports = db => {
     
     const eventId = req.params.event_id;
     // need the user id from cookie
-    const id = req.body;
+    const { id } = req.body;
     
     db.query(
       `
@@ -107,7 +107,6 @@ module.exports = db => {
         console.log(error);
         res.send(error);
       });
-
      
     });
 

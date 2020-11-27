@@ -87,16 +87,15 @@ module.exports = db => {
           address = $6, city = $7, province = $8, max_participants = $9, skill_level = $10, 
           gender_restriction = $11, referee = $12, additional_info = $13, location = $14
           
-          WHERE id = $16
-
-          RETURNING * `
+          WHERE id = $15
+          `
           , [owner_id, date, start_time, end_time, title, address, city, province, 
             max_participants, skill_level, gender_restriction, referee, additional_info, location, id]
         )
       })
-      .then((data) => {
+      .then(() => {
         //When it saved
-        res.send(data)
+        res.send('successfully edited');
       })
       //When it fails
       .catch((err) => {
