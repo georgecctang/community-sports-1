@@ -7,8 +7,7 @@ import EventForm from './EventForm'
 
 export default function EditEvent (props) {
   const [newEvent, setnewEvent] = useState({})
-  // const [event, setEvent ] = useState(false)
-  // console.log(props)
+  
    useEffect(() => {
      axios.get(`http://localhost:8001/api/events/${props.eventId}`).then((res) => {
 
