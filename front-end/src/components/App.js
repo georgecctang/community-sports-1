@@ -27,8 +27,8 @@ export default function App(props) {
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-        // return setCurrentUser(prev => ({...prev ,user : res.data}))
-        return;
+        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        //return;
         
       })
     },[islogin])

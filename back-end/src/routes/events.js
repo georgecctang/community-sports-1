@@ -42,9 +42,9 @@ module.exports = db => {
 
       db.query(
         `
-        SELECT *, u.first_name, u.last_name FROM events AS e
+        SELECT e.*, u.first_name, u.last_name FROM events AS e
         JOIN users AS u ON u.id = e.owner_id
-        WHERE id = $1;
+        WHERE e.id = $1;
         `,
       [Number(eventId)])
       .then(({rows}) => res.json(rows))

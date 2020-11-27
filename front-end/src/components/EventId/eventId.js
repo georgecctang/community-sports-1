@@ -47,6 +47,7 @@ export default function EventId(props) {
 
   const eventData = () => {
     //URLS to query
+    console.log(props.eventId)
     const eventInfo = `http://localhost:8001/api/events/${props.eventId}`
     const team = `http://localhost:8001/api/events/${props.eventId}/teams`
     const comment = `http://localhost:8001/api/events/${props.eventId}/comments`
