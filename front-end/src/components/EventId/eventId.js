@@ -172,8 +172,8 @@ export default function EventId(props) {
         <h5> From Your Location: {distance.distance} | {distance.time}</h5>
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
-        <Navigation eventId={eventId} team='Blue'/>
-        <Navigation eventId={eventId} team='Red'/>
+        <Navigation eventId={eventId} team='Blue' />
+        <Navigation eventId={eventId} team='Red' />
       </aside>
       <div className='game-container'>
         <div className='team1-container'>
