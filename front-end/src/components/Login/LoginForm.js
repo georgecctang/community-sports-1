@@ -80,7 +80,7 @@ export default function Login (props) {
           onChange={(event) => setPassword(event.target.value)}
         />
       </Form.Group>
-      <Button block size="lg" type="submit">
+      <Button id="btn_login" block size="lg" type="submit">
         Login
       </Button>
     </Form>

@@ -180,45 +180,46 @@ export default function EventsIndex(props) {
   
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
-      <div key={date}>
-      <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
-      {
-        eventsByDate[date].map(event => {
-          return (
-            <div className="events">
-            <Card >
-              <Card.Link href={`/events/${event.id}`}>
-              <div id="card-top">
-              <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
+      <div classNames="days" key={date}>
+         
+          <h5 id="days">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h5>
+        {
+          eventsByDate[date].map(event => {
+            return (
+              <div className="events">
+              <Card >
+                <Card.Link href={`/events/${event.id}`}>
+                <div id="card-top">
+                <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
                       {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
                 <Card.Header>{event.first_name} {event.last_name} </Card.Header>
-              </div>
-              <Card.Body >
-                <Card.Title>{event.title}</Card.Title>
-                <Card.Text>
-                  <small className="text-muted">{event.province}</small>
-                </Card.Text>
-                <div id="card-bottom">
-                  <Card.Text>
-                    {event.skill_level}
-                  </Card.Text>
-                  <Card.Text>
-                  {event.current_participants}/{event.max_participants}
-                  </Card.Text>
                 </div>
+                <Card.Body >
+                  <Card.Title>{event.title}</Card.Title>
+                  <Card.Text>
+                    <small className="text-muted">{event.province}</small>
+                  </Card.Text>
+                  <div id="card-bottom">
+                    <Card.Text>
+                      {event.skill_level}
+                    </Card.Text>
+                   <Card.Text>
+                    {event.current_participants}/{event.max_participants}
+                    </Card.Text>
+                  </div>
                 </Card.Body>
                 </Card.Link>
                 
-               {  checkOwner(event) && 
-               <>
-               <Card.Footer className="edit-delete_buttons">
-                <Button block size="sm"  onClick= {(e) => { e.preventDefault();
+                {checkOwner(event) && 
+                <>
+                <Card.Footer className="edit-delete_buttons">
+                  <Button block size="sm"  onClick= {(e) => { e.preventDefault();
                                           console.log('here', event)
                                           cancelEvent(event.id)}} > Delete</Button>
 
-                <Button block size="sm" onClick= {(e) => { e.preventDefault();
-                console.log('id',event.id)
-                                          edit(event.id)
+                  <Button block size="sm" onClick= {(e) => { e.preventDefault();
+                                              console.log('id',event.id)
+                                            edit(event.id)
                                           }}> Edit </Button>
                 </Card.Footer>
                 </> }
@@ -236,6 +237,7 @@ export default function EventsIndex(props) {
   }
   return (
     <>
+   
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events">Sports</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -252,6 +254,7 @@ export default function EventsIndex(props) {
             </NavDropdown>
 
           </Nav>
+     
           {props.currentUser &&
             <Nav className="justify-content-end">
               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>

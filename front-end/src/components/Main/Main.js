@@ -8,17 +8,18 @@ export default function Main (props) {
  
   return (
     <>
-    <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/">Sports</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="justify-content-end">
+    <div className="homepage" >
+      <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/">Sports</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="justify-content-end">
       <Nav.Link href="/login">Login</Nav.Link>
       <Nav.Link href="/register">Register</Nav.Link>
     </Nav> 
     </Navbar.Collapse>
   </Navbar>
-    <div className="homepage">
+   
   </div>   
   </>
   )
