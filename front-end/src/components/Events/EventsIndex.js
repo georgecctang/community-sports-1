@@ -137,7 +137,7 @@ export default function EventsIndex(props) {
   
   //should redirect the edit form
   function edit(id) {
-    return <Redirect to={`owner/events/edit/${id}`}/>
+    return <Link to={`owner/events/edit/${id}`}/>
   }
 
   //Check if the user is owner 
