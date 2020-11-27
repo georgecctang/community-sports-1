@@ -71,9 +71,6 @@ export default function App(props) {
           </Route>
           <Route exact path='/events/:eventId' > 
             <EventId currentUser = {currentUser}/>
-           <EventsIndex  
-            currentUser = {currentUser}/> 
-
           </Route>
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>

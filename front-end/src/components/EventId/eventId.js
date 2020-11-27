@@ -4,6 +4,7 @@ import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
 import './eventId.scss';
 import soccerIcon from './soccerIcon.png'
+import Navigation from '../Navigation/Navigation'
 require('dotenv').config()
 
 
@@ -20,6 +21,7 @@ export default function EventId(props) {
   const [comments, setComments] = useState([{}])
   const [distance, setDistance] = useState({})
   const eventId = { id: props.eventId }
+  console.log('eventid', eventId)
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
@@ -167,9 +169,10 @@ export default function EventId(props) {
         <h5> {event.start_time}-{event.end_time}</h5>
         <h5> {event.address}, {event.city}</h5>
         <h5> From Your Location: {distance.distance} | {distance.time}</h5>
-
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
+        <Navigation eventId={eventId} team='Blue'/>
+        <Navigation eventId={eventId} team='Red'/>
       </aside>
       <div className='game-container'>
         <div className='team1-container'>
