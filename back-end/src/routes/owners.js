@@ -5,7 +5,7 @@ require('dotenv').config()
 module.exports = db => {  
   router.post("/owners/events/new", (req, res) => {
     const {owner_id , date, start_time, end_time, title,
-      address, city, province, current_participants, max_participants, skill_level, 
+      address, city, province, max_participants, skill_level, 
       gender_restriction, referee, additional_info} = req.body  
 
       let location 
@@ -14,32 +14,43 @@ module.exports = db => {
       const geocodeCity = city.replace(/\s/g, '+') 
 
       //Retriving lat and long from google api
-      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
+      return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
       .then((res) => {
         const lat = res.data.results[0].geometry.location.lat
         const long = res.data.results[0].geometry.location.lng
         //Creating (x,y) format needed for psql point data type in psql
-        location = `(${lat}, ${long})` 
+        location = `(${lat}, ${long})`
       })
       .then(() => {
         //Making a new event
-        db.query(` 
+        return db.query(` 
         INSERT INTO events (owner_id , date, start_time, end_time, title,
-          address, city, province, current_participants, max_participants, skill_level, 
+          address, city, province,  max_participants, skill_level, 
           gender_restriction, referee, additional_info, location) 
           VALUES ($1::integer, $2::date, $3::time, $4::time, $5::text, $6::text, 
-          $7::text, $8::text, $9::integer, $10::integer, $11::text, $12::text, $13::boolean, $14::text, $15::point)
-          RETURNING owner_id , date, start_time, end_time, title,
-          address, city, province, current_participants, max_participants, skill_level, 
-          gender_restriction, referee, additional_info;`
-          , [owner_id, date, start_time, end_time, title, address, city, province, current_participants, 
+          $7::text, $8::text, $9::integer, $10::text, $11::text, $12::boolean, $13::text, $14::point)
+          RETURNING id, owner_id;`
+          , [owner_id, date, start_time, end_time, title, address, city, province,  
           max_participants, skill_level, gender_restriction, referee, additional_info, location]
         ) 
       })
-      .then(() => {
+      .then(({rows}) => {
         //When it saved
-        res.send('Successfully Created')
+        const eventId = rows[0].id;
+        const ownerId = rows[0].owner_id;
+        const {my_team, my_position} = req.body;
+
+        db.query(`
+        INSERT INTO teams (event_id, user_id, team_number, position) 
+        VALUES
+        ($1, $2, $3, $4);
+        `,
+        [eventId, ownerId, my_team, my_position]);
       })
+      .then(() => {
+        res.send('Event created and owner inserted into teams successfully');
+      }
+      )
       //When it fails
       .catch((err) => {
         console.log(err)
