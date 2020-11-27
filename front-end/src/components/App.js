@@ -28,13 +28,8 @@ export default function App(props) {
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-<<<<<<< HEAD
-        console.log('app res.data',res.data)
         return setCurrentUser(prev => ({...prev ,user : res.data}))
-=======
-        // return setCurrentUser(prev => ({...prev ,user : res.data}))
-        return;
->>>>>>> master
+        //return;
         
       })
     },[islogin])
