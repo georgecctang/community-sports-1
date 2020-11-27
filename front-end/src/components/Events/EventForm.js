@@ -76,13 +76,13 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
 
-        <Form.Group size="lg" controlId="formGroupCurrentParticipants" >
+        {/* <Form.Group size="lg" controlId="formGroupCurrentParticipants" >
         <Form.Control
           value={newEvent.current_participants}
           placeholder="Current Participants"
           onChange={(event) => setnewEvent({...newEvent, current_participants: event.target.value })}
         />
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group size="lg" controlId="formGroupMaximumParticipants" >
         <Form.Control
