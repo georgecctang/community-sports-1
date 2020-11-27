@@ -4,17 +4,17 @@ require('dotenv').config()
 
 module.exports = db => {
   router.post("/owners/events/new", (req, res) => {
-    const { owner_id, date, start_time, end_time, title,
-      address, city, province, current_participants, max_participants, skill_level,
-      gender_restriction, referee, additional_info } = req.body
+    const {owner_id , date, start_time, end_time, title,
+      address, city, province, max_participants, skill_level, 
+      gender_restriction, referee, additional_info} = req.body  
 
     let location
     //Formatting variables for api request
     const geocodeAddress = address.replace(/\s/g, '+')
     const geocodeCity = city.replace(/\s/g, '+')
 
-    //Retriving lat and long from google api
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
+      //Retriving lat and long from google api
+      return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
       .then((res) => {
         const lat = res.data.results[0].geometry.location.lat
         const long = res.data.results[0].geometry.location.lng
@@ -23,23 +23,34 @@ module.exports = db => {
       })
       .then(() => {
         //Making a new event
-        db.query(` 
+        return db.query(` 
         INSERT INTO events (owner_id , date, start_time, end_time, title,
-          address, city, province, current_participants, max_participants, skill_level, 
+          address, city, province,  max_participants, skill_level, 
           gender_restriction, referee, additional_info, location) 
           VALUES ($1::integer, $2::date, $3::time, $4::time, $5::text, $6::text, 
-          $7::text, $8::text, $9::integer, $10::integer, $11::text, $12::text, $13::boolean, $14::text, $15::point)
-          RETURNING owner_id , date, start_time, end_time, title,
-          address, city, province, current_participants, max_participants, skill_level, 
-          gender_restriction, referee, additional_info;`
-          , [owner_id, date, start_time, end_time, title, address, city, province, current_participants,
-            max_participants, skill_level, gender_restriction, referee, additional_info, location]
-        )
+          $7::text, $8::text, $9::integer, $10::text, $11::text, $12::boolean, $13::text, $14::point)
+          RETURNING id, owner_id;`
+          , [owner_id, date, start_time, end_time, title, address, city, province,  
+          max_participants, skill_level, gender_restriction, referee, additional_info, location]
+        ) 
       })
-      .then((data) => {
+      .then(({rows}) => {
         //When it saved
-        res.send('Successfully Created')
+        const eventId = rows[0].id;
+        const ownerId = rows[0].owner_id;
+        const {my_team, my_position} = req.body;
+
+        db.query(`
+        INSERT INTO teams (event_id, user_id, team_number, position) 
+        VALUES
+        ($1, $2, $3, $4);
+        `,
+        [eventId, ownerId, my_team, my_position]);
       })
+      .then(() => {
+        res.send('Event created and owner inserted into teams successfully');
+      }
+      )
       //When it fails
       .catch((err) => {
         console.log(err)
@@ -48,7 +59,7 @@ module.exports = db => {
   })
 
   router.delete("/owners/events/:id/delete", (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
     db.query(` 
     DELETE FROM events 
     WHERE id=$1`
@@ -60,9 +71,11 @@ module.exports = db => {
   })
 
   router.put("/owners/events/:id/edit", (req, res) => {
+    const id = req.params.id;
+    
     const { owner_id, date, start_time, end_time, title,
       address, city, province, current_participants, max_participants, skill_level,
-      gender_restriction, referee, additional_info, event_id } = req.body
+      gender_restriction, referee, additional_info } = req.body
 
     let location
     //Formatting variables for api request
@@ -81,14 +94,14 @@ module.exports = db => {
         //Making a new event
         return db.query(` 
           UPDATE events SET owner_id = $1, date = $2 , start_time = $3, end_time = $4, title = $5,
-          address = $6, city = $7, province = $8, current_participants = $9, max_participants = $10, skill_level = $11, 
-          gender_restriction = $12, referee = $13, additional_info = $14, location = $15 
+          address = $6, city = $7, province = $8, max_participants = $9, skill_level = $10, 
+          gender_restriction = $11, referee = $12, additional_info = $13, location = $14
           
-          WHERE id = $16 AND owner_id = $1
+          WHERE id = $15
 
           RETURNING * `
-          , [owner_id, date, start_time, end_time, title, address, city, province, current_participants,
-            max_participants, skill_level, gender_restriction, referee, additional_info, location, event_id]
+          , [owner_id, date, start_time, end_time, title, address, city, province,
+            max_participants, skill_level, gender_restriction, referee, additional_info, location, id]
         )
       })
       .then((data) => {
