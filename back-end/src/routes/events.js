@@ -86,76 +86,6 @@ module.exports = db => {
     .catch(err => console.log(err));
   })
 
-  // PUT: User to join event or update info (e.g change team and position)
-
-  router.post("/events/:event_id", (req, res) => {
-    
-    const eventId = req.params.event_id;
-    // const eventId = 100;/
-    // need the user id from cookie
-    // const userId = req.session.user_id;
-
-    // Temp user ID for testing
-    const userId = 20;
-    
-    // set an object named data from server
-    const { teamNumber, position } = req.body;
-    
-    db.query(
-      `
-      INSERT INTO teams (event_id, user_id, team_number, position)
-      VALUES ($1, $2, $3, $4)
-      ;
-    `,
-     [eventId, userId, Number(teamNumber), position])
-     .then(() => res.json({status: "post okay"}))
-     .catch(error => console.log(error));
-
-    });
-
-    // PUT: user update settings
-    router.put("/events/:event_id", (req, res) => {
-    
-      const eventId = req.params.event_id;
-      // const eventId = 100;/
-      // need the user id from cookie
-      // const userId = req.session.user_id;
-      
-      // Temp user ID for testing
-      const userId = 20;
-      
-      // set an object named data from server
-      const { teamNumber, position } = req.body;
-      
-      db.query(
-        `
-        UPDATE teams SET team_number = $3, position = $4
-        WHERE event_id = $1 AND user_id = $2;
-      `,
-       [eventId, userId, Number(teamNumber), position])
-       .then(() => res.json({status: "put okay"}))
-       .catch(error => console.log(error));
-  
-      });
-
-  // DELETE: User to leave event
-  router.delete("/events/:event_id", (req, res) => {
-    
-    const eventId = req.params.event_id;
-    // need the user id from cookie
-    const userId = req.params.user_id;
-    
-    db.query(
-      `
-      DELETE FROM teams
-      WHERE event_id = $1 AND user_id = $2;
-    `,
-     [eventId, userId])
-     .then(() => res.status(204).json({status: 'delete okay'}))
-     .catch(error => console.log(error));
-     
-    });
-
   //Add a comment to an event page 
   router.post("/events/:event_id/comments", (req, res) => {
     const eventId = req.params.event_id 
@@ -177,7 +107,7 @@ module.exports = db => {
     console.log("GET /events/users/:user_id");
 
     db.query(`
-      SELECT *, u.first_name, u.last_name FROM events AS e
+      SELECT e.*, u.first_name, u.last_name FROM events AS e
       JOIN users AS u ON u.id = e.owner_id
       JOIN teams AS t ON e.id = t.event_id
       WHERE t.user_id = $1
