@@ -5,18 +5,18 @@ import { useHistory, Redirect } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 
 
-export default function EventForm ({newEvent, setnewEvent, onSubmitFunction, onCancel}) {
-  
+export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
+  console.log("here",newEvent)
+ 
   // if(created === true) {
   //   return <Redirect to="/events"/>
   // }
-  
  
   return (
     <div className="newEvent">
       <Form onSubmit={event => {
                             event.preventDefault();
-                            onSubmitFunction()
+                            newEventfunction()
         }}>
         <Form.Group size="lg" controlId="dob">
         <Form.Control
@@ -139,8 +139,8 @@ export default function EventForm ({newEvent, setnewEvent, onSubmitFunction, onC
         />
         </Form.Group>
 
-        <Button block size="lg" type="submit" > Save </Button> 
-        <Button block size="lg" onClick={onCancel} > Cancel </Button>
+        <Button block size="lg" type="submit" onClick={() => console.log("hello")} > Save </Button> 
+        <Button block size="lg" onClick={cancel} > Cancel </Button>
      </Form>
     
     </div>

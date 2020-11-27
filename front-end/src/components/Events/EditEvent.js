@@ -11,23 +11,25 @@ export default function EditEvent (props) {
   // console.log(props)
    useEffect(() => {
      axios.get(`http://localhost:8001/api/events/${props.eventId}`).then((res) => {
-       console.log(res)
-      setnewEvent(res.data)
-      console.log(res.data)
+
+      setnewEvent(res.data[0])
+      console.log(res.data[0])
     })
   },[])
+  const history = useHistory();
 
-  function editEvent (edittedEvent) {
-    axios.post(`http://localhost:8001/api/owners/events/${props.eventId}`, edittedEvent ).then((res) =>
-    console.log(res) )
+  const cancel = () => { 
+    setnewEvent("");
+    history.push('/events');
   }
-
+  // if(created === true) {
+  //   return <Redirect to="/events"/>
+  // }
   return (
    <EventForm newEvent={newEvent}
-   setnewEvent={setnewEvent}/>
+              setnewEvent={setnewEvent}
+              />
   );
   
 }
-//fix initial fetch
-//use event form for create
-//save 
+

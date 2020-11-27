@@ -21,36 +21,36 @@ export default function EventsIndex(props) {
   const [distanceFlag, setDistanceFlag] = useState(false);
   const [distanceArr, setDistanceArr] = useState([])
 
-  // const distanceApi = (coords, locations) => {
-  //   //Distance Matrix API
-  //   const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  //   let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=`
-  //   locations.map((location, index) => {
-  //     if (index === 0) {
-  //       URL += `${location.x}%2C${location.y}`
-  //     } else {
-  //       URL += `%7C${location.x}%2C${location.y}`
-  //     }
-  //   })
-  //   URL += `&key=${process.env.REACT_APP_geocodeKey}`
-  //   const myInit = {
-  //     method: 'GET',
-  //     mode: 'no-cors',
-  //   }
-  //   //Using proxy for this fetch
-  //   fetch(proxyurl + URL)
-  //     .then(response => response.text())
-  //     .then(data => {
-  //       return data ? JSON.parse(data) : {}
-  //     })
-  //     .then(data => {
-  //       const tempDistanceArr = data.rows[0].elements.map((event) => {
-  //         return event.duration.text
-  //       })
-  //       setDistanceFlag(true)
-  //       setDistanceArr(tempDistanceArr)
-  //     })
-  // }
+  const distanceApi = (coords, locations) => {
+    //Distance Matrix API
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=`
+    locations.map((location, index) => {
+      if (index === 0) {
+        URL += `${location.x}%2C${location.y}`
+      } else {
+        URL += `%7C${location.x}%2C${location.y}`
+      }
+    })
+    URL += `&key=${process.env.REACT_APP_geocodeKey}`
+    const myInit = {
+      method: 'GET',
+      mode: 'no-cors',
+    }
+    //Using proxy for this fetch
+    fetch(proxyurl + URL)
+      .then(response => response.text())
+      .then(data => {
+        return data ? JSON.parse(data) : {}
+      })
+      .then(data => {
+        const tempDistanceArr = data.rows[0].elements.map((event) => {
+          return event.duration.text
+        })
+        setDistanceFlag(true)
+        setDistanceArr(tempDistanceArr)
+      })
+  }
   useEffect(() => {
     const first = axios.get('http://localhost:8001/api/events')
     const second = axios.get('http://localhost:8001/api/events/past')
@@ -92,22 +92,22 @@ export default function EventsIndex(props) {
       }
 
   //     //Request users position
-      // navigator.geolocation.getCurrentPosition(async success => {
-      //   const pos = [
-      //     success.coords.latitude,
-      //     success.coords.longitude
-      //   ];
-      //   if (locations) {
-      //     //Set user position
-      //     setPosition(pos)
-      //     if (pos && selectedEvents.length !== 0) {
-      //       //Get distance from user to event
-      //       distanceApi(pos, locations)
-      //     }
-      //   }
-      // })categoryFilter, isUpcoming, isAllEvents
+      navigator.geolocation.getCurrentPosition(async success => {
+        const pos = [
+          success.coords.latitude,
+          success.coords.longitude
+        ];
+        if (locations) {
+          //Set user position
+          setPosition(pos)
+          if (pos && selectedEvents.length !== 0) {
+            //Get distance from user to event
+            distanceApi(pos, locations)
+          }
+        }
+      })
     })
-  }, [])
+  }, [categoryFilter, isUpcoming, isAllEvents])
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
