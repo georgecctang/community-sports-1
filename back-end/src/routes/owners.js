@@ -1,17 +1,17 @@
-const router = require("express").Router(); 
-const axios = require("axios") 
+const router = require("express").Router();
+const axios = require("axios")
 require('dotenv').config()
 
-module.exports = db => {  
+module.exports = db => {
   router.post("/owners/events/new", (req, res) => {
     const {owner_id , date, start_time, end_time, title,
       address, city, province, max_participants, skill_level, 
       gender_restriction, referee, additional_info} = req.body  
 
-      let location 
-      //Formatting variables for api request
-      const geocodeAddress = address.replace(/\s/g, '+') 
-      const geocodeCity = city.replace(/\s/g, '+') 
+    let location
+    //Formatting variables for api request
+    const geocodeAddress = address.replace(/\s/g, '+')
+    const geocodeCity = city.replace(/\s/g, '+')
 
       //Retriving lat and long from google api
       return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
@@ -56,19 +56,64 @@ module.exports = db => {
         console.log(err)
         res.send('Error')
       })
-  }) 
+  })
 
   router.delete("/owners/events/:id/delete", (req, res) => {
-    const id = req.params.id 
+    const id = req.params.id;
     db.query(` 
     DELETE FROM events 
-    WHERE id=$1` 
-    , [id]
-    ) .then(() => {
+    WHERE id=$1`
+      , [id]
+    ).then(() => {
       //When it is Deleted
       res.send('Successfully Deleted')
-    }) 
-  }) 
+    })
+  })
+
+  router.put("/owners/events/:id/edit", (req, res) => {
+    const id = req.params.id;
+    
+    const { owner_id, date, start_time, end_time, title,
+      address, city, province, current_participants, max_participants, skill_level,
+      gender_restriction, referee, additional_info } = req.body
+
+    let location
+    //Formatting variables for api request
+    const geocodeAddress = address.replace(/\s/g, '+')
+    const geocodeCity = city.replace(/\s/g, '+')
+
+    //Retriving lat and long from google api
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${geocodeAddress},+${geocodeCity},+CA&key=${process.env.geocodeKey}`)
+      .then((res) => {
+        const lat = res.data.results[0].geometry.location.lat
+        const long = res.data.results[0].geometry.location.lng
+        //Creating (x,y) format needed for psql point data type in psql
+        location = `(${lat}, ${long})`
+      })
+      .then(() => {
+        //Making a new event
+        return db.query(` 
+          UPDATE events SET owner_id = $1, date = $2 , start_time = $3, end_time = $4, title = $5,
+          address = $6, city = $7, province = $8, max_participants = $9, skill_level = $10, 
+          gender_restriction = $11, referee = $12, additional_info = $13, location = $14
+          
+          WHERE id = $15
+
+          RETURNING * `
+          , [owner_id, date, start_time, end_time, title, address, city, province,
+            max_participants, skill_level, gender_restriction, referee, additional_info, location, id]
+        )
+      })
+      .then((data) => {
+        //When it saved
+        res.send(data)
+      })
+      //When it fails
+      .catch((err) => {
+        console.log(err)
+        res.send('Error')
+      })
+  })
 
   return router
 }
