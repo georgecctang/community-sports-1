@@ -12,9 +12,6 @@ export default function EventsIndex(props) {
   const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
 
-  console.log('props.currentUser', props.currentUser);
-  // const [state, setState] = useState({users : [], events: []})
-  // const [filter, setFilter] = useState({}); 
 
   const [allUpcomingEvents, setAllUpcomingEvents] = useState([{}]);
   const [allPastEvents, setAllPastEvents] = useState([{}]);
@@ -68,15 +65,34 @@ export default function EventsIndex(props) {
       third,
       fourth
     ]).then(all => {
-      console.log('all', all)
       setAllUpcomingEvents(prev => all[0].data);
       setAllPastEvents(prev => all[1].data);
       setMyUpcomingEvents(prev => all[2].data);
       setMyPastEvents(prev => all[3].data);
       const locations = []
-      all[0].data.map((event) => {
-        locations.push(event.location)
-      })
+
+      let selectedEvents
+      //Filtering List of events to send to distance matrix api 
+      if (isAllEvents === 'All Events') {
+        if (isUpcoming === 'Upcoming') {
+          selectedEvents = filterEvents(all[0].data, categoryFilter)
+        } else {
+          selectedEvents = filterEvents(all[1].data, categoryFilter)
+        }
+      } else {
+        if (isUpcoming === 'Upcoming') {
+          selectedEvents = filterEvents(all[2].data, categoryFilter)
+        } else {
+          selectedEvents = filterEvents(all[3].data, categoryFilter)
+        }
+      }
+
+      //If Events match criteria push coords to arr
+      if (selectedEvents.length !== 0) {
+        selectedEvents.map((event) => {
+          locations.push(event.location)
+        })
+      }
 
       //Request users position
       navigator.geolocation.getCurrentPosition(async success => {
@@ -84,18 +100,17 @@ export default function EventsIndex(props) {
           success.coords.latitude,
           success.coords.longitude
         ];
-        console.log('pos', pos)
         if (locations) {
           //Set user position
           setPosition(pos)
-          if (pos) {
+          if (pos && selectedEvents.length !== 0) {
             //Get distance from user to event
             distanceApi(pos, locations)
           }
         }
       })
     })
-  }, [])
+  }, [categoryFilter, isUpcoming, isAllEvents])
 
 
   function logout_validation() {
@@ -103,7 +118,6 @@ export default function EventsIndex(props) {
   };
 
 
-  // console.log('in event', props.currentUser)
   if (isLogout) {
     return <Redirect to="/" />
   };
@@ -120,14 +134,10 @@ export default function EventsIndex(props) {
 
   // Create an object that 
   const makeEventsByDateObj = (events) => {
-    console.log('events', events)
     let dates = [...new Set(events.map(event => event.date).sort())];
-    console.log('dates', dates)
     const eventsByDate = {};
     for (let date of dates) {
-      //console.log('date 126', typeof date)
       const dateFormatted = date //date.slice(0, 10) //Removing time from date string
-      console.log('formatted', dateFormatted)
       //eventsByDate[dateFormatted] = events.filter(item => item.dateFormatted === dateFormatted)
       eventsByDate[date] = events.filter(item => item.date === date)
     }
@@ -143,23 +153,15 @@ export default function EventsIndex(props) {
     subsetEvents = isUpcoming === "Upcoming" ? myUpcomingEvents : myPastEvents;
   }
 
-  console.log('subsetEvents', subsetEvents)
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
-  console.log('filterEvents', filteredEvents)
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-  console.log('eventByDate', eventsByDate)
   // 
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
-    console.log('date 148', date)
-    console.log('eventsByDate', eventsByDate)
-    console.log('distanceArr', distanceArr)
     return (
       <div key={date}>
         <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
         {
           eventsByDate[date].map(event => {
-            console.log('event', event)
-            console.log('INDEX', index)
             return (
               <div className="events">
                 <Card >
@@ -167,7 +169,7 @@ export default function EventsIndex(props) {
                   <Card.Link href={`/events/${event.id}`}>
                     <div id="card-top">
                       <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
-                      {distanceFlag && <Card.Header > { distanceFlag && distanceArr[index]} away </Card.Header>}
+                      {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
                       <Card.Header>{event.first_name} {event.last_name}</Card.Header>
                     </div>
                     <Card.Body >
@@ -233,15 +235,3 @@ export default function EventsIndex(props) {
     </>
   )
 }
-
-
-// useEffect(() => {
-//   const first = axios.get('http://localhost:8001/api/events')
-//   const second = axios.get('http://localhost:8001/api/checkdb/users')
-//   Promise.all([
-//     first,
-//     second
-//   ]).then(all => {
-//      return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
-//   })
-// },[])
