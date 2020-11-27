@@ -25,7 +25,6 @@ CREATE TABLE events (
   address VARCHAR(255) NOT NULL, 
   city VARCHAR(255) NOT NULL, 
   province VARCHAR(32) NOT NULL, 
-  current_participants INTEGER NOT NULL, 
   max_participants INTEGER, 
   skill_level VARCHAR(255) NOT NULL, 
   gender_restriction VARCHAR(255) NOT NULL, 

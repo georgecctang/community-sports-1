@@ -26,14 +26,14 @@ VALUES
 (1, 1, 1, 'Goalie' ), 
 
 (2, 2, 1, 'Striker' ), 
-(2, 22, 2, 'Midfielder' ),
+(2, 22, 2, 'Midfielder' );
 
-(4, 1, 1, 'Midfielder' ),
-(5, 1, 1, 'Midfielder' ),
-(6, 1, 1, 'Midfielder' ),
-(7, 1, 1, 'Midfielder' ),
-(9, 1, 1, 'Midfielder' ),
-(11, 1, 1, 'Midfielder' );
+-- (4, 1, 1, 'Midfielder' ),
+-- (5, 1, 1, 'Midfielder' ),
+-- (6, 1, 1, 'Midfielder' ),
+-- (7, 1, 1, 'Midfielder' ),
+-- (9, 1, 1, 'Midfielder' ),
+-- (11, 1, 1, 'Midfielder' );
 
 
 -- Goalie 1-1, Defender 4-4, Midfielder 4-4, Striker 2-2
