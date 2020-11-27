@@ -4,7 +4,7 @@ import '../Events/Events.scss'
 import { Form } from 'react-bootstrap';
 
 // Props to change filter state
-export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAllEvents}) {
+export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAllEvents, setCity}) {
   
   const handleEventChange = (value) => {
     setIsAllEvents(value);
@@ -15,6 +15,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
   } 
 
   const handleCategoryChange = (category, value) => {
+    console.log(category)
     setCategoryFilter(prev => ({...prev, [category]: value}));
   } 
 
@@ -67,41 +68,16 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
         </Form.Group>
       </div>
      
+      <div onChange={(e) => handleCategoryChange('city', e.target.value)} >
+      <Form.Group controlId="driving-time">
+        <Form.Label>City</Form.Label>
+          <Form.Control as="select" size="sm" className="select-button">
+            <option type="radio" value="Toronto" name="driving_time" label="Toronto" defaultChecked>1</option>
+            <option type="radio" value="Ottawa" name="" label="Ottawa">2</option>
+            <option type="radio" value="Niagara Falls" name="" label="Niagara Falls">3</option>
+          </Form.Control>
+        </Form.Group>
+      </div>
+
     </Form>)
 };
-
-// // Fake data for testing
-// const data = [
-//   {id: 1, gender_restriction: 'Male Only', skill_level:"Intermediate", date: '2020-11-25'},
-//   {id: 2, gender_restriction: 'Female Only', skill_level:"Beginner", date: '2020-11-25'},
-//   {id: 3, gender_restriction: 'Other Only', skill_level:"Open", date: '2020-12-03'},
-//   {id: 4, gender_restriction: 'Female Only', skill_level:"Open", date: '2020-11-25'},
-//   {id: 5, gender_restriction: 'None', skill_level:"Open", date: '2020-11-25'},
-//   {id: 6, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-11-25'},
-//   {id: 7, gender_restriction: 'None', skill_level:"Intermediate", date: '2020-12-03'},
-//   {id: 8, gender_restriction: 'Female Only', skill_level:"Advanced", date: '2020-11-25'},
-//   {id: 9, gender_restriction: 'Other Only', skill_level:"Intermediate", date: '2020-11-25'},
-//   {id: 10, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-12-03'},
-//   {id: 11, gender_restriction: 'None', skill_level:"Advanced", date: '2020-11-25'},
-//   {id: 12, gender_restriction: 'Female Only', skill_level:"Beginner", date: '2020-12-03'},
-//   {id: 13, gender_restriction: 'None', skill_level:"Intermediate", date: '2020-11-25'},
-//   {id: 14, gender_restriction: 'Male Only', skill_level:"Beginner", date: '2020-12-03'},
-//   {id: 15, gender_restriction: 'Male Only', skill_level:"Intermediate", date: '2020-11-25'},
-// ];
-
- {/* <div onChange={(e) => handleChange('gender_restriction', e.target.value)} >
-        <Form.Label>Gender Restriction</Form.Label>
-        <Form.Check type="radio" value="" name="gender_restriction" label="(Show All)" defaultChecked />
-        <Form.Check type="radio" value="Male Only" name="gender_restriction" label="Male Only" /> 
-        <Form.Check type="radio" value="Female Only" name="gender_restriction" label="Female Only" /> 
-        <Form.Check type="radio" value="Other Only" name="gender_restriction" label="Other Only" /> 
-        <Form.Check type="radio" value="None" name="gender_restriction" label="None" /> 
-      </div> */}
-       {/* // <div onChange={(e) => handleChange('skill_level', e.target.value)} >
-      //   <Form.Label>Level</Form.Label>
-      //   <Form.Check type="radio" value="" name="skill_level" label="(Show All)" defaultChecked />
-      //   <Form.Check type="radio" value="Beginner" name="skill_level" label="Beginner" />
-      //   <Form.Check type="radio" value="Intermediate" name="skill_level" label="Intermediate" />
-      //   <Form.Check type="radio" value="Advanced" name="skill_level" label="Advanced" />
-      //   <Form.Check type="radio" value="Open" name="skill_level" label="Open" />
-      // </div> */}

@@ -51,7 +51,8 @@ export default function EventsIndex(props) {
           return event.duration.text
         })
         setDistanceFlag(true)
-        setDistanceArr(tempDistanceArr)
+        setDistanceArr(tempDistanceArr) 
+        return tempDistanceArr
       })
   }
   useEffect(() => {
@@ -105,7 +106,7 @@ export default function EventsIndex(props) {
           setPosition(pos)
           if (pos && selectedEvents.length !== 0) {
             //Get distance from user to event
-            distanceApi(pos, locations)
+            const check = distanceApi(pos, locations)
           }
         }
       })
@@ -229,7 +230,11 @@ export default function EventsIndex(props) {
       </Navbar>
       <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
         <div className="sidebar-sticky"></div>
-        <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents} />
+        <EventFilter 
+          setCategoryFilter={setCategoryFilter} 
+          setIsUpcoming={setIsUpcoming} 
+          setIsAllEvents={setIsAllEvents}
+          />
       </Nav>
       {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
     </>
