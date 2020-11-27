@@ -14,7 +14,7 @@ import CreateEvent from './Events/CreateEvent';
 import Navigation from './Navigation/Navigation';
 import EditEvent from './Events/EditEvent';
 import MyEventsIndex from './MyEvents/MyEventsIndex';
-import Main from './Main';
+import Main from './Main/Main';
 
 import { useState , useEffect} from 'react';
 
@@ -28,8 +28,8 @@ export default function App(props) {
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-        // return setCurrentUser(prev => ({...prev ,user : res.data}))
-        return;
+        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        //return;
         
       })
     },[islogin])
