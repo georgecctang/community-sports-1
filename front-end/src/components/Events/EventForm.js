@@ -1,36 +1,22 @@
+
 import axios from 'axios';
 import {useState} from 'react';
 import { useHistory, Redirect } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 
 
-export default function CreateEvent (props) {
-  const [newEvent, setnewEvent] = useState({})
-  const [created, setCreated ] = useState(false)
-  function newEventfunction ( newEvent)  {
-    axios.post('http://localhost:8001/api/owners/events/new', {...newEvent, owner_id: props.currentUser.id} ).then((res) => {
-      setCreated(true)
-      console.log(res.data)
-    })
-
-  }
-
-  const history = useHistory();
-
-  const cancel = () => { 
-    setnewEvent("");
-    history.push('/events');
-  }
-  if(created === true) {
-    return <Redirect to="/events"/>
-  }
- 
+export default function EventForm ({newEvent, setnewEvent, onSubmitFunction, onCancel}) {
+  
+  // if(created === true) {
+  //   return <Redirect to="/events"/>
+  // }
+  
  
   return (
     <div className="newEvent">
       <Form onSubmit={event => {
                             event.preventDefault();
-                            newEventfunction()
+                            onSubmitFunction()
         }}>
         <Form.Group size="lg" controlId="dob">
         <Form.Control
@@ -154,7 +140,7 @@ export default function CreateEvent (props) {
         </Form.Group>
 
         <Button block size="lg" type="submit" > Save </Button> 
-        <Button block size="lg" onClick={cancel} > Cancel </Button>
+        <Button block size="lg" onClick={onCancel} > Cancel </Button>
      </Form>
     
     </div>

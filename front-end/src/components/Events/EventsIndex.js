@@ -6,15 +6,11 @@ import { Button } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import './Events.scss'
+import CreateEvent from './CreateEvent';
 
 
 export default function EventsIndex (props) {
   const [isLogout, setisLogout] = useState(false)
-
-  console.log('props.currentUser', props.currentUser);
-  // const [state, setState] = useState({users : [], events: []})
-  // const [filter, setFilter] = useState({}); 
-
   const [allUpcomingEvents, setAllUpcomingEvents] = useState([{}]);
   const [allPastEvents, setAllPastEvents] = useState([{}]);
   const [myUpcomingEvents, setMyUpcomingEvents] = useState([{}]);
@@ -36,24 +32,46 @@ export default function EventsIndex (props) {
     ]).then(all => {
        setAllUpcomingEvents(prev => all[0].data);
        setAllPastEvents(prev => all[1].data);
-       console.log(all[2].data)
        setMyUpcomingEvents(prev => all[2].data);
        setMyPastEvents(prev => all[3].data);
     })
   },[])
 
-
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
 
-
- // console.log('in event', props.currentUser)
   if (isLogout) {
     return <Redirect to="/"/>
   };
+ 
+  //----------Delete the event-------------
+  function cancelEvent(event_id) {
+    return axios.delete(`http://localhost:8001/owners/events/${event_id}/delete`).then(() =>
+    { const event = {
+      ...allUpcomingEvents.events[event_id],
+      event: null
+    }
+    const events = {
+      ...allUpcomingEvents.events,
+      [event_id]: event
+    }
+      setAllUpcomingEvents({...allUpcomingEvents, events})
+  })
+  }
   
+  function edit (id){
+    console.log("here", `owner/events/edit/${id}`)
+    return <Redirect to={`owner/events/edit/${id}`}/>
+  }
 
+
+  //Check if the user is owner 
+  function checkOwner (event) {
+    if (event.owner_id === props.currentUser.id) {
+      return true
+    }
+  }
   // Function to filter event based on category
   const filterEvents = (eventsList, filter) => {
     let filteredEvents = eventsList;
@@ -73,7 +91,6 @@ export default function EventsIndex (props) {
     return eventsByDate;
   }
 
-
   let subsetEvents;
   
   if (isAllEvents === "All Events") {
@@ -84,8 +101,9 @@ export default function EventsIndex (props) {
 
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-  // 
+  
   const eventElements = Object.keys(eventsByDate).map((date) => {
+  
     return (
       <div key={date}>
       <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
@@ -96,8 +114,8 @@ export default function EventsIndex (props) {
             <Card >
               <Card.Link href={`/events/${event.id}`}>
               <div id="card-top">
-            <Card.Header > {event.start_time && event.start_time.slice(0,5)} - {event.end_time && event.end_time.slice(0,5)}</Card.Header>
-              <Card.Header>{event.first_name} {event.last_name}</Card.Header>
+                <Card.Header > {event.start_time && event.start_time.slice(0,5)} - {event.end_time && event.end_time.slice(0,5)}</Card.Header>
+                <Card.Header>{event.first_name} {event.last_name} </Card.Header>
               </div>
               <Card.Body >
                 <Card.Title>{event.title}</Card.Title>
@@ -112,8 +130,22 @@ export default function EventsIndex (props) {
                   {event.current_participants}/{event.max_participants}
                   </Card.Text>
                 </div>
-              </Card.Body>
-              </Card.Link>
+                </Card.Body>
+                </Card.Link>
+                
+               {  checkOwner(event) && 
+               <>
+               <Card.Footer className="edit-delete_buttons">
+                <Button block size="sm"  onClick= {(e) => { e.preventDefault();
+                                          console.log('here', event)
+                                          cancelEvent(event.id)}} > Delete</Button>
+
+                <Button block size="sm" onClick= {(e) => { e.preventDefault();
+                console.log('id',event.id)
+                                          edit(event.id)
+                                          }}> Edit </Button>
+                </Card.Footer>
+                </> }
             </Card>
             
             </div>
@@ -141,7 +173,7 @@ export default function EventsIndex (props) {
         </NavDropdown>
       
       </Nav> 
-      {props.currentUser &&
+      {props.currentUser && 
       <Nav className="justify-content-end">
           {/* <Nav.Link href="/profile">My Profile */}
           <span>{props.currentUser.first_name} {props.currentUser.last_name}</span>
@@ -159,15 +191,3 @@ export default function EventsIndex (props) {
   </>
   )
 }
-
-
-// useEffect(() => {
-//   const first = axios.get('http://localhost:8001/api/events')
-//   const second = axios.get('http://localhost:8001/api/checkdb/users')
-//   Promise.all([
-//     first,
-//     second
-//   ]).then(all => {
-//      return setState(prev => ({...prev, events : all[0].data, users: all[1].data}))
-//   })
-// },[])

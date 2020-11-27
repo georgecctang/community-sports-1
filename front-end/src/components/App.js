@@ -8,10 +8,11 @@ import {
 import Login from './Login/LoginForm'
 import EventId from './EventId/eventId'
 import Register from './Register/RegisterForm'
-// import ProfileForm from './Profile/ProfileForm'
+import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
 import CreateEvent from './Events/CreateEvent';
-import Navigation from './Navigation/Navigation'
+import Navigation from './Navigation/Navigation';
+import EditEvent from './Events/EditEvent';
 import MyEventsIndex from './MyEvents/MyEventsIndex';
 import Main from './Main';
 
@@ -41,7 +42,12 @@ export default function App(props) {
         <Route exact path='/'>
             <Main />
           </Route>
+          <Route exact path='/owners/events/edit/:eventId' render= {(props) => <EditEvent 
+          eventId={props.match.params.eventId}
+          currentUser = {currentUser}
+          />} >
 
+          </Route>
           <Route path='/login'>
             <Login 
             islogin ={islogin}
@@ -51,10 +57,10 @@ export default function App(props) {
           <Route path='/register'>
             <Register />
           </Route> 
-          {/* <Route exact path='/profile'>
+          <Route exact path='/profile'>
             <ProfileForm  currentUser = {currentUser}
             /> 
-          </Route>  */}
+          </Route> 
 
           <Route path='/navigation'>
             <Navigation
@@ -65,15 +71,16 @@ export default function App(props) {
           <EventsIndex  
            currentUser = {currentUser}/> 
           </Route>
-
+          
           <Route exact path='/owners/events/new' >
             <CreateEvent currentUser = {currentUser}/>
           </Route>
           <Route exact path='/events/:eventId' > 
             <EventId currentUser = {currentUser}/>
+            </Route>
+            <Route>
            <EventsIndex  
             currentUser = {currentUser}/> 
-
           </Route>
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
