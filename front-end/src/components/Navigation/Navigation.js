@@ -9,7 +9,7 @@ import ActionAlerts from './MuiAlert'
 export default function Navigation(props) {
   const [show, setShow] = useState(false)
   const [confirm, setConfirm] = useState(false)
-  const eventId = props.eventId.id
+  const eventId = props.eventId
   //Blue is Team 1 Red is Team 2
   let teamId
   if (props.team === 'Blue') {
@@ -23,6 +23,7 @@ export default function Navigation(props) {
   }
 
   function counter(position) { //--> maybe we need current user name ?
+    console.log('HELOOO-------------------',eventId)
     axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, id: props.user.id })
   }
   for (const positionGroup in props.team1) {

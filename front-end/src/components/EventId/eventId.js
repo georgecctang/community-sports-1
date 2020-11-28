@@ -23,7 +23,7 @@ export default function EventId(props) {
   const [distance, setDistance] = useState({})
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
-  const eventId = { id: props.eventId }
+  const eventId = props.eventId 
   console.log('eventid', eventId)
 
   const distanceApi = (coords, location) => {
