@@ -122,6 +122,7 @@ export default function EventsIndex(props) {
  
   //----------Delete the event-------------
   function cancelEvent(event_id) {
+    console.log('delete', `http://localhost:8001/api/owners/events/${event_id}/delete`)
     return axios.delete(`http://localhost:8001/api/owners/events/${event_id}/delete`).then(() =>
     { const event = {
       ...allUpcomingEvents.events[event_id],
@@ -137,7 +138,7 @@ export default function EventsIndex(props) {
   
   //should redirect the edit form
   function edit(id) {
-    return <Link to={`owner/events/edit/${id}`}/>
+    return <Redirect to={`owner/events/${id}/edit`}/>
   }
 
   //Check if the user is owner 
@@ -213,14 +214,13 @@ export default function EventsIndex(props) {
                 {checkOwner(event) && 
                 <>
                 <Card.Footer className="edit-delete_buttons">
-                  <Button block size="sm"  onClick= {(e) => { e.preventDefault();
-                                          console.log('here', event)
-                                          cancelEvent(event.id)}} > Delete</Button>
-
-                  <Button block size="sm" onClick= {(e) => { e.preventDefault();
-                                              console.log('id',event.id)
-                                            edit(event.id)
-                                          }}> Edit </Button>
+                <Link to='path' > 
+                  <Button block size="sm"> Delete</Button>
+                </Link> 
+                  {/* <Link to=`owner/events/edit/${id}` >  */}
+                    <Button block size="sm" onClick={(e) =>{ e.preventDefault()
+                       edit(event.id)}}> Edit </Button>
+                 {/* </Link>  */}
                 </Card.Footer>
                 </> }
             </Card>
@@ -277,3 +277,4 @@ export default function EventsIndex(props) {
     </>
     )
 }
+//cancelEvent(event.id)}

@@ -19,13 +19,13 @@ export default function CreateEvent (props) {
   const history = useHistory();
 
   const cancel = () => { 
-    setnewEvent("");
+    // setnewEvent("");
     history.push('/events');
   }
   if(created === true) {
     return <Redirect to="/events"/>
   }
- 
+ console.log('in create', newEvent)
   return (
     <EventForm newEvent={newEvent}
               setnewEvent={setnewEvent}

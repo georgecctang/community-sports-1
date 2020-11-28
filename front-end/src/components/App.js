@@ -63,8 +63,8 @@ export default function App(props) {
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
           <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId}/>} /> 
-          
-          <Route exact path='/owners/events/edit/:eventId' render= {(props) => <EditEvent 
+
+          <Route exact path='/owners/events/:eventId/edit' render= {(props) => <EditEvent 
           eventId={props.match.params.eventId}
           currentUser = {currentUser}
           />} />
