@@ -1,3 +1,11 @@
+
+  .alert-hide  {
+    display: none;
+  }
+  .alert-show {
+    display: inline;
+  }
+
 //For smaller screen
 @media only screen and (max-width: 997px) { 
   #position-goalie {

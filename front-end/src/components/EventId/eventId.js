@@ -4,6 +4,8 @@ import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
 import './eventId.scss';
 import soccerIcon from './soccerIcon.png'
+import Navigation from '../Navigation/Navigation'
+import CommentBox from './CommentBox'
 require('dotenv').config()
 
 
@@ -19,13 +21,12 @@ export default function EventId(props) {
   const [team2, setTeam2] = useState({ goalies: [], strikers: [], midfielders: [], defenders: [] })
   const [comments, setComments] = useState([{}])
   const [distance, setDistance] = useState({})
-  const eventId = { id: props.eventId }
+  const [comment, setComment] = useState()
+  const [userJoined, setUserJoined] = useState(false)
+  const eventId = props.eventId 
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
-    console.log("Line 99")
-    console.log('My location', coords[0], coords[1])
-    console.log('event location', event.location)
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=${location.x}%2C${location.y}&key=${process.env.REACT_APP_geocodeKey}`
     const myInit = {
@@ -38,38 +39,34 @@ export default function EventId(props) {
         return data ? JSON.parse(data) : {}
       })
       .then(data => {
-        console.log('data', data.rows[0].elements[0].distance)
         setDistance({ ...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text })
       })
   }
 
   const eventData = () => {
     //URLS to query
-    console.log(props.eventId)
     const eventInfo = `http://localhost:8001/api/events/${props.eventId}`
     const team = `http://localhost:8001/api/events/${props.eventId}/teams`
     const comment = `http://localhost:8001/api/events/${props.eventId}/comments`
     //Request to plug in to axios.all
     const eventRequest = axios.get(eventInfo)
-    const teamRequest = axios.get(team, eventId)
-    const commentRequest = axios.get(comment, eventId)
+    const teamRequest = axios.get(team)
+    const commentRequest = axios.get(comment)
     //Making all 3 requests
     Promise.all([eventRequest, teamRequest, commentRequest])
       .then((responses) => {
         //Request data
         const eventData = responses[0]
-        console.log('eventData', eventData)
         const teamData = responses[1]
         const commentData = responses[2]
 
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
-          province, referee, skill_level, title } = eventData.data[0]
-        console.log('This is location of event', location)
+          province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
         //Adding data to the setstate
         setEvent(prev => ({
           ...prev, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
-          province, referee, skill_level, title
+          province, referee, skill_level, title, first_name, last_name
         }))
 
         //Sorting players by team
@@ -81,7 +78,6 @@ export default function EventId(props) {
         const strikers2 = []
         const defenders1 = []
         const defenders2 = []
-        console.log('Line 53')
         for (const player of teamData.data) {
           if (player.team_number === 1) {
             if (player.position === 'Goalie') {
@@ -115,7 +111,6 @@ export default function EventId(props) {
         setTeam1(prev => ({ ...prev, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }))
         setTeam2(prev => ({ ...prev, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }))
 
-        console.log('Line 87')
         //Formatting Comments
         const commentFormatted = commentData.data.map((comment, index) => ({
           ...comment,
@@ -129,7 +124,6 @@ export default function EventId(props) {
             success.coords.latitude,
             success.coords.longitude
           ];
-          console.log('pos', pos)
           if (location) {
             //Set user position
             setPosition(pos)
@@ -146,12 +140,13 @@ export default function EventId(props) {
 
   useEffect(() => {
     eventData()
-  }, [])
+    console.log(comments)
+  }, [setComments])
 
   return (
     <section>
       <h1> {event.title} </h1>
-      <h3> Hosted By: </h3>
+      <h3> Hosted By: {event.first_name} {event.last_name}</h3>
       <div className='midpage'>
         <div className='additional-info'>
           <p> {event.additional_info} </p>
@@ -167,10 +162,11 @@ export default function EventId(props) {
         <h5> {event.current_participants}/{event.max_participants} <img src={soccerIcon} /></h5>
         <h5> {event.start_time}-{event.end_time}</h5>
         <h5> {event.address}, {event.city}</h5>
-        <h5> From Your Location: {distance.distance} | {distance.time}</h5>
-
+        {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
+        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
+        {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
       </aside>
       <div className='game-container'>
         <div className='team1-container'>
@@ -228,6 +224,7 @@ export default function EventId(props) {
         </div>
       </div>
       <div className='comments-container'>
+        <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
         {comments.map(comment => (
           <div className='comment'>
             <h1> {comment.fullName} </h1>
