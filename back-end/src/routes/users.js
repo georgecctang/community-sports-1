@@ -6,18 +6,17 @@ module.exports = db => {
   
   // PUT: User to join event or update info (e.g change team and position) 
 
-  router.post("/user/events/:event_id/create", (req, res) => {
+  router.post("/users/events/:event_id/create", (req, res) => {
     
     const eventId = req.params.event_id;
     // const eventId = 100;/
     // need the user id from cookie
     // const userId = req.session.user_id;
 
-    // Temp user ID for testing
-    const userId = 20;
+
     
     // set an object named data from server
-    const { teamNumber, position } = req.body;
+    const { teamNumber, position, userId } = req.body;
     
     db.query(
       `
