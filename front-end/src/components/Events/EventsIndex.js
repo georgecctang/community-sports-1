@@ -212,9 +212,9 @@ export default function EventsIndex(props) {
                 {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
                   <Button block size="sm" > Delete </Button>
                {/* </Card.Link> */}
-                {/* <Card.Link href={ `owners/events/${event.id}/edit` } >  */}
+                <Card.Link href={ `owners/events/${event.id}/edit` } > 
                     <Button block size="sm"> Edit </Button>
-                {/* </Card.Link>  */}
+                </Card.Link> 
                 </Card.Footer>
                 </> }
             </Card>

@@ -1,4 +1,4 @@
-
+import { useHistory, Redirect } from "react-router-dom";
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import EventForm from './EventForm'
@@ -15,17 +15,18 @@ export default function EditEvent (props) {
 
   function editEvent() {
   axios.put(`http://localhost:8001/api/owners/events/${props.eventId}/edit`,{...newEvent, owner_id: props.currentUser.id}).then((res) => {
+    console.log('edit')
     setnewEdited(true)
     })
   }
-  // const history = useHistory();
-  // const cancel = () => { 
-  //   // setnewEvent("");
-  //   history.push('/events');
-  // }
-  // if(edited === true) {
-  //   return <Redirect to="/events"/>
-  // }
+  const history = useHistory();
+  const cancel = () => { 
+    // setnewEvent("");
+    history.push('/events');
+  }
+  if(edited === true) {
+    return <Redirect to="/events"/>
+  }
   return (
    <EventForm newEvent={newEvent}
               setnewEvent={setnewEvent}

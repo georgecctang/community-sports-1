@@ -1,9 +1,5 @@
-
-import axios from 'axios';
-import {useState} from 'react';
-import { Link } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
-
+import {  Link } from "react-router-dom";
 
 export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
 //  console.log('newEvent', newEvent)
@@ -17,7 +13,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         <Form.Control
           type="date"
           name="dob"
-          value={newEvent.date}
+          value={newEvent.date && newEvent.date.slice(0,10)}
           onChange={(event) => {
                             
                             setnewEvent({...newEvent, date: event.target.value }) } }
@@ -104,7 +100,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             onChange={(event) => {
                                 setnewEvent({...newEvent, skill_level: event.target.value })}}
 
-          > <option> Level... </option>
+          > 
             <option> Beginner </option>
             <option> Intermediate </option>
             <option> Advanced </option>
@@ -118,10 +114,11 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.gender_restriction}
             placeholder="Gender"
             onChange={(event) => setnewEvent({...newEvent, gender_restriction: event.target.value })}
-          > <option> Gender...</option>
-            <option> Male</option>
-            <option> Female</option>
-            <option> Other</option>
+          > 
+            <option> Male only</option>
+            <option> Female only</option>
+            <option> Other only</option>
+            <option> None</option>
           </Form.Control>
         </Form.Group>
 
@@ -131,7 +128,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.referee}
             placeholder="Referee?"
             onChange={(event) => setnewEvent({...newEvent, referee: event.target.value })}
-          > <option> Referee...</option>
+          > 
             <option> TRUE </option>
             <option> FALSE</option>
           </Form.Control>
@@ -143,7 +140,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.team}
             placeholder="Choose your team"
             onChange={(event) => setnewEvent({...newEvent, team: event.target.value })}
-          > <option> Teams...</option>
+          > 
             <option> Team1 </option>
             <option> Team2 </option>
           </Form.Control>
@@ -155,10 +152,10 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.position}
             placeholder="Choose you position"
             onChange={(event) => setnewEvent({...newEvent, position: event.target.value })}
-          > <option> Position...</option>
+          > 
             <option> Goalie </option>
             <option> Striker </option>
-            <option> Midfield </option>
+            <option> Midfielder </option>
             <option> Defender </option>
           </Form.Control>
         </Form.Group>
@@ -174,9 +171,9 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         
           <Button block size="lg" type="submit"> Save </Button> 
        
-        {/* <Link to="/events"> */}
+        <Link to="/events">
           <Button block size="lg" onClick={cancel} > Cancel </Button>
-        {/* </Link> */}
+        </Link>
      </Form>
     
     </div>
