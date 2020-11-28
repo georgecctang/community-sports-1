@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import EventFilter from './EventFilter';
 import { Button } from 'react-bootstrap';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
+import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import './Events.scss';
 
@@ -114,28 +114,10 @@ export default function EventsIndex(props) {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
 
-
   if (isLogout) {
     return <Redirect to="/" />
   };
 
- 
-  //----------Delete the event-------------
-  // function cancelEvent(event_id) {
-  //   console.log('delete', `http://localhost:8001/api/owners/events/${event_id}/delete`)
-  //   return axios.delete(`http://localhost:8001/api/owners/events/${event_id}/delete`).then(() =>
-  //   { const event = {
-  //     ...allUpcomingEvents.events[event_id],
-  //     event: null
-  //   }
-  //   const events = {
-  //     ...allUpcomingEvents.events,
-  //     [event_id]: event
-  //   }
-  //     setAllUpcomingEvents({...allUpcomingEvents, events})
-  // })
-  // }
-  
   //Check if the user is owner 
   function checkOwner (event) {
     if (event.owner_id === props.currentUser.id) {
@@ -231,30 +213,23 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-   
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events">Sports</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <NavDropdown title="All Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title="My Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
           {props.currentUser &&
+          <Link to="owners/events/new">
+            <>
+          <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
               }}>Logout</Button>
-            </Nav>}
+            </Nav>
+            </>
+            }
         </Navbar.Collapse>
       </Navbar>
       <Nav className="col-md-12 d-none d-md-block bg-light sidebar">

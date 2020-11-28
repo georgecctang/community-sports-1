@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, NavDropdown, Button } from 'react-bootstrap/';
+import {  Nav,Navbar, Button } from 'react-bootstrap/';
+import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
-import soccerIcon from './soccerIcon.png'
+import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
 require('dotenv').config()
@@ -21,6 +22,7 @@ export default function EventId(props) {
   const [distance, setDistance] = useState({})
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
+  const [isLogout, setisLogout] = useState(false)
   const eventId = props.eventId 
 
   const distanceApi = (coords, location) => {
@@ -141,8 +143,30 @@ export default function EventId(props) {
     console.log(comments)
   }, [setComments])
 
-  
-    return (
+  //function trigered by logout button
+  function logout_validation() {
+    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
+  };
+  if (isLogout) {
+    return <Redirect to="/" />
+  };
+
+  return (
+    <>
+    <Navbar bg="light" expand="lg">
+    <Navbar.Brand href="/events">Sports</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      {props.currentUser &&
+        <Nav className="justify-content-end">
+          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+          <Button size="sm" onClick={(event) => {
+            event.preventDefault();
+            logout_validation()
+          }}>Logout</Button>
+        </Nav>}
+    </Navbar.Collapse>
+  </Navbar>
       <section>
         <h1> {event.title} </h1>
         <h3> Hosted By: {event.first_name} {event.last_name}</h3>
@@ -150,15 +174,17 @@ export default function EventId(props) {
           <div className='additional-info'>
             <p> {event.additional_info} </p>
           </div>
-          <div className='map'>
+          <div className='map-container'>
             <p> This location is {distance.distance} away</p>
             <p> It will take you {distance.time} to get there</p>
-            {event.location && (<MapContainer location={event.location} title={event.title} />)}
+            <div className="map-container_smallMap">
+            {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
           </div>
         </div>
-        <aside className='right-column'>
+        {/* <aside className='right-column'> */}
+        <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
           <h4> Event Details </h4>
-          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIcon} /></h5>
+          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon"/></h5>
           <h5> {event.start_time}-{event.end_time}</h5>
           <h5> {event.address}, {event.city}</h5>
           {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
@@ -166,7 +192,8 @@ export default function EventId(props) {
           <h5> Skill Level: {event.skill_level}</h5>
           <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
           {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
-        </aside>
+          </Nav>
+        {/* </aside> */}
         <div className='game-container'>
           <div className='team1-container'>
             <div className='position-container'>
@@ -232,6 +259,7 @@ export default function EventId(props) {
           ))}
         </div>
       </section>
+      </>
     )
 
 }
