@@ -71,7 +71,7 @@ module.exports = db => {
 
   // DELETE: User to leave event
   router.delete("/users/events/:event_id/delete", (req, res) => {
-    
+    console.log("Delete user leave event");
     const eventId = req.params.event_id;
     // need the user id from cookie
     const { id } = req.body;
@@ -84,15 +84,20 @@ module.exports = db => {
       ;
       `,
      [eventId, id])
+     .then(({rows}) => {
+       const eventId = rows[0].event_id;
+       console.log('after first query');
+      console.log('eventId', eventId);
      
      return db.query(
        `
         SELECT event_id, COUNT(*) as current_participants FROM teams 
         WHERE event_id = $1
         GROUP BY event_id;
-       `,[eventId]) 
+       `,[eventId]) })
       .then(({rows}) => {
         const { event_id, current_participants } = rows[0];
+        console.log('after 2nd query');
         db.query(`
           UPDATE events 
           SET current_participants = $1
