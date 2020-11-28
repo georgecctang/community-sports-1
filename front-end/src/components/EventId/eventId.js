@@ -53,9 +53,8 @@ export default function EventId(props) {
     const comment = `http://localhost:8001/api/events/${props.eventId}/comments`
     //Request to plug in to axios.all
     const eventRequest = axios.get(eventInfo)
-    console.log(eventRequest)
-    const teamRequest = axios.get(team, eventId)
-    const commentRequest = axios.get(comment, eventId)
+    const teamRequest = axios.get(team)
+    const commentRequest = axios.get(comment)
     //Making all 3 requests
     Promise.all([eventRequest, teamRequest, commentRequest])
       .then((responses) => {
@@ -151,6 +150,7 @@ export default function EventId(props) {
     eventData()
   }, [])
 
+  console.log('team1', team1, 'team2', team2 )  
   return (
     <section>
       <h1> {event.title} </h1>

@@ -19,24 +19,15 @@ export default function Navigation(props) {
   }
 
   const leaveEvent = () => {
-    console.log('--------------------------------------------------',eventId)
-    axios.delete(`http://localhost:8001/api/users/events/${eventId}/delete`, { id: props.user.id })
+    axios.delete(`http://localhost:8001/api/users/events/${eventId}/delete`, { data: { id: props.user.id } })
   }
 
   function counter(position) { //--> maybe we need current user name ?
-    //Get player ID to assign to position
-    axios.get('http://localhost:8001/api/cookies', { withCredentials: true })
-      .then(res => {
-        const player_id = res.data.id
-        console.log('eventid', eventId, 'playerid', player_id, 'positon selected', position, 'teamID', teamId)
-        axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, userId: player_id })
-      })
+    axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, id: props.user.id })
   }
-  console.log('TEAM JUAN', props.team1)
   for (const positionGroup in props.team1) {
     const positionPlayers = props.team1[positionGroup]
     if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
-      console.log('USER IS IN HERE')
       return (
         <button type="button" class="btn btn-danger" onClick={() => leaveEvent()}>Danger</button>
       )
@@ -44,7 +35,6 @@ export default function Navigation(props) {
     for (const positionGroup in props.team2) {
       const positionPlayers = props.team1[positionGroup]
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
-        console.log('USER IS IN HERE')
         return (
           <button type="button" class="btn btn-danger">Danger</button>
         )
