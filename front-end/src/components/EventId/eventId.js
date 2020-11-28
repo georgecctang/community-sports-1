@@ -53,6 +53,7 @@ export default function EventId(props) {
     const comment = `http://localhost:8001/api/events/${props.eventId}/comments`
     //Request to plug in to axios.all
     const eventRequest = axios.get(eventInfo)
+    console.log(eventRequest)
     const teamRequest = axios.get(team, eventId)
     const commentRequest = axios.get(comment, eventId)
     //Making all 3 requests
@@ -66,12 +67,12 @@ export default function EventId(props) {
 
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
-          province, referee, skill_level, title } = eventData.data[0]
+          province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
         console.log('This is location of event', location)
         //Adding data to the setstate
         setEvent(prev => ({
           ...prev, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
-          province, referee, skill_level, title
+          province, referee, skill_level, title, first_name, last_name
         }))
 
         //Sorting players by team
@@ -153,7 +154,7 @@ export default function EventId(props) {
   return (
     <section>
       <h1> {event.title} </h1>
-      <h3> Hosted By: </h3>
+      <h3> Hosted By: {event.first_name} {event.last_name}</h3>
       <div className='midpage'>
         <div className='additional-info'>
           <p> {event.additional_info} </p>
@@ -172,8 +173,8 @@ export default function EventId(props) {
         {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
-        <Navigation eventId={eventId} team='Blue' />
-        <Navigation eventId={eventId} team='Red' />
+        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} />
+        <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} />
       </aside>
       <div className='game-container'>
         <div className='team1-container'>
