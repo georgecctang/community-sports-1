@@ -1,3 +1,4 @@
+
 import './App.scss';
 import axios from 'axios';
 import {
@@ -28,10 +29,14 @@ export default function App(props) {
   useEffect(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
-        return setCurrentUser(prev => ({...prev ,user : res.data}))  
+        // console.log('before',islogin)
+      // console.log('aftertrue',islogin)
+        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        // return;
+        
       })
     },[islogin])
-
+console.log('after useEffect', currentUser)
   return (
     <div className="App">
       <Router>
@@ -62,7 +67,7 @@ export default function App(props) {
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
-          <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId}/>} /> 
+          <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId} user={currentUser}/>} /> 
 
           <Route exact path='/owners/events/:eventId/edit' render= {(props) => <EditEvent 
           eventId={props.match.params.eventId}
