@@ -4,15 +4,11 @@ import '../Events/Events.scss'
 import { Form } from 'react-bootstrap';
 
 // Props to change filter state
-<<<<<<< HEAD
-export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAllEvents}) {
-=======
 export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAllEvents, setCity}) {
   
   const handleEventChange = (value) => {
     setIsAllEvents(value);
   } 
->>>>>>> master
 
 
   const handleCategoryChange = (category, value) => {

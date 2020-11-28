@@ -157,14 +157,8 @@ export default function EventsIndex(props) {
 
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-<<<<<<< HEAD
-  
-  // Create card element array 
-  const eventElements = Object.keys(eventsByDate).map((date) => {
-=======
   // 
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
->>>>>>> master
     return (
       <div key={date}>
         <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
@@ -209,51 +203,12 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-<<<<<<< HEAD
-  <NavBar currentUser={props.currentUser} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents} logout_validation={logout_validation} />
+  <NavBar currentUser={props.currentUser} logout_validation={logout_validation} />
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
     <div className="sidebar-sticky"></div>
       <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents}  />
   </Nav>
     {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
   </>
-=======
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <NavDropdown title="All Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title="My Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-            </NavDropdown>
-
-          </Nav>
-          {props.currentUser &&
-            <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-              <Button size="sm" onClick={(event) => {
-                event.preventDefault();
-                logout_validation()
-              }}>Logout</Button>
-            </Nav>}
-        </Navbar.Collapse>
-      </Navbar>
-      <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky"></div>
-        <EventFilter 
-          setCategoryFilter={setCategoryFilter} 
-          setIsUpcoming={setIsUpcoming} 
-          setIsAllEvents={setIsAllEvents}
-          />
-      </Nav>
-      {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
-    </>
->>>>>>> master
   )
 }

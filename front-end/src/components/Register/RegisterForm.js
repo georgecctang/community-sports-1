@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useState} from 'react';
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 import './Register.scss'
 
@@ -28,6 +28,7 @@ export default function Register (props) {
   if (isSignup === true) {
     return <Redirect to="/profile"/>
   }
+  
   return (
     <div className="Register">
       <Form onSubmit={event => {

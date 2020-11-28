@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card'
 
 export default function MyEventsIndex (props) {
   // const {subset} = useParams();
-  console.log(props);
+  // console.log(props);
   const [events, setEvents] = useState([{}]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function MyEventsIndex (props) {
     )
   }, [])
 
-  console.log(events)  
+  // console.log(events)  
 
  return (
   <h1>hello</h1>

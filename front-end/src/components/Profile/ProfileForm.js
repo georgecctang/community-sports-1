@@ -46,7 +46,7 @@ export default function ProfileForm (props) {
         of the card's content.
       </Card.Text>
     </Card.Body>
-}
+    }
   </Card>
     </div>   
  </>

@@ -1,0 +1,140 @@
+//For smaller screen
+@media only screen and (max-width: 997px) { 
+  #position-goalie {
+    background-color: blue;
+    position: absolute;
+    top: 15em;
+    left: 4em;
+  }
+  #position-defender_1 {
+    background-color: purple;
+    position: absolute;
+    top: 9em;
+    left: 9em;
+  } 
+  #position-defender_2 {
+    background-color: green;
+    position: absolute;
+    top: 21em;
+    left: 9em;
+  } 
+  #position-defender_3 {
+    background-color: rgb(0, 113, 128);
+    position: absolute;
+    top: 5.5em;
+    left:14em;
+  } 
+  #position-defender_4 {
+    background-color: rgb(128, 68, 0);
+    position: absolute;
+    top: 24.5em;
+    left: 14em;
+  } 
+  #position-midfield_1 {
+    background-color: purple;
+    position: absolute;
+    top: 9em;
+    left: 21em;
+  } 
+  #position-midfield_2 {
+    background-color: orange;
+    position: absolute;
+    top: 21em;
+    left: 21em;
+  } 
+  #position-midfield_3 {
+    background-color: rgb(0, 255, 85);
+    position: absolute;
+    top: 5.5em;
+    left: 27.5em;
+  } 
+  #position-midfield_4 {
+    background-color: rgb(255, 0, 200);
+    position: absolute;
+    top: 24.5em;
+    left: 27.5em;
+  } 
+  #position-striker_1 {
+    background-color: purple;
+    position: absolute;
+    top: 9em;
+    left: 34.5em;
+  } 
+  #position-striker_2 {
+    background-color: orange;
+    position: absolute;
+    top: 21em;
+    left: 34.5em;
+  } 
+
+}
+
+//For bigger screen
+@media only screen and (min-width:998px) {
+  #position-goalie {
+    background-color: red;
+    position: absolute;
+    top: 18em;
+    left: 5em;
+  } 
+  #position-defender_1 {
+    background-color: purple;
+    position: absolute;
+    top: 11em;
+    left: 11.5em;
+  } 
+  #position-defender_2 {
+    background-color: orange;
+    position: absolute;
+    top: 25.5em;
+    left: 11em;
+  } 
+  #position-defender_3 {
+    background-color: rgb(0, 255, 85);
+    position: absolute;
+    top: 6.5em;
+    left: 17.5em;
+  } 
+  #position-defender_4 {
+    background-color: rgb(255, 0, 200);
+    position: absolute;
+    top: 30em;
+    left: 17em;
+  } 
+  #position-midfield_1 {
+    background-color: purple;
+    position: absolute;
+    top: 11em;
+    left: 26em;
+  } 
+  #position-midfield_2 {
+    background-color: orange;
+    position: absolute;
+    top: 25.5em;
+    left: 26em;
+  } 
+  #position-midfield_3 {
+    background-color: rgb(0, 255, 85);
+    position: absolute;
+    top: 6.5em;
+    left: 33.5em;
+  } 
+  #position-midfield_4 {
+    background-color: rgb(255, 0, 200);
+    position: absolute;
+    top: 30em;
+    left: 33.5em;
+  } 
+  #position-striker_1 {
+    background-color: purple;
+    position: absolute;
+    top: 11em;
+    left: 42em;
+  } 
+  #position-striker_2 {
+    background-color: orange;
+    position: absolute;
+    top: 25.5em;
+    left: 42em;
+  } 
+}
