@@ -165,8 +165,8 @@ export default function EventId(props) {
         {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
-        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} />
-        {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} />}
+        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
+        {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
       </aside>
       <div className='game-container'>
         <div className='team1-container'>

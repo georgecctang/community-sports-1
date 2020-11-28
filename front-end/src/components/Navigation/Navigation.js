@@ -23,8 +23,35 @@ export default function Navigation(props) {
   }
 
   function counter(position) { //--> maybe we need current user name ?
-    console.log('HELOOO-------------------',eventId)
+    console.log('HELOOO-------------------', eventId)
     axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, id: props.user.id })
+      .then(() => {
+        return axios.get(`http://localhost:8001/api/events/${eventId}/teams`)
+      })
+      .then((res) => {
+        //Sorting players by team
+        const goalies = []
+        const midfielders = []
+        const strikers = []
+        const defenders = []
+        for (const player of res.data) {
+          if (player.team_number === teamId) {
+            if (player.position === 'Goalie') {
+              goalies.push(`${player.first_name} ${player.last_name}`)
+            }
+            else if (player.position === 'Striker') {
+              strikers.push(`${player.first_name} ${player.last_name}`)
+            }
+            else if (player.position === 'Defender') {
+              defenders.push(`${player.first_name} ${player.last_name}`)
+            }
+            else if (player.position === 'Midfielder') {
+              midfielders.push(`${player.first_name} ${player.last_name}`)
+            }
+          }
+        }
+        props.setTeam(prev => ({ ...prev, goalies: goalies, strikers: strikers, defenders: defenders, midfielders: midfielders }))
+      })
   }
   for (const positionGroup in props.team1) {
     const positionPlayers = props.team1[positionGroup]
@@ -39,7 +66,7 @@ export default function Navigation(props) {
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
         props.setUserJoined(true)
         return (
-          <button type="button" class="btn btn-danger">Danger</button>
+          <button type="button" class="btn btn-danger">Leave Event</button>
         )
       }
     }
