@@ -22,7 +22,6 @@ export default function CommentBox(props) {
   const containerRef = useRef(null);
   useDynamicHeightField(textRef, commentValue);
 
-  console.log(props.user.first_name)
 
   const onExpand = () => {
     if (!isExpanded) {
@@ -42,7 +41,17 @@ export default function CommentBox(props) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:8001/api/events/${props.eventId}/comments`, {userId: props.user.id, comment: commentValue})
+    axios.post(`http://localhost:8001/api/events/${props.eventId}/comments`, { userId: props.user.id, comment: commentValue })
+      .then(() => {
+        return axios.get(`http://localhost:8001/api/events/${props.eventId}/comments`)
+      })
+      .then((res) => {
+        const commentFormatted = res.data.map((comment, index) => ({
+          ...comment,
+          fullName: `${comment.first_name} ${comment.last_name}`
+        }))
+        props.setComments(commentFormatted)
+      })
   };
 
   return (

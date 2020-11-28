@@ -24,13 +24,9 @@ export default function EventId(props) {
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
   const eventId = props.eventId 
-  console.log('eventid', eventId)
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
-    console.log("Line 99")
-    console.log('My location', coords[0], coords[1])
-    console.log('event location', event.location)
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=${location.x}%2C${location.y}&key=${process.env.REACT_APP_geocodeKey}`
     const myInit = {
@@ -43,14 +39,12 @@ export default function EventId(props) {
         return data ? JSON.parse(data) : {}
       })
       .then(data => {
-        console.log('data', data.rows[0].elements[0].distance)
         setDistance({ ...distance, distance: data.rows[0].elements[0].distance.text, time: data.rows[0].elements[0].duration.text })
       })
   }
 
   const eventData = () => {
     //URLS to query
-    console.log(props.eventId)
     const eventInfo = `http://localhost:8001/api/events/${props.eventId}`
     const team = `http://localhost:8001/api/events/${props.eventId}/teams`
     const comment = `http://localhost:8001/api/events/${props.eventId}/comments`
@@ -63,14 +57,12 @@ export default function EventId(props) {
       .then((responses) => {
         //Request data
         const eventData = responses[0]
-        console.log('eventData', eventData)
         const teamData = responses[1]
         const commentData = responses[2]
 
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
-        console.log('This is location of event', location)
         //Adding data to the setstate
         setEvent(prev => ({
           ...prev, id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
@@ -86,7 +78,6 @@ export default function EventId(props) {
         const strikers2 = []
         const defenders1 = []
         const defenders2 = []
-        console.log('Line 53')
         for (const player of teamData.data) {
           if (player.team_number === 1) {
             if (player.position === 'Goalie') {
@@ -120,7 +111,6 @@ export default function EventId(props) {
         setTeam1(prev => ({ ...prev, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }))
         setTeam2(prev => ({ ...prev, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }))
 
-        console.log('Line 87')
         //Formatting Comments
         const commentFormatted = commentData.data.map((comment, index) => ({
           ...comment,
@@ -134,7 +124,6 @@ export default function EventId(props) {
             success.coords.latitude,
             success.coords.longitude
           ];
-          console.log('pos', pos)
           if (location) {
             //Set user position
             setPosition(pos)
@@ -151,9 +140,9 @@ export default function EventId(props) {
 
   useEffect(() => {
     eventData()
-  }, [])
+    console.log(comments)
+  }, [setComments])
 
-  console.log('team1', team1, 'team2', team2)
   return (
     <section>
       <h1> {event.title} </h1>
@@ -235,7 +224,7 @@ export default function EventId(props) {
         </div>
       </div>
       <div className='comments-container'>
-        <CommentBox user={props.user} eventId={eventId}/>
+        <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
         {comments.map(comment => (
           <div className='comment'>
             <h1> {comment.fullName} </h1>
