@@ -5,6 +5,7 @@ import { GetPosition } from '../../hooks/usePosition'
 import './eventId.scss';
 import soccerIcon from './soccerIcon.png'
 import Navigation from '../Navigation/Navigation'
+import CommentBox from './CommentBox'
 require('dotenv').config()
 
 
@@ -20,6 +21,8 @@ export default function EventId(props) {
   const [team2, setTeam2] = useState({ goalies: [], strikers: [], midfielders: [], defenders: [] })
   const [comments, setComments] = useState([{}])
   const [distance, setDistance] = useState({})
+  const [comment, setComment] = useState()
+  const [userJoined, setUserJoined] = useState(false)
   const eventId = { id: props.eventId }
   console.log('eventid', eventId)
 
@@ -150,7 +153,7 @@ export default function EventId(props) {
     eventData()
   }, [])
 
-  console.log('team1', team1, 'team2', team2 )  
+  console.log('team1', team1, 'team2', team2)
   return (
     <section>
       <h1> {event.title} </h1>
@@ -173,8 +176,8 @@ export default function EventId(props) {
         {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
-        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} />
-        <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} />
+        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} />
+        {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} />}
       </aside>
       <div className='game-container'>
         <div className='team1-container'>
@@ -232,6 +235,7 @@ export default function EventId(props) {
         </div>
       </div>
       <div className='comments-container'>
+        <CommentBox user={props.user} eventId={eventId}/>
         {comments.map(comment => (
           <div className='comment'>
             <h1> {comment.fullName} </h1>

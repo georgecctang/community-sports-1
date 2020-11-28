@@ -28,6 +28,7 @@ export default function Navigation(props) {
   for (const positionGroup in props.team1) {
     const positionPlayers = props.team1[positionGroup]
     if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
+      props.setUserJoined(true)
       return (
         <button type="button" class="btn btn-danger" onClick={() => leaveEvent()}>Danger</button>
       )
@@ -35,6 +36,7 @@ export default function Navigation(props) {
     for (const positionGroup in props.team2) {
       const positionPlayers = props.team1[positionGroup]
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
+        props.setUserJoined(true)
         return (
           <button type="button" class="btn btn-danger">Danger</button>
         )
@@ -112,7 +114,7 @@ export default function Navigation(props) {
               counter('Striker')
               setConfirm(true)
             }}> striker 2 </Button>
-            <img src={field} alt="field" className="img-fluid" />
+            <img className='avatar' src={field} alt="field" className="img-fluid" />
           </Modal.Body>
         </Modal>
       </>
