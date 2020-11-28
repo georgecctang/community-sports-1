@@ -1,21 +1,40 @@
 import { Modal, Button} from 'react-bootstrap'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Navigation.scss'
 import field from './field.jpeg'
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import ActionAlerts from './MuiAlert'
 
 export default function Navigation (props) {
   const [show, setShow] = useState(false)
-  const eventId = { event_id: props.eventId }
-  console.log(eventId)
+  const [confirm, setConfirm] = useState(false)
+  const eventId = props.eventId.id 
   //Blue is Team 1 Red is Team 2
-  function counter () { //--> maybe we need current user name ?
+  let teamId
+  if (props.team === 'Blue') {
+    teamId = 1   
+  } else {
+    teamId = 2
+  }
+  
+  function counter (position) { //--> maybe we need current user name ?
     //Get player ID to assign to position
-     axios.get('http://localhost:8001/api/cookies', {withCredentials:true})
+    axios.get('http://localhost:8001/api/cookies', {withCredentials:true})
       .then(res => {
         const player_id = res.data.id
+        console.log('eventid', eventId, 'playerid', player_id, 'positon selected', position,'teamID', teamId)
+        return axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, {teamNumber: teamId, position: position, userId: player_id})
+        .then((res) => {
+          console.log(res)
+          if (res === 'post okay'){
+            setConfirm(true)
+          }
+        })
       })
-  }
+  } 
+
+
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
@@ -30,6 +49,9 @@ export default function Navigation (props) {
           <Modal.Title id="title">Choose your position on the {props.team.toLowerCase()} team!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div id='alert' className={`alert ${confirm ? 'alert-show' : 'alert-hide'}`} >
+          <ActionAlerts />
+          </div>
           <Button id="position-goalie" size="sm" onClick={(event) => { event.preventDefault();
                                                                         counter('Goalie');
                                                                         }}> goalie </Button>

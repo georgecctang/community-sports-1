@@ -169,7 +169,7 @@ export default function EventId(props) {
         <h5> {event.current_participants}/{event.max_participants} <img src={soccerIcon} /></h5>
         <h5> {event.start_time}-{event.end_time}</h5>
         <h5> {event.address}, {event.city}</h5>
-        <h5> From Your Location: {distance.distance} | {distance.time}</h5>
+        {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
         <Navigation eventId={eventId} team='Blue' />
