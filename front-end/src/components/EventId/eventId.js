@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
+import {  Nav,Navbar, NavDropdown, Button } from 'react-bootstrap/';
 import './eventId.scss';
-import soccerIcon from './soccerIcon.png'
+import soccerIconwhite from './soccerIconwhite.png'
 require('dotenv').config()
-
-
-
 
 export default function EventId(props) {
   const [position, setPosition] = useState([])
@@ -115,7 +113,7 @@ export default function EventId(props) {
         setTeam1(prev => ({ ...prev, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }))
         setTeam2(prev => ({ ...prev, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }))
 
-        console.log('Line 87')
+   
         //Formatting Comments
         const commentFormatted = commentData.data.map((comment, index) => ({
           ...comment,
@@ -129,7 +127,7 @@ export default function EventId(props) {
             success.coords.latitude,
             success.coords.longitude
           ];
-          console.log('pos', pos)
+          // console.log('pos', pos)
           if (location) {
             //Set user position
             setPosition(pos)
@@ -149,6 +147,35 @@ export default function EventId(props) {
   }, [])
 
   return (
+    <>
+
+    <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav>
+            <NavDropdown title="All Events" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
+              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
+            </NavDropdown>
+
+            <NavDropdown title="My Events" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
+              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          {props.currentUser &&
+            <Nav className="justify-content-end">
+              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+              <Button size="sm" onClick={(event) => {
+                event.preventDefault();
+                // logout_validation()
+              }}>Logout</Button>
+            </Nav>}
+        </Navbar.Collapse>
+      </Navbar>
+      
+    <main id="main-page">
     <section>
       <h1> {event.title} </h1>
       <h3> Hosted By: </h3>
@@ -159,41 +186,43 @@ export default function EventId(props) {
         <div className='map'>
           <p> This location is {distance.distance} away</p>
           <p> It will take you {distance.time} to get there</p>
+          <div id="map_place">
           {event.location && (<MapContainer location={event.location} title={event.title} />)}
+          </div>
         </div>
       </div>
-      <aside className='right-column'>
+      <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+      <div className="sidebar-sticky">Hellloooo</div>
         <h4> Event Details </h4>
-        <h5> {event.current_participants}/{event.max_participants} <img src={soccerIcon} /></h5>
-        <h5> {event.start_time}-{event.end_time}</h5>
+        <p> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="icon"/></p>
+        <p > {event.start_time}-{event.end_time}</p>
         <h5> {event.address}, {event.city}</h5>
         <h5> From Your Location: {distance.distance} | {distance.time}</h5>
-
         <h5> Gender Restriction: {event.gender_restriction}</h5>
         <h5> Skill Level: {event.skill_level}</h5>
-      </aside>
+        </Nav>
       <div className='game-container'>
         <div className='team1-container'>
           <div className='position-container'>
-            <h1> Goalies</h1>
+            <p> Goalies</p>
             {team1.goalies.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Defenders</h1>
+            <p> Defenders</p>
             {team1.defenders.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Midfielders</h1>
+            <p> Midfielders</p>
             {team1.midfielders.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Strikers</h1>
+            <p> Strikers</p>
             {team1.strikers.map(player => (
               <div className='player-info'> {player} </div>
             ))}
@@ -202,39 +231,41 @@ export default function EventId(props) {
 
         <div className='team2-container'>
           <div className='position-container'>
-            <h1> Goalies</h1>
+            <p> Goalies</p>
             {team2.goalies.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Defenders</h1>
+            <p> Defenders</p>
             {team2.defenders.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Midfielders</h1>
+            <p> Midfielders</p>
             {team2.midfielders.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
           <div className='position-container'>
-            <h1> Strikers</h1>
+            <p> Strikers</p>
             {team2.strikers.map(player => (
               <div className='player-info'> {player} </div>
             ))}
           </div>
         </div>
       </div>
-      <div className='comments-container'>
+    </section>
+      <footer id="comments-container">
         {comments.map(comment => (
           <div className='comment'>
-            <h1> {comment.fullName} </h1>
-            <h5> {comment.comment} </h5>
+            <h4> {comment.fullName} </h4>
+            <p> {comment.comment} </p>
           </div>
         ))}
-      </div>
-    </section>
+      </footer>
+      </main>
+    </>
   )
 }

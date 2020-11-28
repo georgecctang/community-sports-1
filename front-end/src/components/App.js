@@ -16,7 +16,7 @@ import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
 import { useState , useEffect} from 'react';
-
+import './App.scss'
 export default function App(props) {
 
 

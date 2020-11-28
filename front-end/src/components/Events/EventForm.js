@@ -1,17 +1,12 @@
 
 import axios from 'axios';
 import {useState} from 'react';
-import { useHistory, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 
 
 export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
-  console.log("here",newEvent)
- 
-  // if(created === true) {
-  //   return <Redirect to="/events"/>
-  // }
- 
+//  console.log('newEvent', newEvent)
   return (
     <div className="newEvent">
       <Form onSubmit={event => {
@@ -23,7 +18,9 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           type="date"
           name="dob"
           value={newEvent.date}
-          onChange={(event) => setnewEvent({...newEvent, date: event.target.value })}
+          onChange={(event) => {
+                            
+                            setnewEvent({...newEvent, date: event.target.value }) } }
         />
         </Form.Group>
         <Form.Group size="lg" controlId="appt">
@@ -32,7 +29,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           name="appt"
           placeholder="Start Time"
           value={newEvent.start_time}
-          onChange={(event) => setnewEvent({...newEvent, start_time: event.target.value })}
+          onChange={(event) => {
+                                setnewEvent({...newEvent, start_time: event.target.value })} }
         />
         </Form.Group>
   
@@ -41,7 +39,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           type="time"
           placeholder="End Time"
           value={newEvent.end_time}
-          onChange={(event) => setnewEvent({...newEvent, end_time: event.target.value })}
+          onChange={(event) => {
+                            setnewEvent({...newEvent, end_time: event.target.value })}}
         />
         </Form.Group>
         <Form.Group size="lg" controlId="formGroupTitle">
@@ -49,14 +48,16 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           type="text"
           value={newEvent.title}
           placeholder="Give a Title"
-          onChange={(event) => setnewEvent({...newEvent, title: event.target.value })}
+          onChange={(event) => {event.preventDefault();
+                              setnewEvent({...newEvent, title: event.target.value })}}
         />
         </Form.Group>
         <Form.Group size="lg" controlId="formGroupAddress">
         <Form.Control
           value={newEvent.address}
           placeholder="Address"
-          onChange={(event) => setnewEvent({...newEvent, address: event.target.value })}
+          onChange={(event) => {event.preventDefault();
+                              setnewEvent({...newEvent, address: event.target.value })}}
         />
         </Form.Group>
 
@@ -64,7 +65,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         <Form.Control
           value={newEvent.city}
           placeholder="City"
-          onChange={(event) => setnewEvent({...newEvent, city: event.target.value })}
+          onChange={(event) => {event.preventDefault();
+                              setnewEvent({...newEvent, city: event.target.value })}}
         />
         </Form.Group>
 
@@ -72,7 +74,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         <Form.Control
           value={newEvent.province}
           placeholder="Province"
-          onChange={(event) => setnewEvent({...newEvent, province: event.target.value })}
+          onChange={(event) =>{ event.preventDefault();
+                                setnewEvent({...newEvent, province: event.target.value })}}
         />
         </Form.Group>
 
@@ -88,16 +91,19 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         <Form.Control
           value={newEvent.max_participants}
           placeholder="Maximum Participants"
-          onChange={(event) => setnewEvent({...newEvent, max_participants: event.target.value })}
+          onChange={(event) =>
+                      setnewEvent({...newEvent, max_participants: event.target.value })}
         />
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupSkillLevel">
            <Form.Control
-            as="select" defaultValue="Choose..."
+            as="select" 
             value={newEvent.skill_level}
             placeholder="Level"
-            onChange={(event) => setnewEvent({...newEvent, skill_level: event.target.value })}
+            onChange={(event) => {
+                                setnewEvent({...newEvent, skill_level: event.target.value })}}
+
           > <option> Level... </option>
             <option> Beginner </option>
             <option> Intermediate </option>
@@ -108,7 +114,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
        
         <Form.Group size="lg" controlId="formGroupGenderRestriction">
            <Form.Control
-            as="select" defaultValue="Choose..."
+            as="select" 
             value={newEvent.gender_restriction}
             placeholder="Gender"
             onChange={(event) => setnewEvent({...newEvent, gender_restriction: event.target.value })}
@@ -121,7 +127,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
 
         <Form.Group size="lg" controlId="formGroupReferee">
            <Form.Control
-            as="select" defaultValue="Choose..."
+            as="select" 
             value={newEvent.referee}
             placeholder="Referee?"
             onChange={(event) => setnewEvent({...newEvent, referee: event.target.value })}
@@ -133,7 +139,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
 
         <Form.Group size="lg" controlId="formGroupTeams">
            <Form.Control
-            as="select" defaultValue="Choose..."
+            as="select" 
             value={newEvent.team}
             placeholder="Choose your team"
             onChange={(event) => setnewEvent({...newEvent, team: event.target.value })}
@@ -145,7 +151,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
 
         <Form.Group size="lg" controlId="formGroupPosition">
            <Form.Control
-            as="select" defaultValue="Choose..."
+            as="select" 
             value={newEvent.position}
             placeholder="Choose you position"
             onChange={(event) => setnewEvent({...newEvent, position: event.target.value })}
@@ -161,12 +167,16 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         <Form.Control
           value={newEvent.additional_info}
           placeholder="Additional Info"
-          onChange={(event) => setnewEvent({...newEvent, additional_info: event.target.value })}
+          onChange={(event) =>
+                              setnewEvent({...newEvent, additional_info: event.target.value })}
         />
         </Form.Group>
-
-        <Button block size="lg" type="submit" onClick={() => console.log("hello")} > Save </Button> 
-        <Button block size="lg" onClick={cancel} > Cancel </Button>
+        
+          <Button block size="lg" type="submit"> Save </Button> 
+       
+        {/* <Link to="/events"> */}
+          <Button block size="lg" onClick={cancel} > Cancel </Button>
+        {/* </Link> */}
      </Form>
     
     </div>

@@ -121,26 +121,21 @@ export default function EventsIndex(props) {
 
  
   //----------Delete the event-------------
-  function cancelEvent(event_id) {
-    console.log('delete', `http://localhost:8001/api/owners/events/${event_id}/delete`)
-    return axios.delete(`http://localhost:8001/api/owners/events/${event_id}/delete`).then(() =>
-    { const event = {
-      ...allUpcomingEvents.events[event_id],
-      event: null
-    }
-    const events = {
-      ...allUpcomingEvents.events,
-      [event_id]: event
-    }
-      setAllUpcomingEvents({...allUpcomingEvents, events})
-  })
-  }
+  // function cancelEvent(event_id) {
+  //   console.log('delete', `http://localhost:8001/api/owners/events/${event_id}/delete`)
+  //   return axios.delete(`http://localhost:8001/api/owners/events/${event_id}/delete`).then(() =>
+  //   { const event = {
+  //     ...allUpcomingEvents.events[event_id],
+  //     event: null
+  //   }
+  //   const events = {
+  //     ...allUpcomingEvents.events,
+  //     [event_id]: event
+  //   }
+  //     setAllUpcomingEvents({...allUpcomingEvents, events})
+  // })
+  // }
   
-  //should redirect the edit form
-  function edit(id) {
-    return <Redirect to={`owner/events/${id}/edit`}/>
-  }
-
   //Check if the user is owner 
   function checkOwner (event) {
     if (event.owner_id === props.currentUser.id) {
@@ -214,13 +209,12 @@ export default function EventsIndex(props) {
                 {checkOwner(event) && 
                 <>
                 <Card.Footer className="edit-delete_buttons">
-                <Link to='path' > 
-                  <Button block size="sm"> Delete</Button>
-                </Link> 
-                  {/* <Link to=`owner/events/edit/${id}` >  */}
-                    <Button block size="sm" onClick={(e) =>{ e.preventDefault()
-                       edit(event.id)}}> Edit </Button>
-                 {/* </Link>  */}
+                {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
+                  <Button block size="sm" > Delete </Button>
+               {/* </Card.Link> */}
+                {/* <Card.Link href={ `owners/events/${event.id}/edit` } >  */}
+                    <Button block size="sm"> Edit </Button>
+                {/* </Card.Link>  */}
                 </Card.Footer>
                 </> }
             </Card>
@@ -252,9 +246,7 @@ export default function EventsIndex(props) {
               <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
               <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
             </NavDropdown>
-
           </Nav>
-     
           {props.currentUser &&
             <Nav className="justify-content-end">
               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
@@ -266,7 +258,6 @@ export default function EventsIndex(props) {
         </Navbar.Collapse>
       </Navbar>
       <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky"></div>
         <EventFilter 
           setCategoryFilter={setCategoryFilter} 
           setIsUpcoming={setIsUpcoming} 
