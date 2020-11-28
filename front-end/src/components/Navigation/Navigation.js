@@ -9,6 +9,7 @@ import ActionAlerts from './MuiAlert'
 export default function Navigation(props) {
   const [show, setShow] = useState(false)
   const [confirm, setConfirm] = useState(false)
+  const [redirect, setRedirect] = useState(false)
   const eventId = props.eventId
   //Blue is Team 1 Red is Team 2
   let teamId
@@ -20,10 +21,15 @@ export default function Navigation(props) {
 
   const leaveEvent = () => {
     axios.delete(`http://localhost:8001/api/users/events/${eventId}/delete`, { data: { id: props.user.id } })
-  }
+      .then(() => {
+        setRedirect(true)
+      })
+    }
+    if (redirect === true) {
+      return <Redirect to="/events" />
+    }
 
   function counter(position) { //--> maybe we need current user name ?
-    console.log('HELOOO-------------------', eventId)
     axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, id: props.user.id })
       .then(() => {
         return axios.get(`http://localhost:8001/api/events/${eventId}/teams`)
@@ -142,7 +148,7 @@ export default function Navigation(props) {
               counter('Striker')
               setConfirm(true)
             }}> striker 2 </Button>
-            <img className='avatar' src={field} alt="field" className="img-fluid" />
+            <img src={field} alt="field" className="img-fluid" />
           </Modal.Body>
         </Modal>
       </>
