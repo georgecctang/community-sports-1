@@ -44,7 +44,7 @@ export default function Navigation(props) {
         </Modal.Header>
         <Modal.Body>
           <div id='alert' className={`${confirm ? 'alert-show' : 'alert-hide'}`} >
-            <ActionAlerts  hide={setConfirm}/>
+            <ActionAlerts  hideAlert={setConfirm} />
           </div>
           <Button id="position-goalie" size="sm" onClick={(event) => {
             event.preventDefault();

@@ -17,6 +17,6 @@ export default function ActionAlerts(props) {
   const classes = useStyles();
 
   return (
-    <Alert onClose={() => {props.hide(false)}}>This is a success alert — check it out!</Alert>
+    <Alert onClose={() => {props.hideAlert(false)}}>You've joined the Match!</Alert>
   );
 }
