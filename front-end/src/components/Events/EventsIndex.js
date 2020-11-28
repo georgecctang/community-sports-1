@@ -218,15 +218,16 @@ export default function EventsIndex(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {props.currentUser &&
+           <>
           <Link to="owners/events/new">
-            <>
+           
           <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
-              }}>Logout</Button>
+              }}>Logout</Button> 
             </Nav>
             </>
             }
