@@ -47,11 +47,9 @@ export default function Login (props) {
     <Navbar.Brand href="/">Sports</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-    
+    <Nav className="justify-content-end">
       <Nav.Link href="/login">Login</Nav.Link>
       <Nav.Link href="/register">Register</Nav.Link>
-    
     </Nav> 
     </Navbar.Collapse>
       
@@ -82,7 +80,7 @@ export default function Login (props) {
           onChange={(event) => setPassword(event.target.value)}
         />
       </Form.Group>
-      <Button block size="lg" type="submit">
+      <Button id="btn_login" block size="lg" type="submit">
         Login
       </Button>
     </Form>
@@ -92,3 +90,5 @@ export default function Login (props) {
   );
  
 }; 
+
+

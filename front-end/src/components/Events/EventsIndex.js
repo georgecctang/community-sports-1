@@ -5,13 +5,11 @@ import EventFilter from './EventFilter';
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
-import './Events.scss'
+import './Events.scss';
 
 export default function EventsIndex(props) {
   const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
-
-
   const [allUpcomingEvents, setAllUpcomingEvents] = useState([{}]);
   const [allPastEvents, setAllPastEvents] = useState([{}]);
   const [myUpcomingEvents, setMyUpcomingEvents] = useState([{}]);
@@ -87,14 +85,14 @@ export default function EventsIndex(props) {
         }
       }
 
-      //If Events match criteria push coords to arr
+      // //If Events match criteria push coords to arr
       if (selectedEvents.length !== 0) {
         selectedEvents.map((event) => {
           locations.push(event.location)
         })
       }
 
-      //Request users position
+  //     //Request users position
       navigator.geolocation.getCurrentPosition(async success => {
         const pos = [
           success.coords.latitude,
@@ -112,7 +110,6 @@ export default function EventsIndex(props) {
     })
   }, [categoryFilter, isUpcoming, isAllEvents])
 
-
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
@@ -122,7 +119,34 @@ export default function EventsIndex(props) {
     return <Redirect to="/" />
   };
 
+ 
+  //----------Delete the event-------------
+  function cancelEvent(event_id) {
+    console.log('delete', `http://localhost:8001/api/owners/events/${event_id}/delete`)
+    return axios.delete(`http://localhost:8001/api/owners/events/${event_id}/delete`).then(() =>
+    { const event = {
+      ...allUpcomingEvents.events[event_id],
+      event: null
+    }
+    const events = {
+      ...allUpcomingEvents.events,
+      [event_id]: event
+    }
+      setAllUpcomingEvents({...allUpcomingEvents, events})
+  })
+  }
+  
+  //should redirect the edit form
+  function edit(id) {
+    return <Redirect to={`owner/events/${id}/edit`}/>
+  }
 
+  //Check if the user is owner 
+  function checkOwner (event) {
+    if (event.owner_id === props.currentUser.id) {
+      return true
+    }
+  }
   // Function to filter event based on category
   const filterEvents = (eventsList, filter) => {
     let filteredEvents = eventsList;
@@ -144,7 +168,6 @@ export default function EventsIndex(props) {
     return eventsByDate;
   }
 
-
   let subsetEvents;
 
   if (isAllEvents === "All Events") {
@@ -155,44 +178,57 @@ export default function EventsIndex(props) {
 
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-  // 
+  
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
-      <div key={date}>
-        <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+      <div classNames="days" key={date}>
+         
+          <h5 id="days">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h5>
         {
           eventsByDate[date].map(event => {
             return (
               <div className="events">
-                <Card >
-                  {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
-                  <Card.Link href={`/events/${event.id}`}>
-                    <div id="card-top">
-                      <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
+              <Card >
+                <Card.Link href={`/events/${event.id}`}>
+                <div id="card-top">
+                <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
                       {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
-                      <Card.Header>{event.first_name} {event.last_name}</Card.Header>
-                    </div>
-                    <Card.Body >
-                      <Card.Title>{event.title}</Card.Title>
-                      <Card.Text>
-                        <small className="text-muted">{event.province}</small>
-                      </Card.Text>
-                      <div id="card-bottom">
-                        <Card.Text>
-                          {event.skill_level}
-                        </Card.Text>
-                        <Card.Text>
-                          {event.current_participants}/{event.max_participants}
-                        </Card.Text>
-                      </div>
-                    </Card.Body>
-                  </Card.Link>
-                </Card>
-
-              </div>
-            )
-          })
-        }
+                <Card.Header>{event.first_name} {event.last_name} </Card.Header>
+                </div>
+                <Card.Body >
+                  <Card.Title>{event.title}</Card.Title>
+                  <Card.Text>
+                    <small className="text-muted">{event.province}</small>
+                  </Card.Text>
+                  <div id="card-bottom">
+                    <Card.Text>
+                      {event.skill_level}
+                    </Card.Text>
+                   <Card.Text>
+                    {event.current_participants}/{event.max_participants}
+                    </Card.Text>
+                  </div>
+                </Card.Body>
+                </Card.Link>
+                
+                {checkOwner(event) && 
+                <>
+                <Card.Footer className="edit-delete_buttons">
+                <Link to='path' > 
+                  <Button block size="sm"> Delete</Button>
+                </Link> 
+                  {/* <Link to=`owner/events/edit/${id}` >  */}
+                    <Button block size="sm" onClick={(e) =>{ e.preventDefault()
+                       edit(event.id)}}> Edit </Button>
+                 {/* </Link>  */}
+                </Card.Footer>
+                </> }
+            </Card>
+            
+            </div>
+          )
+        }) 
+      }
       </div>
     )
   });
@@ -201,37 +237,44 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-    <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/events">Sports</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      <Nav>
-        <NavDropdown title="All Events" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-          <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-        </NavDropdown>
+   
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav>
+            <NavDropdown title="All Events" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
+              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
+            </NavDropdown>
 
-        <NavDropdown title="My Events" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-          <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-        </NavDropdown>
-      
-      </Nav> 
-      {props.currentUser &&
-      <Nav className="justify-content-end">
-          {/* <Nav.Link href="/profile">My Profile */}
-          <span>{props.currentUser.first_name} {props.currentUser.last_name}</span>
-          {/* </Nav.Link> */}
-          <Button size="sm" onClick={(event) => {event.preventDefault();
-                          logout_validation()}}>Logout</Button>
-      </Nav>   }
-    </Navbar.Collapse>
-  </Navbar>
-  <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-    <div className="sidebar-sticky"></div>
-      <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents}  />
-  </Nav>
-    {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
-  </>
-  )
+            <NavDropdown title="My Events" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
+              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
+            </NavDropdown>
+
+          </Nav>
+     
+          {props.currentUser &&
+            <Nav className="justify-content-end">
+              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+              <Button size="sm" onClick={(event) => {
+                event.preventDefault();
+                logout_validation()
+              }}>Logout</Button>
+            </Nav>}
+        </Navbar.Collapse>
+      </Navbar>
+      <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+        <div className="sidebar-sticky"></div>
+        <EventFilter 
+          setCategoryFilter={setCategoryFilter} 
+          setIsUpcoming={setIsUpcoming} 
+          setIsAllEvents={setIsAllEvents}
+          />
+      </Nav>
+      {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
+    </>
+    )
 }
+//cancelEvent(event.id)}

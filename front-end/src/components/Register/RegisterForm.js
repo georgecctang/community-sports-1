@@ -28,6 +28,7 @@ export default function Register (props) {
   if (isSignup === true) {
     return <Redirect to="/profile"/>
   }
+  
   return (
     <div className="Register">
       <Form onSubmit={event => {
