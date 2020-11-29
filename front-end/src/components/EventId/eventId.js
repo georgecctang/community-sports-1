@@ -170,10 +170,10 @@ export default function EventId(props) {
         <Navbar.Collapse id="basic-navbar-nav">
           {props.user &&
            <>
+           <h3 className='display-name'> {props.user.first_name} {props.user.last_name} </h3>
           <Link to="/owners/events/new">
           <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.user.first_name} {props.user.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()

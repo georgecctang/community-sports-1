@@ -5,6 +5,7 @@ import EventFilter from './EventFilter';
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
+
 import './Events.scss';
 
 export default function EventsIndex(props) {
@@ -181,7 +182,7 @@ export default function EventsIndex(props) {
                 <Card.Body >
                   <Card.Title>{event.title}</Card.Title>
                   <Card.Text>
-                    <small className="text-muted">{event.province}</small>
+                    <small className="text-muted">{event.city}, {event.province}</small>
                   </Card.Text>
                   <div id="card-bottom">
                     <Card.Text>
@@ -223,6 +224,7 @@ export default function EventsIndex(props) {
     <>
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events">Sports</Navbar.Brand>
+          {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {props.currentUser &&
@@ -230,7 +232,6 @@ export default function EventsIndex(props) {
           <Link to="owners/events/new">
           <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
