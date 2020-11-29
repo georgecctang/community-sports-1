@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, Button,ListGroup } from 'react-bootstrap/';
+import {  Nav,Navbar, Button } from 'react-bootstrap/';
 import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
@@ -153,7 +153,7 @@ export default function EventId(props) {
 
   return (
     <>
-    <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events">Sports</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -208,12 +208,10 @@ export default function EventId(props) {
               ))}
             </div>
             <div className='position-container'>
-              <ListGroup>
               <h1> Defenders</h1>
               {team1.defenders.map(player => (
                 <div className='player-info'> {player} </div>
               ))}
-              </ListGroup>  
             </div>
             <div className='position-container'>
               <h1> Midfielders</h1>
