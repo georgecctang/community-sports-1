@@ -171,7 +171,7 @@ export default function EventsIndex(props) {
           eventsByDate[date].map(event => {
             return (
               <div className="events">
-              <Card >
+              <Card className='event'>
                 <Card.Link href={`/events/${event.id}`}>
                 <div id="card-top">
                 <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
