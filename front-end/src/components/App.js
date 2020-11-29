@@ -50,7 +50,7 @@ console.log('after useEffect', currentUser)
             setisLogin = {setisLogin} />
           </Route>
           <Route path='/register'>
-            <Register />
+            <Register islogin={islogin} setisLogin={setisLogin} />
           </Route> 
           <Route exact path='/profile'>
             <ProfileForm  currentUser = {currentUser}

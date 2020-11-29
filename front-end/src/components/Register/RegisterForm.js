@@ -5,7 +5,6 @@ import { Form, Button } from 'react-bootstrap';
 import './Register.scss'
 
 export default function Register (props) {
-  const [isSignup, setisSignup] = useState(false)
   const [error, setError ] = useState("")
   const [ user, setUser ] = useState ({
     first_name: "",
@@ -21,13 +20,14 @@ export default function Register (props) {
       if(res.data === "Email already in use") {
         setError(res.data)
       } else {
-        setisSignup(true)
+        props.setisLogin(true)
       }
     })
   }
-  if (isSignup === true) {
-    return <Redirect to="/profile"/>
-  }
+  if (props.islogin) {
+    console.log('should redirect');
+    return <Redirect to="/events"/>
+  };
   
   return (
     <div className="Register">
