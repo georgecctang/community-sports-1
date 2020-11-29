@@ -261,5 +261,4 @@ export default function EventId(props) {
       </section>
       </>
     )
-
 }

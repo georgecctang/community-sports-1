@@ -159,7 +159,6 @@ export default function EventsIndex(props) {
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
       <div classNames="days" key={date}>
-         
           <h5 id="days">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h5>
         {
           eventsByDate[date].map(event => {
@@ -200,8 +199,7 @@ export default function EventsIndex(props) {
                 </Card.Footer>
                 </> }
             </Card>
-            
-            </div>
+          </div>
           )
         }) 
       }
@@ -220,11 +218,10 @@ export default function EventsIndex(props) {
           {props.currentUser &&
            <>
           <Link to="owners/events/new">
-           
-          <Button size="sm"> Create New Event </Button></Link>
-            <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-              <Button size="sm" onClick={(event) => {
+            <Button size="sm"> Create New Event </Button></Link>
+              <Nav className="justify-content-end">
+               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+                <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
               }}>Logout</Button> 
