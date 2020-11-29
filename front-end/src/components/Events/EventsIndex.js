@@ -5,7 +5,7 @@ import EventFilter from './EventFilter';
 import NavBar from '../NavBar/NavBar';
 
 import { Button } from 'react-bootstrap';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap/';
+import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import './Events.scss'
 
@@ -24,6 +24,7 @@ export default function EventsIndex(props) {
   const [position, setPosition] = useState([])
   const [distanceFlag, setDistanceFlag] = useState(false);
   const [distanceArr, setDistanceArr] = useState([])
+  const [deletedEvent, setDeletedEvents] = useState([{}])
 
   const distanceApi = (coords, locations) => {
     //Distance Matrix API
@@ -112,19 +113,29 @@ export default function EventsIndex(props) {
         }
       })
     })
-  }, [categoryFilter, isUpcoming, isAllEvents])
+  }, [categoryFilter, isUpcoming, isAllEvents, deletedEvent])
 
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
 
+  const deleteEvent = (id) => {
+    axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`) 
+    let newDeleted = [...deletedEvent, id]
+    setDeletedEvents(newDeleted)
+  }
 
   if (isLogout) {
     return <Redirect to="/" />
   };
-
-
+  
+  //Check if the user is owner 
+  function checkOwner (event) {
+    if (event.owner_id === props.currentUser.id) {
+      return true
+    }
+  }
   // Function to filter event based on category
   const filterEvents = (eventsList, filter) => {
     let filteredEvents = eventsList;
@@ -160,8 +171,8 @@ export default function EventsIndex(props) {
   // 
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
-      <div key={date}>
-        <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+      <div classNames="days" key={date}>
+          <h5 id="days">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h5>
         {
           eventsByDate[date].map(event => {
             return (
@@ -172,29 +183,43 @@ export default function EventsIndex(props) {
                     <div id="card-top">
                       <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
                       {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
-                      <Card.Header>{event.first_name} {event.last_name}</Card.Header>
-                    </div>
-                    <Card.Body >
-                      <Card.Title>{event.title}</Card.Title>
-                      <Card.Text>
-                        <small className="text-muted">{event.province}</small>
-                      </Card.Text>
-                      <div id="card-bottom">
-                        <Card.Text>
-                          {event.skill_level}
-                        </Card.Text>
-                        <Card.Text>
-                          {event.current_participants}/{event.max_participants}
-                        </Card.Text>
-                      </div>
-                    </Card.Body>
-                  </Card.Link>
-                </Card>
-
-              </div>
-            )
-          })
-        }
+                <Card.Header>{event.first_name} {event.last_name} </Card.Header>
+                </div>
+                <Card.Body >
+                  <Card.Title>{event.title}</Card.Title>
+                  <Card.Text>
+                    <small className="text-muted">{event.province}</small>
+                  </Card.Text>
+                  <div id="card-bottom">
+                    <Card.Text>
+                      {event.skill_level}
+                    </Card.Text>
+                   <Card.Text>
+                    {event.current_participants}/{event.max_participants}
+                    </Card.Text>
+                  </div>
+                </Card.Body>
+                </Card.Link>
+                
+                {checkOwner(event) && 
+                <>
+                <Card.Footer className="edit-delete_buttons">
+                {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
+                  <Button block size="sm" onClick={(e) => {
+                    {e.preventDefault()}
+                    {deleteEvent(event.id)}
+                  }}> Delete </Button>
+               {/* </Card.Link> */}
+                <Card.Link href={ `owners/events/${event.id}/edit` } > 
+                    <Button block size="sm"> Edit </Button>
+                </Card.Link> 
+                </Card.Footer>
+                </> }
+            </Card>
+          </div>
+          )
+        }) 
+      }
       </div>
     )
   });
@@ -203,47 +228,27 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-<<<<<<< HEAD
-  <NavBar currentUser={props.currentUser} logout_validation={logout_validation} />
-  <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-    <div className="sidebar-sticky"></div>
-      <EventFilter setCategoryFilter={setCategoryFilter} setIsUpcoming={setIsUpcoming} setIsAllEvents={setIsAllEvents}  />
-  </Nav>
-    {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
-  </>
-  )
-}
-=======
-   
+  
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events">Sports</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <NavDropdown title="All Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title="My Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-            </NavDropdown>
-
-          </Nav>
-     
           {props.currentUser &&
+           <>
+          <Link to="owners/events/new">
+          <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
               <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
-              }}>Logout</Button>
-            </Nav>}
+              }}>Logout</Button> 
+            </Nav>
+            </>
+            }
         </Navbar.Collapse>
       </Navbar>
       <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky"></div>
         <EventFilter 
           setCategoryFilter={setCategoryFilter} 
           setIsUpcoming={setIsUpcoming} 
@@ -254,5 +259,7 @@ export default function EventsIndex(props) {
     </>
     )
 }
+
+
+
 //cancelEvent(event.id)}
->>>>>>> b184359f468fcc2bcffb800f6c55b7f7da47a19e

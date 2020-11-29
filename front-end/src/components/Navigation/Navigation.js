@@ -29,6 +29,7 @@ export default function Navigation(props) {
       return <Redirect to="/events" />
     }
 
+
   function counter(position) { //--> maybe we need current user name ?
     axios.post(`http://localhost:8001/api/users/events/${eventId}/create`, { teamNumber: teamId, position: position, id: props.user.id })
       .then(() => {
