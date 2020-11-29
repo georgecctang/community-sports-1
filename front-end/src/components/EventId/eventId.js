@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
+import {  Nav,Navbar, Button } from 'react-bootstrap/';
+import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
-import soccerIcon from './soccerIcon.png'
+import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
+import Card from 'react-bootstrap/Card'
 require('dotenv').config()
-
-
-
 
 export default function EventId(props) {
   const [position, setPosition] = useState([])
@@ -23,7 +23,10 @@ export default function EventId(props) {
   const [distance, setDistance] = useState({})
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
-  const eventId = props.eventId 
+  const [isLogout, setisLogout] = useState(false)
+  const [isOwner, setisOwner] = useState(false)
+  const [redirect, setRedirect] = useState(false)
+  const eventId = props.eventId
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
@@ -132,6 +135,9 @@ export default function EventId(props) {
               distanceApi(pos, location)
             }
           }
+          if (owner_id === props.user.id) {
+            setisOwner(true)
+          }
         })
         return eventData.data[0]
       })
@@ -143,95 +149,137 @@ export default function EventId(props) {
     console.log(comments)
   }, [setComments])
 
-  return (
-    <section>
-      <h1> {event.title} </h1>
-      <h3> Hosted By: {event.first_name} {event.last_name}</h3>
-      <div className='midpage'>
-        <div className='additional-info'>
-          <p> {event.additional_info} </p>
-        </div>
-        <div className='map'>
-          <p> This location is {distance.distance} away</p>
-          <p> It will take you {distance.time} to get there</p>
-          {event.location && (<MapContainer location={event.location} title={event.title} />)}
-        </div>
-      </div>
-      <aside className='right-column'>
-        <h4> Event Details </h4>
-        <h5> {event.current_participants}/{event.max_participants} <img src={soccerIcon} /></h5>
-        <h5> {event.start_time}-{event.end_time}</h5>
-        <h5> {event.address}, {event.city}</h5>
-        {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
-        <h5> Gender Restriction: {event.gender_restriction}</h5>
-        <h5> Skill Level: {event.skill_level}</h5>
-        <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
-        {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
-      </aside>
-      <div className='game-container'>
-        <div className='team1-container'>
-          <div className='position-container'>
-            <h1> Goalies</h1>
-            {team1.goalies.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-          <div className='position-container'>
-            <h1> Defenders</h1>
-            {team1.defenders.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-          <div className='position-container'>
-            <h1> Midfielders</h1>
-            {team1.midfielders.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-          <div className='position-container'>
-            <h1> Strikers</h1>
-            {team1.strikers.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-        </div>
+  //function trigered by logout button
+  function logout_validation() {
+    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
+  };
+  if (isLogout) {
+    return <Redirect to="/" />
+  }; 
 
-        <div className='team2-container'>
-          <div className='position-container'>
-            <h1> Goalies</h1>
-            {team2.goalies.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
+  const deleteEvent = (id) => {
+    axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`)
+    setRedirect(true)
+  }
+
+  return (
+    <>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          {props.user &&
+           <>
+          <Link to="/owners/events/new">
+          <Button size="sm"> Create New Event </Button></Link>
+            <Nav className="justify-content-end">
+              <Nav.Link href="/profile">My Profile<span>{props.user.first_name} {props.user.last_name}</span></Nav.Link>
+              <Button size="sm" onClick={(event) => {
+                event.preventDefault();
+                logout_validation()
+              }}>Logout</Button>
+            </Nav>
+            </>
+            }
+        </Navbar.Collapse>
+      </Navbar>
+      <section>
+        <h1> {event.title} </h1>
+        <h3> Hosted By: {event.first_name} {event.last_name}</h3>
+        <div className='midpage'>
+          <div className='additional-info'>
+            <p> {event.additional_info} </p>
           </div>
-          <div className='position-container'>
-            <h1> Defenders</h1>
-            {team2.defenders.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-          <div className='position-container'>
-            <h1> Midfielders</h1>
-            {team2.midfielders.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
-          </div>
-          <div className='position-container'>
-            <h1> Strikers</h1>
-            {team2.strikers.map(player => (
-              <div className='player-info'> {player} </div>
-            ))}
+          <div className='map-container'>
+            <p> This location is {distance.distance} away</p>
+            <p> It will take you {distance.time} to get there</p>
+            <div className="map-container_smallMap">
+            {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
           </div>
         </div>
-      </div>
-      <div className='comments-container'>
-        <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
-        {comments.map(comment => (
-          <div className='comment'>
-            <h1> {comment.fullName} </h1>
-            <h5> {comment.comment} </h5>
+        {/* <aside className='right-column'> */}
+        <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+          <h4> Event Details </h4>
+          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon"/></h5>
+          <h5> {event.start_time}-{event.end_time}</h5>
+          <h5> {event.address}, {event.city}</h5>
+          {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
+          <h5> Gender Restriction: {event.gender_restriction}</h5>
+          <h5> Skill Level: {event.skill_level}</h5>
+          {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
+          {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
+          {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
+            <Button variant='primary'> Edit </Button>
+          </Card.Link>}
+          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
+          </Button>}
+        </Nav>
+        {/* </aside> */}
+        <div className='game-container'>
+          <div className='team1-container'>
+            <div className='position-container'>
+              <h1> Goalies</h1>
+              {team1.goalies.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Defenders</h1>
+              {team1.defenders.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Midfielders</h1>
+              {team1.midfielders.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Strikers</h1>
+              {team1.strikers.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </section>
-  )
+  
+          <div className='team2-container'>
+            <div className='position-container'>
+              <h1> Goalies</h1>
+              {team2.goalies.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Defenders</h1>
+              {team2.defenders.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Midfielders</h1>
+              {team2.midfielders.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+            <div className='position-container'>
+              <h1> Strikers</h1>
+              {team2.strikers.map(player => (
+                <div className='player-info'> {player} </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className='comments-container'>
+          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
+          {comments.map(comment => (
+            <div className='comment'>
+              <h1> {comment.fullName} </h1>
+              <h5> {comment.comment} </h5>
+            </div>
+          ))}
+        </div>
+      </section>
+      </>
+    )
 }

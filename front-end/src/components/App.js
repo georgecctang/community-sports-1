@@ -17,22 +17,22 @@ import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
 import { useState , useEffect} from 'react';
-
+import './App.scss'
 export default function App(props) {
 
 
   const [islogin, setisLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState(JSON.parse(window.localStorage.getItem('userData')));
 
-  console.log('before useEffect', currentUser)
+  //console.log('before useEffect', currentUser)
 
   useEffect(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
-        return setCurrentUser(prev => ({...prev ,user : res.data}))  
+        return setCurrentUser(res.data)        
       })
     },[islogin])
-console.log('after useEffect', currentUser)
+//console.log('after useEffect', currentUser)
   return (
     <div className="App">
       <Router>
@@ -46,7 +46,7 @@ console.log('after useEffect', currentUser)
             setisLogin = {setisLogin} />
           </Route>
           <Route path='/register'>
-            <Register />
+            <Register islogin={islogin} setisLogin={setisLogin} />
           </Route> 
           <Route exact path='/profile'>
             <ProfileForm  currentUser = {currentUser}
@@ -63,6 +63,7 @@ console.log('after useEffect', currentUser)
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
+        
           <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId} user={currentUser}/>} /> 
 
           <Route exact path='/owners/events/:eventId/edit' render= {(props) => <EditEvent 
