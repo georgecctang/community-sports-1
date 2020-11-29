@@ -8,6 +8,7 @@ import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
+import Card from 'react-bootstrap/Card'
 require('dotenv').config()
 
 export default function EventId(props) {
@@ -23,7 +24,9 @@ export default function EventId(props) {
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
   const [isLogout, setisLogout] = useState(false)
-  const eventId = props.eventId 
+  const [isOwner, setisOwner] = useState(false)
+  const [redirect, setRedirect] = useState(false)
+  const eventId = props.eventId
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
@@ -132,6 +135,9 @@ export default function EventId(props) {
               distanceApi(pos, location)
             }
           }
+          if (owner_id === props.user.id) {
+            setisOwner(true)
+          }
         })
         return eventData.data[0]
       })
@@ -149,7 +155,12 @@ export default function EventId(props) {
   };
   if (isLogout) {
     return <Redirect to="/" />
-  };
+  }; 
+
+  const deleteEvent = (id) => {
+    axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`)
+    setRedirect(true)
+  }
 
   return (
     <>
@@ -195,9 +206,14 @@ export default function EventId(props) {
           {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
           <h5> Gender Restriction: {event.gender_restriction}</h5>
           <h5> Skill Level: {event.skill_level}</h5>
-          <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
-          {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
-          </Nav>
+          {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
+          {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
+          {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
+            <Button variant='primary'> Edit </Button>
+          </Card.Link>}
+          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
+          </Button>}
+        </Nav>
         {/* </aside> */}
         <div className='game-container'>
           <div className='team1-container'>

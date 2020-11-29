@@ -24,7 +24,7 @@ export default function EditEvent (props) {
     // setnewEvent("");
     history.push('/events');
   }
-  if(edited === true) {
+  if (edited === true) {
     return <Redirect to="/events"/>
   }
   return (
