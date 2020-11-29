@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, Button } from 'react-bootstrap/';
+import {  Nav, Navbar, Button, Table, Card} from 'react-bootstrap/';
 import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
@@ -176,84 +176,129 @@ export default function EventId(props) {
         <h1> {event.title} </h1>
         <h3> Hosted By: {event.first_name} {event.last_name}</h3>
         <div className='midpage'>
-          <div className='additional-info'>
+          {/* <div className='additional-info'>
             <p> {event.additional_info} </p>
-          </div>
+          </div> */}
           <div className='map-container'>
-            <p> This location is {distance.distance} away</p>
-            <p> It will take you {distance.time} to get there</p>
+            <div className="map-container_text">
+              <p> This location is {distance.distance} away</p>
+              <p> It will take you {distance.time} to get there</p>
+            </div>
             <div className="map-container_smallMap">
             {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
           </div>
         </div>
         {/* <aside className='right-column'> */}
         <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-          <h4> Event Details </h4>
-          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon"/></h5>
-          <h5> {event.start_time}-{event.end_time}</h5>
-          <h5> {event.address}, {event.city}</h5>
-          {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
-          <h5> Gender Restriction: {event.gender_restriction}</h5>
-          <h5> Skill Level: {event.skill_level}</h5>
-          <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
-          {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
-          </Nav>
+          <div className="card-text">
+            <h4> Event Details </h4>
+            <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite}   alt="soccer icon"/></h5>
+            <h5> {event.start_time}-{event.end_time}</h5>
+            <h5> {event.address}, {event.city}</h5>
+            {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
+            <h5> Gender Restriction: {event.gender_restriction}</h5>
+            <h5> Skill Level: {event.skill_level}</h5>
+            <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user}   setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
+            {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user=  {props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
+            <div className='additional-info'>
+              <p> {event.additional_info} </p>
+            </div>
+          </div>
+        </Nav>
         {/* </aside> */}
+       
         <div className='game-container'>
-          <div className='team1-container'>
-            <div className='position-container'>
-              <h1> Goalies</h1>
-              {team1.goalies.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Defenders</h1>
-              {team1.defenders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Midfielders</h1>
-              {team1.midfielders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Strikers</h1>
-              {team1.strikers.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-          </div>
-  
-          <div className='team2-container'>
-            <div className='position-container'>
-              <h1> Goalies</h1>
-              {team2.goalies.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Defenders</h1>
-              {team2.defenders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Midfielders</h1>
-              {team2.midfielders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Strikers</h1>
-              {team2.strikers.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-          </div>
+            <h3>Team Red</h3>
+              <div className='team1-container'>
+                <Card>
+                  <div className='position-container'>
+                     <Card.Header>Goalies</Card.Header> 
+                        <Card.Body>
+                          <Card.Text>{team1.goalies.map(player => (
+                            <div className='player-info'> {player} </div>
+                          ))}
+                          </Card.Text>
+                        </Card.Body>
+                  </div>
+                </Card>
+              </div>
+              <div className='position-container'>
+                <Card>
+                  <Card.Header> Defenders</Card.Header> 
+                    <Card.Body>
+                      <Card.Text>{team1.defenders.map(player => (
+                        <div className='player-info'> {player} </div>
+                      ))}</Card.Text>
+                    </Card.Body>
+                </Card>
+              </div>
+              <div className='position-container'>
+                <Card>
+                  <Card.Header> Midfielders</Card.Header> 
+                    <Card.Body>
+                      <Card.Text>{team1.midfielders.map(player => (
+                        <div className='player-info'> {player} </div>
+                      ))}</Card.Text>
+                    </Card.Body>
+                </Card>
+              </div>
+              <div className='position-container'>
+                <Card>
+                  <Card.Header> Strikers </Card.Header> 
+                    <Card.Body>
+                      <Card.Text>{team1.strikers.map(player => (
+                        <div className='player-info'> {player} </div>
+                      ))}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div> 
+              </div>
+        
+              <div className='team2-container'>
+                <h3>Team Blue</h3>
+                  <div className='position-container'>
+                    <Card>
+                      <Card.Header>Goalies</Card.Header>
+                        <Card.Body>
+                          <Card.Text>{team2.goalies.map(player => (
+                            <div className='player-info'> {player} </div>
+                          ))}</Card.Text>
+                        </Card.Body>
+                    </Card>
+                  </div>
+                  <div className='position-container'>
+                    <Card>
+                      <Card.Header>Defenders</Card.Header>
+                        <Card.Body>
+                          <Card.Text>{team2.defenders.map(player => (
+                            <div className='player-info'> {player} </div>
+                          ))}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                  <div className='position-container'>
+                    <Card>
+                      <Card.Header> Midfielders</Card.Header>
+                        <Card.Body>
+                          <Card.Text>{team2.midfielders.map(player => (
+                            <div className='player-info'> {player} </div>
+                            ))}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                    <div className='position-container'>
+                      <Card>
+                        <Card.Header> Strikers</Card.Header> 
+                          <Card.Body>
+                            <Card.Text>{team2.strikers.map(player => (
+                              <div className='player-info'> {player} </div>
+                            ))}</Card.Text>
+                          </Card.Body>
+                          </Card>
+                      </div>
         </div>
+        
         <div className='comments-container'>
           <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
           {comments.map(comment => (
@@ -264,6 +309,6 @@ export default function EventId(props) {
           ))}
         </div>
       </section>
-      </>
-    )
+    </>
+  );
 }

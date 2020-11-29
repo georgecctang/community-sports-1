@@ -31,7 +31,7 @@ export default function EditEvent (props) {
    <EventForm newEvent={newEvent}
               setnewEvent={setnewEvent}
               newEventfunction={editEvent}
-              // cancel={cancel}
+              cancel={cancel}
               />
   );
   
