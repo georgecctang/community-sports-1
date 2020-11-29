@@ -24,19 +24,20 @@ export default function App(props) {
   const [islogin, setisLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState(JSON.parse(window.localStorage.getItem('userData')));
 
-  console.log('before useEffect', currentUser)
+  //console.log('before useEffect', currentUser)
 
   useEffect(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
         // console.log('before',islogin)
       // console.log('aftertrue',islogin)
-        return setCurrentUser(prev => ({...prev ,user : res.data}))
+        console.log('res.data', res.data, 'currentUser', currentUser )
+        return setCurrentUser(res.data)
         // return;
         
       })
     },[islogin])
-console.log('after useEffect', currentUser)
+//console.log('after useEffect', currentUser)
   return (
     <div className="App">
       <Router>
