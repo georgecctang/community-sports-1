@@ -8,5 +8,20 @@ body {
 }
 
 .card-row {
-  padding: 100px 30px;
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+
+.player-image {
+  background: url('player.jpeg');
+}
+
+.referee-image {
+  background: url('referee.jpeg');
+}
+
+.main-homepage-container {
+  height: 300px;
+  width: 480px;
 }
