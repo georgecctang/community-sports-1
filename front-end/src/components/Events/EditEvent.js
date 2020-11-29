@@ -24,14 +24,14 @@ export default function EditEvent (props) {
     // setnewEvent("");
     history.push('/events');
   }
-  if(edited === true) {
+  if (edited === true) {
     return <Redirect to="/events"/>
   }
   return (
    <EventForm newEvent={newEvent}
               setnewEvent={setnewEvent}
               newEventfunction={editEvent}
-              cancel={cancel}
+               cancel={cancel}
               />
   );
   
