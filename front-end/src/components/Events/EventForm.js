@@ -1,5 +1,9 @@
+
+import axios from 'axios';
+import {useState} from 'react';
+import { Link } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
-import {  Link } from "react-router-dom";
+
 
 export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
 //  console.log('newEvent', newEvent)
@@ -116,8 +120,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             onChange={(event) => setnewEvent({...newEvent, gender_restriction: event.target.value })}
           > 
             <option> Male only</option>
-            <option> Female only</option>
-            <option> Other only</option>
+            <option> Female Only</option>
+            <option> Other</option>
             <option> None</option>
           </Form.Control>
         </Form.Group>
@@ -155,7 +159,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           > 
             <option> Goalie </option>
             <option> Striker </option>
-            <option> Midfielder </option>
+            <option> Midfield </option>
             <option> Defender </option>
           </Form.Control>
         </Form.Group>
@@ -171,9 +175,9 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         
           <Button block size="lg" type="submit"> Save </Button> 
        
-        <Link to="/events">
+        {/* <Link to="/events"> */}
           <Button block size="lg" onClick={cancel} > Cancel </Button>
-        </Link>
+        {/* </Link> */}
      </Form>
     
     </div>
