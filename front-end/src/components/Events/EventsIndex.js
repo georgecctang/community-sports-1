@@ -20,6 +20,7 @@ export default function EventsIndex(props) {
   const [position, setPosition] = useState([])
   const [distanceFlag, setDistanceFlag] = useState(false);
   const [distanceArr, setDistanceArr] = useState([])
+  const [deletedEvent, setDeletedEvents] = useState([{}])
 
   const distanceApi = (coords, locations) => {
     //Distance Matrix API
@@ -108,11 +109,17 @@ export default function EventsIndex(props) {
         }
       })
     })
-  }, [categoryFilter, isUpcoming, isAllEvents])
+  }, [categoryFilter, isUpcoming, isAllEvents, deletedEvent])
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
   };
+
+  const deleteEvent = (id) => {
+    axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`) 
+    let newDeleted = [...deletedEvent, id]
+    setDeletedEvents(newDeleted)
+  }
 
   if (isLogout) {
     return <Redirect to="/" />
@@ -192,7 +199,10 @@ export default function EventsIndex(props) {
                 <>
                 <Card.Footer className="edit-delete_buttons">
                 {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
-                  <Button block size="sm" > Delete </Button>
+                  <Button block size="sm" onClick={(e) => {
+                    {e.preventDefault()}
+                    {deleteEvent(event.id)}
+                  }}> Delete </Button>
                {/* </Card.Link> */}
                 <Card.Link href={ `owners/events/${event.id}/edit` } > 
                     <Button block size="sm"> Edit </Button>
