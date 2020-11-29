@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, Button } from 'react-bootstrap/';
+import {  Nav,Navbar, Button,ListGroup } from 'react-bootstrap/';
 import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
@@ -154,19 +154,24 @@ export default function EventId(props) {
   return (
     <>
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/events">Sports</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      {props.currentUser &&
-        <Nav className="justify-content-end">
-          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-          <Button size="sm" onClick={(event) => {
-            event.preventDefault();
-            logout_validation()
-          }}>Logout</Button>
-        </Nav>}
-    </Navbar.Collapse>
-  </Navbar>
+        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          {props.user &&
+           <>
+          <Link to="/owners/events/new">
+          <Button size="sm"> Create New Event </Button></Link>
+            <Nav className="justify-content-end">
+              <Nav.Link href="/profile">My Profile<span>{props.user.first_name} {props.user.last_name}</span></Nav.Link>
+              <Button size="sm" onClick={(event) => {
+                event.preventDefault();
+                logout_validation()
+              }}>Logout</Button>
+            </Nav>
+            </>
+            }
+        </Navbar.Collapse>
+      </Navbar>
       <section>
         <h1> {event.title} </h1>
         <h3> Hosted By: {event.first_name} {event.last_name}</h3>
@@ -203,10 +208,12 @@ export default function EventId(props) {
               ))}
             </div>
             <div className='position-container'>
+              <ListGroup>
               <h1> Defenders</h1>
               {team1.defenders.map(player => (
                 <div className='player-info'> {player} </div>
               ))}
+              </ListGroup>  
             </div>
             <div className='position-container'>
               <h1> Midfielders</h1>

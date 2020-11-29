@@ -67,6 +67,7 @@ console.log('after useEffect', currentUser)
           <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
+        
           <Route exact path='/events/:eventId' render={(props) => <EventId eventId={props.match.params.eventId} user={currentUser}/>} /> 
 
           <Route exact path='/owners/events/:eventId/edit' render= {(props) => <EditEvent 

@@ -9,6 +9,7 @@ export default function CreateEvent (props) {
   const [created, setCreated ] = useState(false)
   function newEventfunction ()  {
     axios.post('http://localhost:8001/api/owners/events/new', {...newEvent, owner_id: props.currentUser.id} ).then((res) => {
+      console.log("new event", newEvent)
       setCreated(true)
     })
   }
