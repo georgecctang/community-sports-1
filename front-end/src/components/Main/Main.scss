@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 body {
-  background: url('homepage.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.card-row {
+  padding: 100px 30px;
 }

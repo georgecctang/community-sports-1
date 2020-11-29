@@ -29,15 +29,7 @@ export default function App(props) {
   useEffect(() => {
       axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
       { 
-<<<<<<< HEAD
         return setCurrentUser(prev => ({...prev ,user : res.data}))  
-=======
-        // console.log('before',islogin)
-      // console.log('aftertrue',islogin)
-        return setCurrentUser(prev => ({...prev ,user : res.data}))
-        // return;
-        
->>>>>>> b184359f468fcc2bcffb800f6c55b7f7da47a19e
       })
     },[islogin])
 console.log('after useEffect', currentUser)

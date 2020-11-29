@@ -203,7 +203,6 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-<<<<<<< HEAD
   <NavBar currentUser={props.currentUser} logout_validation={logout_validation} />
   <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
     <div className="sidebar-sticky"></div>
@@ -213,46 +212,3 @@ export default function EventsIndex(props) {
   </>
   )
 }
-=======
-   
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <NavDropdown title="All Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Upcoming</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Past</NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title="My Events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/my-events/upcoming">Joined</NavDropdown.Item>
-              <NavDropdown.Item href="/my-events/past">Owned</NavDropdown.Item>
-            </NavDropdown>
-
-          </Nav>
-     
-          {props.currentUser &&
-            <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-              <Button size="sm" onClick={(event) => {
-                event.preventDefault();
-                logout_validation()
-              }}>Logout</Button>
-            </Nav>}
-        </Navbar.Collapse>
-      </Navbar>
-      <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky"></div>
-        <EventFilter 
-          setCategoryFilter={setCategoryFilter} 
-          setIsUpcoming={setIsUpcoming} 
-          setIsAllEvents={setIsAllEvents}
-          />
-      </Nav>
-      {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
-    </>
-    )
-}
-//cancelEvent(event.id)}
->>>>>>> b184359f468fcc2bcffb800f6c55b7f7da47a19e
