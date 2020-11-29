@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, Button } from 'react-bootstrap/';
-import { Link,Redirect } from 'react-router-dom'
+import { Nav, Navbar, Button } from 'react-bootstrap/';
+import { Link, Redirect } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
+import Card from 'react-bootstrap/Card'
 require('dotenv').config()
 
 export default function EventId(props) {
@@ -23,7 +24,9 @@ export default function EventId(props) {
   const [comment, setComment] = useState()
   const [userJoined, setUserJoined] = useState(false)
   const [isLogout, setisLogout] = useState(false)
-  const eventId = props.eventId 
+  const [isOwner, setisOwner] = useState(false)
+  const [redirect, setRedirect] = useState(false)
+  const eventId = props.eventId
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
@@ -105,11 +108,10 @@ export default function EventId(props) {
             else if (player.position === 'Midfielder') {
               midfielders2.push(`${player.first_name} ${player.last_name}`)
             }
-
           }
         }
-        setTeam1(prev => ({ ...prev, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 }))
-        setTeam2(prev => ({ ...prev, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 }))
+        setTeam1({ ...team1, goalies: goalies1, strikers: strikers1, defenders: defenders1, midfielders: midfielders1 })
+        setTeam2({ ...team2, goalies: goalies2, strikers: strikers2, defenders: defenders2, midfielders: midfielders2 })
 
         //Formatting Comments
         const commentFormatted = commentData.data.map((comment, index) => ({
@@ -131,12 +133,19 @@ export default function EventId(props) {
               //Get distance from user to event
               distanceApi(pos, location)
             }
+            console.log('owner_id', owner_id, 'props.user.id', props.user.id)
+            if (owner_id === props.user.id) {
+              setisOwner(true)
+            }
           }
         })
         return eventData.data[0]
       })
   }
-
+  const deleteEvent = (id) => {
+    axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`)
+    setRedirect(true)
+  }
 
   useEffect(() => {
     eventData()
@@ -150,23 +159,28 @@ export default function EventId(props) {
   if (isLogout) {
     return <Redirect to="/" />
   };
+  
+  if (redirect) {
+    return <Redirect to="/events" />
+  }
+
 
   return (
     <>
-    <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/events">Sports</Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      {props.currentUser &&
-        <Nav className="justify-content-end">
-          <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
-          <Button size="sm" onClick={(event) => {
-            event.preventDefault();
-            logout_validation()
-          }}>Logout</Button>
-        </Nav>}
-    </Navbar.Collapse>
-  </Navbar>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          {props.currentUser &&
+            <Nav className="justify-content-end">
+              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+              <Button size="sm" onClick={(event) => {
+                event.preventDefault();
+                logout_validation()
+              }}>Logout</Button>
+            </Nav>}
+        </Navbar.Collapse>
+      </Navbar>
       <section>
         <h1> {event.title} </h1>
         <h3> Hosted By: {event.first_name} {event.last_name}</h3>
@@ -178,21 +192,26 @@ export default function EventId(props) {
             <p> This location is {distance.distance} away</p>
             <p> It will take you {distance.time} to get there</p>
             <div className="map-container_smallMap">
-            {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
+              {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
           </div>
         </div>
         {/* <aside className='right-column'> */}
         <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
           <h4> Event Details </h4>
-          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon"/></h5>
+          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon" /></h5>
           <h5> {event.start_time}-{event.end_time}</h5>
           <h5> {event.address}, {event.city}</h5>
           {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
           <h5> Gender Restriction: {event.gender_restriction}</h5>
           <h5> Skill Level: {event.skill_level}</h5>
-          <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />
-          {!userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2}/>}
-          </Nav>
+          {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
+          {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
+          {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
+            <Button variant='primary'> Edit </Button>
+          </Card.Link>}
+          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
+          </Button>}
+        </Nav>
         {/* </aside> */}
         <div className='game-container'>
           <div className='team1-container'>
@@ -221,7 +240,7 @@ export default function EventId(props) {
               ))}
             </div>
           </div>
-  
+
           <div className='team2-container'>
             <div className='position-container'>
               <h1> Goalies</h1>
@@ -250,7 +269,7 @@ export default function EventId(props) {
           </div>
         </div>
         <div className='comments-container'>
-          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
+          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments} />
           {comments.map(comment => (
             <div className='comment'>
               <h1> {comment.fullName} </h1>
@@ -259,7 +278,7 @@ export default function EventId(props) {
           ))}
         </div>
       </section>
-      </>
-    )
+    </>
+  )
 
 }
