@@ -8,6 +8,7 @@ import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
+import logo from './logo.png'
 require('dotenv').config()
 
 export default function EventId(props) {
@@ -61,7 +62,6 @@ export default function EventId(props) {
         const eventData = responses[0]
         const teamData = responses[1]
         const commentData = responses[2]
-
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
@@ -164,16 +164,17 @@ export default function EventId(props) {
   return (
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Brand href="/events"><img src={logo}/></Navbar.Brand>
+        {props.user &&  <h3 className='display-name'> {props.user.first_name} {props.user.last_name} </h3>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
           {props.user &&
            <>
             <Link to="/owners/events/new">
-              <Button size="sm"> Create New Event </Button></Link>
+              <Button size="m"> Create New Event </Button></Link>
                 <Nav className="justify-content-end">
-                  <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text>
-                  <Button size="sm" onClick={(event) => { event.preventDefault();
+                  {/* <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text> */}
+                  <Button size="m" onClick={(event) => { event.preventDefault();
                                                       logout_validation()}}>Logout</Button>
                </Nav>
           </>
@@ -182,13 +183,13 @@ export default function EventId(props) {
       </Navbar>
 
       <section>
-        <div className="title">
+        <div id="title">
           <h1> {event.title} </h1>
-            <h3> Hosted By: {event.first_name} {event.last_name}</h3></div>
+            <h3 id="hostname"> Hosted By: {event.first_name} {event.last_name}</h3></div>
             <div className='midpage'>
               <div className='additional-info'>
                 <div className="info">i</div>
-                <p> {event.additional_info} </p>
+                <h5> {event.additional_info} </h5>
               </div>
             </div>
           <div className='map-container'>
@@ -210,24 +211,23 @@ export default function EventId(props) {
             {/* <p> From Your Location: {distance.distance} | {distance.time}</p> */}
             <p> Gender Restriction: {event.gender_restriction}</p> 
             <p> Skill Level: {event.skill_level}</p>
-            {/* <div id="button-group"> */}
+            <div id="button-group">
             {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
           {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
           {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
-            <Button variant='primary'> Edit </Button>
+            <Button > Edit </Button>
           </Card.Link>}
-          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
+          {isOwner && <Button onClick={() => deleteEvent(eventId)}> Delete Event
           </Button>}
-          {/* </div> */}
+          </div>
           </div>
         </Nav>
-        
           <div className='game-container'>
             <div className='team1-container'>
-              <div classNames="teams"><h2>TEAM BLUE</h2></div> 
+              <div><h2 id="teams">TEAM BLUE</h2></div> 
                 <div className="teamblue">
                  <div className='position-container'>
-                   <h4> Goalies</h4>
+                   <h4> <bold>Goalies</bold></h4>
                     {team1.goalies.map(player => (
                       <p className='player-info-blue'> {player} </p>
                      ))}
@@ -254,7 +254,7 @@ export default function EventId(props) {
               </div>
   
           <div className='team2-container'>
-            <div classNames="teams"><h2>TEAM RED</h2></div> 
+            <div id="teams"><h2><bold>TEAM RED</bold></h2></div> 
               <div className="teamred">
                 <div className='position-container'>
                   <h4> Goalies</h4>
@@ -289,6 +289,7 @@ export default function EventId(props) {
           {comments.map(comment => (
             <div className='comment'>
               <h5 id="user-comment"> {comment.fullName} </h5>
+              {/* <h5 id="user-comment"> {comment.time} </h5> */}
               <p className="p-comment"> {comment.comment} </p>
             </div>
           ))}
