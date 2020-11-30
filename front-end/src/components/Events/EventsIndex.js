@@ -5,6 +5,7 @@ import EventFilter from './EventFilter';
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
+import logo from './logo.png'
 
 import './Events.scss';
 
@@ -223,7 +224,7 @@ export default function EventsIndex(props) {
   return (
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Brand href="/events"> <img src={logo} /> </Navbar.Brand>
           {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
