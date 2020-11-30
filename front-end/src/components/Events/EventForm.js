@@ -1,19 +1,16 @@
-
-import axios from 'axios';
-import {useState} from 'react';
-import { Link } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
-
 
 export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
 //  console.log('newEvent', newEvent)
   return (
     <div className="newEvent">
-      <Form onSubmit={event => {
-                            event.preventDefault();
-                            newEventfunction()
+      <Form 
+          onSubmit={event => {
+          event.preventDefault();
+          newEventfunction()
         }}>
         <Form.Group size="lg" controlId="dob">
+        <Form.Label id="event-form">Date</Form.Label>
         <Form.Control
           type="date"
           name="dob"
@@ -24,6 +21,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
         <Form.Group size="lg" controlId="appt">
+        <Form.Label>Start Time</Form.Label>
         <Form.Control
           type="time"
           name="appt"
@@ -35,6 +33,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
   
         <Form.Group size="lg" controlId="appt">
+        <Form.Label>End Time</Form.Label>
         <Form.Control
           type="time"
           placeholder="End Time"
@@ -44,6 +43,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
         <Form.Group size="lg" controlId="formGroupTitle">
+        <Form.Label>Title</Form.Label>
         <Form.Control
           type="text"
           value={newEvent.title}
@@ -53,6 +53,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
         <Form.Group size="lg" controlId="formGroupAddress">
+        <Form.Label>Event Address</Form.Label>
         <Form.Control
           value={newEvent.address}
           placeholder="Address"
@@ -62,6 +63,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupCity" >
+        <Form.Label>City</Form.Label>
         <Form.Control
           value={newEvent.city}
           placeholder="City"
@@ -71,6 +73,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupProvince" >
+        <Form.Label>Province</Form.Label>
         <Form.Control
           value={newEvent.province}
           placeholder="Province"
@@ -79,15 +82,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
 
-        {/* <Form.Group size="lg" controlId="formGroupCurrentParticipants" >
-        <Form.Control
-          value={newEvent.current_participants}
-          placeholder="Current Participants"
-          onChange={(event) => setnewEvent({...newEvent, current_participants: event.target.value })}
-        />
-        </Form.Group> */}
-
         <Form.Group size="lg" controlId="formGroupMaximumParticipants" >
+        <Form.Label>Maximum Participants</Form.Label>
         <Form.Control
           value={newEvent.max_participants}
           placeholder="Maximum Participants"
@@ -97,6 +93,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupSkillLevel">
+        <Form.Label>Skill Level</Form.Label>
            <Form.Control
             as="select" 
             value={newEvent.skill_level}
@@ -113,6 +110,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
        
         <Form.Group size="lg" controlId="formGroupGenderRestriction">
+        <Form.Label>Gender Restriction</Form.Label>
            <Form.Control
             as="select" 
             value={newEvent.gender_restriction}
@@ -121,12 +119,13 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
           > 
             <option> Male only</option>
             <option> Female Only</option>
-            <option> Other</option>
+            <option> Other Only</option>
             <option> None</option>
           </Form.Control>
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupReferee">
+        <Form.Label>Referee</Form.Label>
            <Form.Control
             as="select" 
             value={newEvent.referee}
@@ -139,6 +138,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupTeams">
+        <Form.Label>Team</Form.Label>
            <Form.Control
             as="select" 
             value={newEvent.team}
@@ -151,6 +151,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupPosition">
+        <Form.Label>Position</Form.Label>
            <Form.Control
             as="select" 
             value={newEvent.position}
@@ -165,6 +166,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         </Form.Group>
 
         <Form.Group size="lg" controlId="formGroupInfo" >
+        <Form.Label>Additional Info</Form.Label>
         <Form.Control
           value={newEvent.additional_info}
           placeholder="Additional Info"
@@ -172,12 +174,10 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
                               setnewEvent({...newEvent, additional_info: event.target.value })}
         />
         </Form.Group>
-        
-          <Button block size="lg" type="submit"> Save </Button> 
-       
-        {/* <Link to="/events"> */}
-          <Button block size="lg" onClick={cancel} > Cancel </Button>
-        {/* </Link> */}
+        <div div="event-buttons"> 
+          <Button size="lg" type="submit"> Save </Button> 
+          <Button size="lg" onClick={cancel} > Cancel </Button>
+        </div>
      </Form>
     
     </div>

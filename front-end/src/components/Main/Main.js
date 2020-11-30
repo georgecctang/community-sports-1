@@ -10,7 +10,7 @@ export default function Main (props) {
     <>
     <div className="homepage" >
       <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Sports</Navbar.Brand>
+      <Navbar.Brand href="/">LOGO</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="justify-content-end">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav, Navbar, Button, Table, Card} from 'react-bootstrap/';
+import {  Nav, Navbar, Button,  Card} from 'react-bootstrap/';
 import { Link,Redirect } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
@@ -172,7 +172,7 @@ export default function EventId(props) {
             <Link to="/owners/events/new">
               <Button size="sm"> Create New Event </Button></Link>
                 <Nav className="justify-content-end">
-                  <Nav.Link href="/profile">My Profile<span>{props.user.first_name} {props.user.last_name}</span></Nav.Link>
+                  <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text>
                   <Button size="sm" onClick={(event) => { event.preventDefault();
                                                       logout_validation()}}>Logout</Button>
                </Nav>
@@ -182,10 +182,12 @@ export default function EventId(props) {
       </Navbar>
 
       <section>
+        <div className="title">
           <h1> {event.title} </h1>
-            <h3> Hosted By: {event.first_name} {event.last_name}</h3>
+            <h3> Hosted By: {event.first_name} {event.last_name}</h3></div>
             <div className='midpage'>
               <div className='additional-info'>
+                <div className="info">i</div>
                 <p> {event.additional_info} </p>
               </div>
             </div>
@@ -203,29 +205,22 @@ export default function EventId(props) {
           <div className="card-text">
             <h4> Event Details </h4>
             <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite}   alt="soccer icon"/></h5>
-            <h5> {event.start_time}-{event.end_time}</h5>
-            <h5> {event.address}, {event.city}</h5>
-            {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
-            <h5> Gender Restriction: {event.gender_restriction}</h5> 
-            <h5> Skill Level: {event.skill_level}</h5>
+            <p> {event.start_time}-{event.end_time}</p>
+            <p> {event.address}, {event.city}</p>
+            {/* <p> From Your Location: {distance.distance} | {distance.time}</p> */}
+            <p> Gender Restriction: {event.gender_restriction}</p> 
+            <p> Skill Level: {event.skill_level}</p>
+            {/* <div id="button-group"> */}
             {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
-              {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
-              {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
-            <Button variant='primary'> Edit </Button>
-          </Card.Link>}
-          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
-          </Button>}
-          </div>
-        </Nav>
-            {/* <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user= {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
           {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
           {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
             <Button variant='primary'> Edit </Button>
           </Card.Link>}
           {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
           </Button>}
+          {/* </div> */}
+          </div>
         </Nav>
-          {/* </aside> */}
           <div className='game-container'>
           <div className='team1-container'>
             <div className='position-container'>
@@ -281,15 +276,12 @@ export default function EventId(props) {
             </div>
           </div>
           </div>
-          {/* </Nav> */}
-          {/* </aside> */}
-        
         <div className='comments-container'>
           <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
           {comments.map(comment => (
             <div className='comment'>
-              <h4> {comment.fullName} </h4>
-              <h5> {comment.comment} </h5>
+              <h5 id="user-comment"> {comment.fullName} </h5>
+              <p className="p-comment"> {comment.comment} </p>
             </div>
           ))}
         </div>

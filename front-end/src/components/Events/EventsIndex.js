@@ -42,6 +42,7 @@ export default function EventsIndex(props) {
     fetch(proxyurl + URL)
       .then(response => response.text())
       .then(data => {
+        console.log(data)
         return data ? JSON.parse(data) : {}
       })
       .then(data => {
@@ -199,8 +200,8 @@ export default function EventsIndex(props) {
                 <Card.Footer className="edit-delete_buttons">
                 {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
                   <Button block size="sm" onClick={(e) => {
-                    {e.preventDefault()}
-                    {deleteEvent(event.id)}
+                    e.preventDefault();
+                    deleteEvent(event.id)
                   }}> Delete </Button>
                {/* </Card.Link> */}
                 <Card.Link href={ `owners/events/${event.id}/edit` } > 
@@ -222,15 +223,15 @@ export default function EventsIndex(props) {
   return (
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Brand href="/events">LOGO</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {props.currentUser &&
            <>
           <Link to="owners/events/new">
-          <Button size="sm"> Create New Event </Button></Link>
-            <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
+          <Button size="sm" id="createEvent"> Create New Event </Button></Link>
+            <Nav >
+              <Navbar.Text>{props.currentUser.first_name} {props.currentUser.last_name}</Navbar.Text>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()

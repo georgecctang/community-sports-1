@@ -1,17 +1,19 @@
 // @import "styles/variables.scss";
-@media all and (min-width: 480px) {
-  .Login {
-    padding: 60px 0;
-  }
-
-  .Login form {
-    margin: 0 auto;
-    max-width: 320px;
-  }
+.login-form {
+  visibility: visible;
 }
-.btn {
+#btn_login {
   color : white;
   background-color: black;
   border-radius: 20px;
-  border: non
+  border: none;
+  width: -webkit-fill-available;
 }
+.Login {
+  padding: 60px;
+  margin: 7em auto;
+  max-width: 30%;
+  border: 3px solid rgba(185, 181, 181, 0.87);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
