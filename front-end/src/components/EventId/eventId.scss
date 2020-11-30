@@ -8,12 +8,15 @@ section {
   flex-direction: column;
   align-items: center;
   margin-bottom: 5em;
-  .title {
+  #title {
     margin-top: 1em;
     background-color:#e9eaec59;
     padding: 1em;
+    padding-bottom: 2em;
     border-radius: 10px;
-    
+    #hostname {
+      left:43%;
+    }
   }
   .additional-info {
     margin-top: 2em;
@@ -28,17 +31,15 @@ section {
       margin-right: 1em ;
     }
   }
-  
   .midpage {
     display: flex;
-    
     justify-content: space-between;
     // padding-left: 25%;
     align-self: self-start;
     .additional-info {
       display: flex; 
-      margin-left: 15em;
-   
+      margin-top: 3em;
+      margin-left: 19em;
     }
   }
   .game-container {
@@ -48,23 +49,27 @@ section {
     .team1-container {
       display: flex; 
       flex-direction: column;
+      background-color: #08080862;
+      border-radius: 4px;
       margin-left: 12em;
-      color: rgb(150, 129, 13);
+      color: whitesmoke;
+      #teams {
+        padding-top: 1em;
+        color:blue;
+      }
       .teamblue {
         display: flex;
-        background-color: #08080862;
+        margin-top: 2em;
       }
       .player-info-blue {
-        color: rgb(150, 129, 13);
+        color: white;
         background-color: #080808c0;
         border-radius: 4px;
-        // background-color: blue;
+        background-color: blue;
       }
       .position-container {
-        width: 12em;
+        width: 11em;
         height: 500px;
-        // background-color: #080808e5;
-        // background-color: rgba(0, 0, 255, 0.747);
         padding: 1em 1em 15em 1em;
         border-radius: 10px;
       }
@@ -72,25 +77,31 @@ section {
     .team2-container {
       display: flex; 
       flex-direction: column;
-      color: rgb(150, 129, 13);
+      border-radius: 4px;
+      color: whitesmoke;
+      background-color: #08080862;
       margin-left: 5em;
+      #teams {
+        padding-top: 2em;
+        color: red;
+      }
       .teamred {
-        background-color: #08080862;
         display: flex;
+        margin-top: 2em;
+      }
+      .player-info-red {
+        color: white;
+        background-color: #080808c0;
+        border-radius: 4px;
+        background-color: red;
       }
       .position-container{
-        width: 12em;
+        width: 11em;
         height: 500px;
-        // background-color: rgba(255, 0, 0, 0.747);
         padding: 1em 1em 15em 1em;
         border-radius: 10px;
       }
-      .player-info-red {
-        color: rgb(150, 129, 13);
-        background-color: #080808c0;
-        border-radius: 4px;
-        // background-color: red;
-      }
+      
      
     }
   }
@@ -100,7 +111,7 @@ section {
   }
   .sidebar {
     position: fixed;
-    width: 15%;
+    width: 250px;
     height: 90%;
     margin-bottom: 20em;
     left: 1em;
@@ -118,27 +129,34 @@ section {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
   }
-  // #button-group {
-  //   display: flex;
-  //   flex-direction: column;
-  //   margin-top: 2em;
-  // }
+  #button-group {
+    display: flex;
+    flex-direction: column;
+   
+    // width: 150px;
+    margin-top: 2em;
+  }
+  #edit-button {
+    width: -webkit-fill-available !important;
+  }
   //-----Navbar Text-----
   .navbar-light .navbar-text {
-    color: white;
     margin-left: 35em;
     margin-right: 2em;
     font: -webkit-small-control;
   }
   .card-text {
-
-  display: flex;
-  flex-direction: column;
+    margin-top: 3em;
+    font-size: large;
+    color: rgb(150, 129, 13);
+    display: flex;
+    flex-direction: column;
   }
 }
 .comments-container {
   width: 70%;
   margin-left: 10em;
+  border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.747);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   .comment {
@@ -147,15 +165,17 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: baseline;
+    margin-bottom: 1em;
     
   }
   .p-comment{
     padding-left: 1em; 
     padding-right: 1em;
+    border-radius: 0px 30px 30px;
   }
   #user-comment {
     margin-right: 1em;
-    margin-left: 2em;
+    margin-left: 1.5em;
   }
 }
 
@@ -163,7 +183,7 @@ section {
   position: absolute !important; 
   height: 30% !important;
   width: 30% !important;
-  top: 5em !important;
+  top: 7em !important;
   right: 3em;
     &_text {
       color:rgb(150, 129, 13);
