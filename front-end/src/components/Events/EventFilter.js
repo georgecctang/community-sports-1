@@ -79,9 +79,10 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
         <Form.Label>City</Form.Label>
         <h4> Location</h4>
           <Form.Control as="select" size="sm" className="form-select_button">
-            <option type="radio" value="Toronto" name="driving_time" label="Toronto" defaultChecked>1</option>
-            <option type="radio" value="Ottawa" name="" label="Ottawa">2</option>
-            <option type="radio" value="Niagara Falls" name="" label="Niagara Falls">3</option>
+            <option type="radio" value="" name="driving_time" label="(Show All)" defaultChecked>1</option>
+            <option type="radio" value="Toronto" name="" label="Toronto" >2</option>
+            <option type="radio" value="Ottawa" name="" label="Ottawa">3</option>
+            <option type="radio" value="Niagara Falls" name="" label="Niagara Falls">4</option>
           </Form.Control>
         </Form.Group>
       </div>
@@ -91,8 +92,9 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
         <Form.Label>Referee</Form.Label>
         <h4> Referee</h4>
           <Form.Control as="select" size="sm" className="form-select_button">
-            <option type="radio" value='false' name="referee" label="No" defaultChecked>1</option>
+            <option type="radio" value='' name="referee" label="(Show All)" defaultChecked>1</option>
             <option type="radio" value='true' name="" label="Yes">2</option>
+            <option type="radio" value='false' name="" label="No">3</option>
           </Form.Control>
         </Form.Group>
       </div>
