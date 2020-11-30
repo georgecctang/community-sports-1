@@ -1,5 +1,5 @@
 body {
-  background: url('homepage.jpg') no-repeat center center fixed; 
+  // background: url('homepage.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -10,4 +10,22 @@ body {
   color: white;
   margin-left: 35em;
   
+}
+.card-row {
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+
+.player-image {
+  background: url('player.jpeg');
+}
+
+.referee-image {
+  background: url('referee.jpeg');
+}
+
+.main-homepage-container {
+  height: 300px;
+  width: 480px;
 }
