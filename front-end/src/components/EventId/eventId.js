@@ -146,7 +146,6 @@ export default function EventId(props) {
 
   useEffect(() => {
     eventData()
-    console.log(comments)
   }, [setComments])
 
   //function trigered by logout button
