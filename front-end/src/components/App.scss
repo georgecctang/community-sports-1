@@ -10,10 +10,20 @@ body {
 .App {
   text-align: center;
   overflow: hidden;
- 
+  font-family: 'Prata', serif;
 }
-
-
+.btn-primary:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+}
+.btn-primary {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
+}
 .App-header {
   min-height: 100vh;
   display: flex;
