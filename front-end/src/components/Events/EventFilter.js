@@ -36,7 +36,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
     <div onChange={(e) => handleTimeChange(e.target.value)} >
     <Form.Group controlId="time-form">
       {/* <Form.Label>Time</Form.Label> */}
-      <h4> Time </h4>
+      {/* <h4> Time </h4> */}
         <Form.Control as="select" size="sm" className="form-select_button">
           <option type="radio" value="Upcoming" name="time" label="Upcoming" defaultChecked>1</option>
           <option type="radio" value="Past" name="time" label="Past">2</option>
@@ -47,7 +47,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
       <div className='gender' onChange={(e) => handleCategoryChange('gender_restriction', e.target.value)} >
       <Form.Group controlId="gender-form">
         {/* <Form.Label>Gender Restriction</Form.Label> */}
-        <h4> Gender Restriction </h4>
+        {/* <h4> Gender Restriction </h4> */}
           <Form.Control as="select" size="sm" className="form-select_button" >
             <option value="" name="gender_restriction" label="(Show All)" defaultChecked>1</option>
             <option type="radio" value="Male Only" name="gender_restriction" label="Male Only">2</option>

@@ -175,8 +175,8 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
         <div div="event-buttons"> 
-          <Button size="lg" type="submit"> Save </Button> 
-          <Button size="lg" onClick={cancel} > Cancel </Button>
+          <Button id="edit-button" type="submit"> Save </Button> 
+          <Button onClick={cancel} > Cancel </Button>
         </div>
      </Form>
     

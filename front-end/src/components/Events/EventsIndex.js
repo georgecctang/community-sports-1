@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import logo from './logo.png'
-
 import './Events.scss';
 
 export default function EventsIndex(props) {
@@ -200,12 +199,10 @@ export default function EventsIndex(props) {
                 {checkOwner(event) && 
                 <>
                 <Card.Footer className="edit-delete_buttons">
-                {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
                   <Button block size="sm" onClick={(e) => {
                     e.preventDefault();
                     deleteEvent(event.id)
                   }}> Delete </Button>
-               {/* </Card.Link> */}
                 <Card.Link href={ `owners/events/${event.id}/edit` } > 
                     <Button block size="sm"> Edit </Button>
                 </Card.Link> 
@@ -225,16 +222,16 @@ export default function EventsIndex(props) {
   return (
     <>
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/events"> <img src={logo} /> </Navbar.Brand>
+      <Navbar.Brand href="/events"> <img src={logo} alt="logo"/> </Navbar.Brand>
         {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         {props.currentUser &&
          <>
         <Link to="owners/events/new">
-        <Button size="sm"> Create New Event </Button></Link>
+        <Button size="m"> Create New Event </Button></Link>
           <Nav className="justify-content-end">
-            <Button size="sm" onClick={(event) => {
+            <Button size="m" onClick={(event) => {
               event.preventDefault();
               logout_validation()
             }}>Logout</Button> 
