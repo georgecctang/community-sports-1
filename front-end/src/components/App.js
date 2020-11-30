@@ -13,6 +13,7 @@ import Register from './Register/RegisterForm'
 import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
 import MyEventsIndex from './MyEvents/MyEventsIndex';
+import Message from './Message/Message';
 import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
@@ -59,10 +60,13 @@ export default function App(props) {
             currentUser = {currentUser}/> 
           </Route>
           <Route exact path='/owners/events/new' >
-            <CreateEvent currentUser = {currentUser}/>
+            <CreateEvent currentUser={currentUser}/>
           </Route>
+          <Route exact path='/messages' >
+          <Message currentUser={currentUser}/>
+        </Route>
           
-          <Route exact path='/my-events/:screen' > 
+        <Route exact path='/my-events/:screen' > 
           < MyEventsIndex currentUser = {currentUser}/>
         </Route > 
         
