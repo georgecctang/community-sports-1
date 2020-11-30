@@ -78,7 +78,7 @@ module.exports = db => {
       SELECT c.*, u.first_name, u.last_name FROM comments AS c
       JOIN users AS u ON c.user_id = u.id
       WHERE event_id = $1
-      ORDER BY time DESC
+      ORDER BY id DESC
       ;
       `,
     [Number(eventId)])
