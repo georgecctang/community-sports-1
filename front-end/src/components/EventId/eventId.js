@@ -229,7 +229,7 @@ export default function EventId(props) {
                  <div className='position-container'>
                    <h4> Goalies</h4>
                     {team1.goalies.map(player => (
-                      <p className='player-info'> {player} </p>
+                      <p className='player-info-blue'> {player} </p>
                      ))}
                   </div>
                   <div className='position-container'>

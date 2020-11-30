@@ -24,7 +24,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
     <Form className="form">
     <div onChange={(e) => handleEventChange(e.target.value)} >
     <Form.Group controlId="event-form">
-      <Form.Label>Events</Form.Label>
+      {/* <Form.Label>Events</Form.Label> */}
         <h4> Events</h4>
         <Form.Control as="select" size="sm" className="form-select_button">
           <option type="radio" value="All Events" name="events" label="All Events" defaultChecked>1</option>
@@ -35,7 +35,8 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
 
     <div onChange={(e) => handleTimeChange(e.target.value)} >
     <Form.Group controlId="time-form">
-      <Form.Label>Time</Form.Label>
+      {/* <Form.Label>Time</Form.Label> */}
+      <h4> Time </h4>
         <Form.Control as="select" size="sm" className="form-select_button">
           <option type="radio" value="Upcoming" name="time" label="Upcoming" defaultChecked>1</option>
           <option type="radio" value="Past" name="time" label="Past">2</option>
@@ -45,7 +46,8 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
 
       <div className='gender' onChange={(e) => handleCategoryChange('gender_restriction', e.target.value)} >
       <Form.Group controlId="gender-form">
-        <Form.Label>Gender Restriction</Form.Label>
+        {/* <Form.Label>Gender Restriction</Form.Label> */}
+        <h4> Gender Restriction </h4>
           <Form.Control as="select" size="sm" className="form-select_button" >
             <option value="" name="gender_restriction" label="(Show All)" defaultChecked>1</option>
             <option type="radio" value="Male Only" name="gender_restriction" label="Male Only">2</option>
@@ -57,7 +59,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
       </div> 
       <div onChange={(e) => handleCategoryChange('skill_level', e.target.value)} >
       <Form.Group controlId="level-form">
-        <Form.Label>Level</Form.Label>
+        {/* <Form.Label>Level</Form.Label> */}
         <h4> Level</h4>
           <Form.Control as="select" size="sm" className="form-select_button">
             <option  value="" name="skill_level" label="(Show All)" defaultChecked>1</option>
@@ -71,7 +73,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
      
       <div onChange={(e) => handleCategoryChange('city', e.target.value)} >
       <Form.Group controlId="driving-time">
-        <Form.Label>City</Form.Label>
+        {/* <Form.Label>City</Form.Label> */}
         <h4> Location</h4>
           <Form.Control as="select" size="sm" className="form-select_button">
             <option type="radio" value="Toronto" name="driving_time" label="Toronto" defaultChecked>1</option>

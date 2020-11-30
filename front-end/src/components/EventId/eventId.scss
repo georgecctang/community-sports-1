@@ -44,18 +44,27 @@ section {
   .game-container {
     display: flex;
     // flex-direction: column;
-    margin: 20em 2em 10em 2em;
-
-   
+    margin: 20em 0 10em 2em;
     .team1-container {
       display: flex; 
       flex-direction: column;
       margin-left: 12em;
+      color: rgb(150, 129, 13);
       .teamblue {
         display: flex;
+        background-color: #08080862;
+      }
+      .player-info-blue {
+        color: rgb(150, 129, 13);
+        background-color: #080808c0;
+        border-radius: 4px;
+        // background-color: blue;
       }
       .position-container {
-        background-color: rgba(0, 0, 255, 0.747);
+        width: 12em;
+        height: 500px;
+        // background-color: #080808e5;
+        // background-color: rgba(0, 0, 255, 0.747);
         padding: 1em 1em 15em 1em;
         border-radius: 10px;
       }
@@ -63,23 +72,26 @@ section {
     .team2-container {
       display: flex; 
       flex-direction: column;
-      
+      color: rgb(150, 129, 13);
       margin-left: 5em;
       .teamred {
-        
+        background-color: #08080862;
         display: flex;
       }
       .position-container{
-        background-color: rgba(255, 0, 0, 0.747);
+        width: 12em;
+        height: 500px;
+        // background-color: rgba(255, 0, 0, 0.747);
         padding: 1em 1em 15em 1em;
         border-radius: 10px;
       }
       .player-info-red {
-        background-color: red;
+        color: rgb(150, 129, 13);
+        background-color: #080808c0;
+        border-radius: 4px;
+        // background-color: red;
       }
-      .player-info-blue {
-        background-color: blue;
-      }
+     
     }
   }
   img {
