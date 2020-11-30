@@ -5,6 +5,8 @@ import EventFilter from './EventFilter';
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
+import logo from './logo.png'
+
 import './Events.scss';
 
 export default function EventsIndex(props) {
@@ -172,7 +174,7 @@ export default function EventsIndex(props) {
           eventsByDate[date].map(event => {
             return (
               <div className="events">
-              <Card >
+              <Card className='event'>
                 <Card.Link href={`/events/${event.id}`}>
                 <div id="card-top">
                 <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
@@ -182,7 +184,7 @@ export default function EventsIndex(props) {
                 <Card.Body >
                   <Card.Title>{event.title}</Card.Title>
                   <Card.Text>
-                    <small className="text-muted">{event.province}</small>
+                    <small className="text-muted">{event.city}, {event.province}</small>
                   </Card.Text>
                   <div id="card-bottom">
                     <Card.Text>
@@ -222,34 +224,34 @@ export default function EventsIndex(props) {
   }
   return (
     <>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">LOGO</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          {props.currentUser &&
-           <>
-          <Link to="owners/events/new">
-          <Button size="sm" id="createEvent"> Create New Event </Button></Link>
-            <Nav >
-              <Navbar.Text>{props.currentUser.first_name} {props.currentUser.last_name}</Navbar.Text>
-              <Button size="sm" onClick={(event) => {
-                event.preventDefault();
-                logout_validation()
-              }}>Logout</Button> 
-            </Nav>
-            </>
-            }
-        </Navbar.Collapse>
-      </Navbar>
-      <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-        <EventFilter 
-          setCategoryFilter={setCategoryFilter} 
-          setIsUpcoming={setIsUpcoming} 
-          setIsAllEvents={setIsAllEvents}
-          />
-      </Nav>
-      {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
-    </>
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/events"> <img src={logo} /> </Navbar.Brand>
+        {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        {props.currentUser &&
+         <>
+        <Link to="owners/events/new">
+        <Button size="sm"> Create New Event </Button></Link>
+          <Nav className="justify-content-end">
+            <Button size="sm" onClick={(event) => {
+              event.preventDefault();
+              logout_validation()
+            }}>Logout</Button> 
+          </Nav>
+          </>
+          }
+      </Navbar.Collapse>
+    </Navbar>
+    <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+      <EventFilter 
+        setCategoryFilter={setCategoryFilter} 
+        setIsUpcoming={setIsUpcoming} 
+        setIsAllEvents={setIsAllEvents}
+        />
+    </Nav>
+    {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
+  </>
     )
 }
-//cancelEvent(event.id)}
+
