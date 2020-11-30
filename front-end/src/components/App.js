@@ -16,6 +16,7 @@ import MyEventsIndex from './MyEvents/MyEventsIndex';
 import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
+import Messages from './Messages/Messages'
 import { useState , useEffect} from 'react';
 import './App.scss'
 export default function App(props) {
@@ -58,6 +59,11 @@ export default function App(props) {
            <EventsIndex  
             currentUser = {currentUser}/> 
           </Route>
+
+          <Route exact path='/messages' >
+            <Messages currentUser = {currentUser}/>
+          </Route>
+
           <Route exact path='/owners/events/new' >
             <CreateEvent currentUser = {currentUser}/>
           </Route>
