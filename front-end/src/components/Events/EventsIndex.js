@@ -27,7 +27,7 @@ export default function EventsIndex(props) {
 
   const distanceApi = (coords, locations) => {
     //Distance Matrix API
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const proxyurl = "https://limitless-headland-00064.herokuapp.com/";
     let URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=`
     locations.map((location, index) => {
       if (index === 0) {
