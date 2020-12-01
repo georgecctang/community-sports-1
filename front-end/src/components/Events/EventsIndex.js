@@ -1,7 +1,9 @@
 import { Redirect, useRouteMatch, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import EventFilter from './EventFilter';
+import NavBar from '../NavBar/NavBar';
+
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
@@ -13,6 +15,8 @@ import './Events.scss';
 export default function EventsIndex(props) {
   const { path } = useRouteMatch();
   const [isLogout, setisLogout] = useState(false)
+
+
   const [allUpcomingEvents, setAllUpcomingEvents] = useState([{}]);
   const [allPastEvents, setAllPastEvents] = useState([{}]);
   const [myUpcomingEvents, setMyUpcomingEvents] = useState([{}]);
@@ -90,14 +94,14 @@ export default function EventsIndex(props) {
         }
       }
 
-      // //If Events match criteria push coords to arr
+      //If Events match criteria push coords to arr
       if (selectedEvents.length !== 0) {
         selectedEvents.map((event) => {
           locations.push(event.location)
         })
       }
 
-  //     //Request users position
+      //Request users position
       navigator.geolocation.getCurrentPosition(async success => {
         const pos = [
           success.coords.latitude,
@@ -114,6 +118,7 @@ export default function EventsIndex(props) {
       })
     })
   }, [categoryFilter, isUpcoming, isAllEvents, deletedEvent])
+
 
   function logout_validation() {
     axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
@@ -156,6 +161,7 @@ export default function EventsIndex(props) {
     return eventsByDate;
   }
 
+
   let subsetEvents;
 
   if (isAllEvents === "All Events") {
@@ -166,7 +172,7 @@ export default function EventsIndex(props) {
 
   let filteredEvents = filterEvents(subsetEvents, categoryFilter);
   let eventsByDate = makeEventsByDateObj(filteredEvents);
-  
+  // 
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
       <div classNames="days" key={date}>

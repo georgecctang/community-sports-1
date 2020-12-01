@@ -1,0 +1,199 @@
+import {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { ListGroup, Form, Button } from 'react-bootstrap';
+import './Message.scss';
+
+export default function Messages(props)  {
+  const location = useLocation();
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('userData')));
+  const [messages, setMessages] = useState([]);
+  const [messageObj, setMessageObj] = useState({});
+  const [contactList, setContactList] = useState([]);
+  const [currentContact, setCurrentContact] = useState({});
+  // const [conversation, setConversation] = useState([{}]);
+  const [newMessageText, setNewMessageText] = useState('');
+
+  console.log('location', location);
+  // console.log('currentUser', currentUser);
+
+  useEffect(() => {
+    console.log('useEffect fetch messages');
+    console.log('currentUser.id in useEffect', currentUser.id);
+
+    axios.get(`http://localhost:8001/api/messages/${currentUser.id}`)
+    .then((res) => {    
+      setMessages(() => res.data);
+    })
+  },[])
+
+  useEffect(() => {
+    const obj = createMessageObj(currentUser.id, messages);
+    setMessageObj(() => obj);
+    const list = createContactList(currentUser.id, messages);
+    setContactList(prev => list);
+  }, [messages])
+
+  useEffect(() => {
+    //useEffect 0
+    if(location.state) {
+      setCurrentContact(() => location.state);
+  }},[])
+
+  useEffect(() => {
+    //useEffect 1
+    console.log('useEffect1 currentContact', currentContact);
+    console.log('useEffect1 contactList', contactList);
+
+    if (currentContact.id && contactList.length > 0 && !contactList.find(contact => contact.id === currentContact.id)) {
+      setContactList(prev => [currentContact, ...prev])
+    } 
+  },[contactList])
+
+  useEffect(() => {
+    if (!currentContact.id && contactList.length > 0) {
+      setCurrentContact(() => contactList[0]);
+    }
+  },[contactList])
+
+  function createMessageObj (user_id, messages) {
+    const result = {};
+    messages.forEach((message,index) => {
+      if (message.sender_id !== user_id) {
+        if (result[message.sender_id]) {
+          result[message.sender_id].push(message);
+        } else {
+          result[message.sender_id] = [message];
+        }
+      } else {
+        if (result[message.recipient_id]) {
+          result[message.recipient_id].push(message);
+        } else {
+          result[message.recipient_id] = [message];
+        }
+      }
+    })
+    return result;
+  }
+
+  function createContactList(user_id, messages) {
+    console.log('run createContactList');
+    const contactList = [];
+    messages.reverse().forEach(message => {
+      const newContact = {};
+      if (message.sender_id !== user_id) {
+        newContact.id = message.sender_id;
+        newContact.first_name = message.sender_first_name;
+        newContact.last_name = message.sender_last_name;
+      } else {
+        newContact.id = message.recipient_id;
+        newContact.first_name = message.recipient_first_name;
+        newContact.last_name = message.recipient_last_name;
+      }
+      if (!contactList.find(contact => contact.id === newContact.id)) {
+        contactList.push(newContact)
+      }
+    })
+    return contactList;
+  }
+
+  function handleClick (obj) {
+    setCurrentContact(() => obj);
+  }
+
+  function handleChange (e) {
+    setNewMessageText(e.target.value)
+  }
+
+  function handleSubmit(e) {
+
+
+    const reqBody = {
+      senderId: currentUser.id, 
+      recipientId: currentContact.id, 
+      body: newMessageText
+    }
+    // console.log(reqBody);
+    e.preventDefault();
+    axios.post("http://localhost:8001/api/messages", reqBody)
+    .then(res => {
+      console.log("return data",res);
+      const messageId = res.data.message_id;
+      const sentMessage = {
+        id: messageId, 
+        sender_id: currentUser.id,
+        sender_first_name: currentUser.first_name,
+        sender_last_name: currentUser.last_name,
+        recipient_id: currentContact.id,
+        recipient_first_name: currentContact.first_name,
+        recipient_last_name: currentContact.last_name,
+      body:  newMessageText};
+      console.log('messages before append', messages);
+      const newMessageList = [...messages.reverse(), sentMessage]; 
+      console.log('newMessageList', newMessageList);
+      setMessages(() => newMessageList);
+    })
+    setNewMessageText('');
+  }
+
+  function compareObjectsById(a,b) {
+    return a.id > b.id ? 1 : -1;
+  }
+
+  const conversation = messageObj[currentContact.id] || [];
+  console.log('messages', messages);
+  console.log('messageObj', messageObj);
+  console.log('currentContact',currentContact);
+  console.log('contactList', contactList);
+
+  return (
+    <div className="message-page">
+      
+      <div className="message-page-left">
+          <ListGroup>
+          {contactList.map(({id, first_name, last_name}) => {
+            return (
+              <ListGroup.Item
+                active={currentContact.id === id}
+                key={id}
+                onClick={() =>handleClick({id, first_name, last_name})}
+                >
+                {first_name} {last_name}
+              </ListGroup.Item>
+            )})
+          }
+          </ListGroup>
+      </div>
+      <div className="message-page-right flex-column">
+      
+        <div className="conversation">
+            {conversation.sort(compareObjectsById).map((message, index) => {
+              const messageClass = message.sender_id === currentUser.id ? "message-user" : "message-contact";
+              const messageContainerClass = message.sender_id === currentUser.id ? "message-container-user" : "message-container-contact";
+              return (
+                <div className={messageContainerClass}>
+                  <div key={index} className={messageClass}>
+                  {message.body}
+                  </div>
+                </div>
+              )
+              })
+            }
+        </div>
+        <div>
+          <Form onSubmit={handleSubmit} className="new-message-form">
+          <Form.Control 
+          as="textarea" 
+          required value={newMessageText} 
+          onChange={handleChange}
+          style={{height:'20vh', margin: '2vh 0vh', resize:'none'}}
+          >
+          </Form.Control>
+          <Button type="submit" variant="primary" block>Submit</Button>
+          </Form>
+        </div>
+      </div>
+    </div>
+    )
+    
+} 

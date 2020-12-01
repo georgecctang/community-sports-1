@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../Events/Events.scss'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
@@ -12,6 +13,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
   const handleTimeChange = (value) => {
     setIsUpcoming(value);
   } 
+
 
   const handleCategoryChange = (category, value) => {
     console.log(`category value`, category, typeof value)
