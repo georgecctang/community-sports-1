@@ -65,7 +65,7 @@ export default function Navigation(props) {
     if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
       props.setUserJoined(true)
       return (
-        <button type="button" class="btn btn-danger" onClick={() => leaveEvent()}> Leave Event</button>
+        <button id="leave-event" type="button" onClick={() => leaveEvent()}> Leave Event</button>
       )
     }
     for (const positionGroup in props.team2) {
@@ -73,7 +73,7 @@ export default function Navigation(props) {
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
         props.setUserJoined(true)
         return (
-          <button type="button" class="btn btn-danger" onClick={() => leaveEvent()}>Leave Event</button>
+          <button id="event-leave" type="button"  onClick={() => leaveEvent()}>Leave Event</button>
         )
       }
     }
@@ -103,52 +103,52 @@ export default function Navigation(props) {
               event.preventDefault();
               counter('Defender')
               setConfirm(true)
-            }}> defender 1 </Button>
+            }}> defender  </Button>
             <Button id="position-defender_2" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Defender')
               setConfirm(true)
-            }}> defender 2 </Button>
+            }}> defender  </Button>
             <Button id="position-defender_3" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Defender')
               setConfirm(true)
-            }}> defender 3 </Button>
+            }}> defender </Button>
             <Button id="position-defender_4" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Defender')
               setConfirm(true)
-            }}> defender 4 </Button>
+            }}> defender </Button>
             <Button id="position-midfield_1" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Midfielder')
               setConfirm(true)
-            }}> midfield 1 </Button>
+            }}> midfield  </Button>
             <Button id="position-midfield_2" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Midfielder')
               setConfirm(true)
-            }}> midfield 2 </Button>
+            }}> midfield </Button>
             <Button id="position-midfield_3" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Midfielder')
               setConfirm(true)
-            }}> midfield 3 </Button>
+            }}> midfield  </Button>
             <Button id="position-midfield_4" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Midfielder')
               setConfirm(true)
-            }}> midfield 4 </Button>
+            }}> midfield  </Button>
             <Button id="position-striker_1" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Striker')
               setConfirm(true)
-            }}> striker 1 </Button>
+            }}> striker  </Button>
             <Button id="position-striker_2" size="sm" onClick={(event) => {
               event.preventDefault();
               counter('Striker')
               setConfirm(true)
-            }}> striker 2 </Button>
+            }}> striker  </Button>
             <img src={field} alt="field" className="img-fluid" />
           </Modal.Body>
         </Modal>

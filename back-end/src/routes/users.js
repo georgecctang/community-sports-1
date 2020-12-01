@@ -40,7 +40,6 @@ module.exports = db => {
       [current_participants, event_id]);
     })
     .then(() => {
-      // console.log();
       res.send('okay');
     })
     .catch(error => {
@@ -71,8 +70,6 @@ module.exports = db => {
 
   // DELETE: User to leave event
   router.delete("/users/events/:event_id/delete", (req, res) => {
-    console.log("Delete user leave event");
-    console.log('body of request --->',req.body)
     const eventId = req.params.event_id;
     // need the user id from cookie
     const { id } = req.body;

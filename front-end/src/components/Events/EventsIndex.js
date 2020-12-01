@@ -49,6 +49,7 @@ export default function EventsIndex(props) {
     fetch(proxyurl + URL)
       .then(response => response.text())
       .then(data => {
+        console.log(data)
         return data ? JSON.parse(data) : {}
       })
       .then(data => {
@@ -206,12 +207,10 @@ export default function EventsIndex(props) {
                 {checkOwner(event) && 
                 <>
                 <Card.Footer className="edit-delete_buttons">
-                {/* <Card.Link href={ `owners/events/${event.id}/delete` } >  */}
                   <Button block size="sm" onClick={(e) => {
-                    {e.preventDefault()}
-                    {deleteEvent(event.id)}
+                    e.preventDefault();
+                    deleteEvent(event.id)
                   }}> Delete </Button>
-               {/* </Card.Link> */}
                 <Card.Link href={ `owners/events/${event.id}/edit` } > 
                     <Button block size="sm"> Edit </Button>
                 </Card.Link> 
@@ -230,6 +229,7 @@ export default function EventsIndex(props) {
   }
   return (
     <>
+<<<<<<< HEAD
   
       <Navbar bg="light" expand="lg">
         <Navbar.Brand href="/events"> <img src={logo} /> </Navbar.Brand>
@@ -265,3 +265,38 @@ export default function EventsIndex(props) {
 
 
 //cancelEvent(event.id)}
+=======
+    <div className="eventIndex">
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/events"> <img src={logo} alt="logo"/> </Navbar.Brand>
+        {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        {props.currentUser &&
+         <>
+        <Link to="owners/events/new">
+        <Button size="m"> Create New Event </Button></Link>
+          <Nav className="justify-content-end">
+            <Button size="m" onClick={(event) => {
+              event.preventDefault();
+              logout_validation()
+            }}>Logout</Button> 
+          </Nav>
+          </>
+          }
+      </Navbar.Collapse>
+    </Navbar>
+    <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+      <EventFilter 
+        setCategoryFilter={setCategoryFilter} 
+        setIsUpcoming={setIsUpcoming} 
+        setIsAllEvents={setIsAllEvents}
+        />
+    </Nav>
+    {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
+    </div>
+  </>
+    )
+}
+
+>>>>>>> ea7c548a7f1f11fd7c6156f3ef99ccacd77a6ec6

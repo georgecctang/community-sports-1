@@ -1,8 +1,45 @@
-body {
-  background: url('homepage.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  min-height: 100%;
+
+  // background: url('homepage.jpg') no-repeat center center fixed; 
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
+  // min-height: 100%;
+  #homepage{
+    background: none !important;
+    background-color: white !important ;
+    background-repeat: no-repeat !important;
+    background-size: auto !important;
+    background-position: left top !important;    
+    
+}
+ .navbar-light .nav-bar .nav-link{
+  color: rgb(150, 129, 13); 
+  margin-left: 35em;
+  background-color: black;
+  font-weight: bold;
+  
+}
+.nav-link:hover {
+  background-color: white;
+  border-color: white;
+}
+
+.card-row {
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+
+.player-image {
+  background: url('player.jpeg');
+}
+
+.referee-image {
+  background: url('referee.jpeg');
+}
+
+.main-homepage-container {
+  height: 300px;
+  width: 480px;
 }

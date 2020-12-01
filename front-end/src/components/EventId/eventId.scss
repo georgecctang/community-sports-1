@@ -1,46 +1,113 @@
+body {
+  background-image: url('homepage.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+}
 #main-page {
   display: flex;
   flex-direction: column;
 }
+
 section {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  #title {
+    margin-top: 1em;
+    background-color:#e9eaec59;
+    padding: 1em;
+    padding-bottom: 2em;
+    border-radius: 10px;
+    #hostname {
+      left:43%;
+    }
+  }
+  .additional-info {
+    margin-top: 2em;
+    .info {
+      color: #FAD02C;
+      border-color: #FAD02C;
+      border: 3px solid #FAD02C;
+      margin-left: 1em;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 1em ;
+    }
+  }
   .midpage {
     display: flex;
-    border: purple solid;
     justify-content: space-between;
-    padding-left: 15%;
-
+    // padding-left: 25%;
+    align-self: self-start;
     .additional-info {
       display: flex; 
-      border: solid green;
+      margin-top: 3em;
+      margin-left: 19em;
     }
   }
   .game-container {
     display: flex;
-    flex-direction: row;
-    align-self: center;
-    width: 50%;
-    margin-bottom: 5em; //-->can be removed
-
-    
+    // flex-direction: column;
+    margin: 20em 0 10em 2em;
     .team1-container {
       display: flex; 
       flex-direction: column;
-      // flex-flow: row nowrap;
-    
+      background-color: #08080862;
+      border-radius: 4px;
+      margin-left: 12em;
+      color: whitesmoke;
+      #teams {
+        padding-top: 1em;
+        color:blue;
+      }
+      .teamblue {
+        display: flex;
+        margin-top: 2em;
+      }
+      .player-info-blue {
+        color: white;
+        background-color: #080808c0;
+        border-radius: 4px;
+        background-color: blue;
+      }
       .position-container {
-        background-color: lightblue;
+        width: 11em;
+        height: 500px;
+        padding: 1em 1em 15em 1em;
+        border-radius: 10px;
       }
     }
     .team2-container {
       display: flex; 
       flex-direction: column;
-      // flex-flow: row nowrap;
-
+      border-radius: 4px;
+      color: whitesmoke;
+      background-color: #08080862;
+      margin-left: 5em;
+      #teams {
+        padding-top: 2em;
+        color: red;
+      }
+      .teamred {
+        display: flex;
+        margin-top: 2em;
+      }
+      .player-info-red {
+        color: white;
+        background-color: #080808c0;
+        border-radius: 4px;
+        background-color: red;
+      }
       .position-container{
-        background-color: lightcoral;
+        width: 11em;
+        height: 500px;
+        padding: 1em 1em 15em 1em;
+        border-radius: 10px;
       }
     }
   }
@@ -50,7 +117,7 @@ section {
   }
   .sidebar {
     position: fixed;
-    width: 20%;
+    width: 250px;
     height: 90%;
     margin-bottom: 20em;
     left: 1em;
@@ -68,46 +135,77 @@ section {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
   }
-} 
-
-.comments-container {
-  // position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border: 10px solid blue;
-}
-@media only screen and (min-width:960px) { 
-  .map-container {
-    position: absolute !important; 
-    height: 30% !important;
-    width: 30% !important;
-    top: 5em !important;
-    right: 1em;
-    border: 5px solid gray;
-    // &-smallMap {
-    //   // border: 4px solid red;
-    // }
+  #button-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+  }
+  #edit-button {
+    width: -webkit-fill-available !important;
+  }
+  //-----Navbar Text-----
+  .navbar-light .navbar-text {
+    margin-left: 35em;
+    margin-right: 2em;
+    font: -webkit-small-control;
+  }
+  .card-text {
+    margin-top: 3em;
+    font-size: large;
+    color: rgb(150, 129, 13);
+    display: flex;
+    flex-direction: column;
   }
 }
-@media only screen and (max-width: 960px) { 
-
-}
-  // .map_place {
-  //   display: flex;
-  // }
-// }
-// }
- // .right-column {
-  //   height: 100%;
-  //   width: 15%;
-  //   position: fixed;
-  //   z-index: 0;
-  //   top: 0;
-  //   left: 0;
-  //   background-color: lightgreen;
-  //   overflow-x: hidden;
-  //   padding-top: 20px;
-
+.comments-container {
+  width: 70%;
+  margin-left: 10em;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.747);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  .comment {
+    display: flex;
+    line-height: 5;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 1em;
     
-  // }
+  }
+  .p-comment{
+    padding-left: 1em; 
+    padding-right: 1em;
+    border-radius: 0px 30px 30px;
+  }
+  #user-comment {
+    margin-right: 1em;
+    margin-left: 1.5em;
+  }
+}
+
+.map-container {
+  position: absolute !important; 
+  height: 30% !important;
+  width: 30% !important;
+  top: 7em !important;
+  right: 3em;
+    &_text {
+      color:rgb(150, 129, 13);
+      box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+      background-color: #080808e5;
+      border-radius: 10px;
+    } 
+}
+.p-comment {
+  display: flex;
+  border-radius: 6px;
+  width: 90%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin-left: 2em;
+}
+  
+#edit-event{
+  width: -webkit-fill-available !important;
+}
+ 
