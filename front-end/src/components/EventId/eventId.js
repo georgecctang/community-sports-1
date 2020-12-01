@@ -171,8 +171,9 @@ export default function EventId(props) {
            <>
             <Link to="/owners/events/new">
               <Button size="m"> Create New Event </Button></Link>
+              <Link to="/owners/events/message">
+              <Button size="m"> Message </Button></Link>
                 <Nav className="justify-content-end">
-                  {/* <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text> */}
                   <Button size="m" onClick={(event) => { event.preventDefault();
                                                       logout_validation()}}>Logout</Button>
                </Nav>
