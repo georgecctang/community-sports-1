@@ -3,7 +3,7 @@ import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
 import {  Nav,Navbar, Button } from 'react-bootstrap/';
-import { Link,Redirect } from 'react-router-dom'
+import { Link,Redirect, useHistory } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
@@ -12,6 +12,7 @@ import Card from 'react-bootstrap/Card'
 require('dotenv').config()
 
 export default function EventId(props) {
+  const history = useHistory();
   const [position, setPosition] = useState([])
   const [team1, setTeam1] = useState({ goalies: [], strikers: [], midfielders: [], defenders: [] })
   const [event, setEvent] = useState({
@@ -161,6 +162,17 @@ export default function EventId(props) {
     setRedirect(true)
   }
 
+  const handleContactOwner = () => {
+    history.push({
+      pathname: "/messages",
+      state: {
+        id: event.owner_id,
+        first_name: event.first_name,
+        last_name: event.last_name
+      }
+    })
+  }
+
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -279,7 +291,7 @@ export default function EventId(props) {
           ))}
         </div>
       </section>
-      <Button>Contact Owner</Button>
+      <Button onClick={handleContactOwner}>Contact Owner</Button>
       </>
     )
 }

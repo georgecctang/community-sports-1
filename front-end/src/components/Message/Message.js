@@ -1,10 +1,12 @@
 import {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ListGroup, Form, Button } from 'react-bootstrap';
 import './Message.scss';
 
 export default function Messages(props)  {
-  
+  const location = useLocation();
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('userData')));
   const [messages, setMessages] = useState([]);
   const [messageObj, setMessageObj] = useState({});
   const [contactList, setContactList] = useState([]);
@@ -12,21 +14,47 @@ export default function Messages(props)  {
   // const [conversation, setConversation] = useState([{}]);
   const [newMessageText, setNewMessageText] = useState('');
 
-  // console.log('props.currentUser', props.currentUser);
+  console.log('location', location);
+  // console.log('currentUser', currentUser);
 
   useEffect(() => {
-    axios.get(`http://localhost:8001/api/messages/${props.currentUser.id}`)
+    console.log('useEffect fetch messages');
+    console.log('currentUser.id in useEffect', currentUser.id);
+
+    axios.get(`http://localhost:8001/api/messages/${currentUser.id}`)
     .then((res) => {    
       setMessages(() => res.data);
     })
   },[])
 
   useEffect(() => {
-    const obj = createMessageObj(props.currentUser.id, messages);
+    const obj = createMessageObj(currentUser.id, messages);
     setMessageObj(() => obj);
-    const list = createContactList(props.currentUser.id, messages);
-    setContactList(() => list);
+    const list = createContactList(currentUser.id, messages);
+    setContactList(prev => list);
   }, [messages])
+
+  useEffect(() => {
+    //useEffect 0
+    if(location.state) {
+      setCurrentContact(() => location.state);
+  }},[])
+
+  useEffect(() => {
+    //useEffect 1
+    console.log('useEffect1 currentContact', currentContact);
+    console.log('useEffect1 contactList', contactList);
+
+    if (currentContact.id && contactList.length > 0 && !contactList.find(contact => contact.id === currentContact.id)) {
+      setContactList(prev => [currentContact, ...prev])
+    } 
+  },[contactList])
+
+  useEffect(() => {
+    if (!currentContact.id && contactList.length > 0) {
+      setCurrentContact(() => contactList[0]);
+    }
+  },[contactList])
 
   function createMessageObj (user_id, messages) {
     const result = {};
@@ -81,7 +109,7 @@ export default function Messages(props)  {
 
 
     const reqBody = {
-      senderId: props.currentUser.id, 
+      senderId: currentUser.id, 
       recipientId: currentContact.id, 
       body: newMessageText
     }
@@ -93,9 +121,9 @@ export default function Messages(props)  {
       const messageId = res.data.message_id;
       const sentMessage = {
         id: messageId, 
-        sender_id: props.currentUser.id,
-        sender_first_name: props.currentUser.first_name,
-        sender_last_name: props.currentUser.last_name,
+        sender_id: currentUser.id,
+        sender_first_name: currentUser.first_name,
+        sender_last_name: currentUser.last_name,
         recipient_id: currentContact.id,
         recipient_first_name: currentContact.first_name,
         recipient_last_name: currentContact.last_name,
@@ -113,9 +141,10 @@ export default function Messages(props)  {
   }
 
   const conversation = messageObj[currentContact.id] || [];
-  console.log('props.currentUser', props.currentUser);
-  console.log('messages', messages);
-  console.log('messageObj', messageObj);
+  // console.log('messages', messages);
+  // console.log('messageObj', messageObj);
+  console.log('currentContact',currentContact);
+  console.log('contactList', contactList);
 
   return (
     <div className="message-page">

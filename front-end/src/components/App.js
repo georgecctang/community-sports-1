@@ -14,6 +14,7 @@ import ProfileForm from './Profile/ProfileForm'
 import EventsIndex from './Events/EventsIndex';
 import MyEventsIndex from './MyEvents/MyEventsIndex';
 import Message from './Message/Message';
+import Test from './Test/Test';
 import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
@@ -63,7 +64,10 @@ export default function App(props) {
             <CreateEvent currentUser={currentUser}/>
           </Route>
           <Route exact path='/messages' >
-          <Message currentUser={currentUser}/>
+          <Message />
+          </Route>
+          <Route exact path='/test' >
+          <Test />
         </Route>
           
         <Route exact path='/my-events/:screen' > 
