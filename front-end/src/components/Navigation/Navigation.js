@@ -69,7 +69,7 @@ export default function Navigation(props) {
       )
     }
     for (const positionGroup in props.team2) {
-      const positionPlayers = props.team1[positionGroup]
+      const positionPlayers = props.team2[positionGroup]
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
         props.setUserJoined(true)
         return (

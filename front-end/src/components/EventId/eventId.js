@@ -184,7 +184,7 @@ export default function EventId(props) {
            <>
             <Link to="/owners/events/new">
               <Button size="m"> Create New Event </Button></Link>
-              <Link to="/owners/events/message">
+              <Link to="/messages">
               <Button size="m"> Message </Button></Link>
                 <Nav className="justify-content-end">
                   <Button size="m" onClick={(event) => { event.preventDefault();

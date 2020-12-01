@@ -1,16 +1,17 @@
 import {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { ListGroup, Form, Button } from 'react-bootstrap';
+import { ListGroup, Form, Button, Nav, Navbar } from 'react-bootstrap';
 import './Message.scss';
-
+import logo from './logo.png'
 export default function Messages(props)  {
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('userData')));
   const [messages, setMessages] = useState([]);
   const [messageObj, setMessageObj] = useState({});
-  const [contactList, setContactList] = useState([]);
+  const [contactList, setContactList] = useState(null);
   const [currentContact, setCurrentContact] = useState({});
+  const [isLogout, setisLogout] = useState(false)
   // const [conversation, setConversation] = useState([{}]);
   const [newMessageText, setNewMessageText] = useState('');
 
@@ -41,17 +42,17 @@ export default function Messages(props)  {
   }},[])
 
   useEffect(() => {
-    //useEffect 1
-    console.log('useEffect1 currentContact', currentContact);
-    console.log('useEffect1 contactList', contactList);
+    // //useEffect 1
+    // console.log('useEffect1 currentContact', currentContact);
+    // console.log('useEffect1 contactList', contactList);
 
-    if (currentContact.id && contactList.length > 0 && !contactList.find(contact => contact.id === currentContact.id)) {
+    if (currentContact.id && contactList && !contactList.find(contact => contact.id === currentContact.id)) {
       setContactList(prev => [currentContact, ...prev])
     } 
-  },[contactList])
+  },[contactList, currentContact])
 
   useEffect(() => {
-    if (!currentContact.id && contactList.length > 0) {
+    if (!currentContact.id && contactList && contactList.length > 0) {
       setCurrentContact(() => contactList[0]);
     }
   },[contactList])
@@ -107,6 +108,9 @@ export default function Messages(props)  {
 
   function handleSubmit(e) {
 
+    if (!currentContact.id) {
+      return;
+    }
 
     const reqBody = {
       senderId: currentUser.id, 
@@ -145,13 +149,37 @@ export default function Messages(props)  {
   console.log('messageObj', messageObj);
   console.log('currentContact',currentContact);
   console.log('contactList', contactList);
+  function logout_validation() {
+    axios.post('http://localhost:8001/api/logout', {}).then((res) => setisLogout(true))
+  };
+  if (isLogout) {
+    return <Redirect to="/" />
+  }; 
 
-  return (
-    <div className="message-page">
-      
+  return ( 
+  <> 
+      <Navbar bg="light" expand="lg">
+         <Navbar.Brand href="/events"><img src={logo} alt="logo"/></Navbar.Brand>
+        {currentUser &&  <h3 className='display-name'> {currentUser.first_name} {currentUser.last_name} </h3>}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+          {currentUser &&
+           <>
+            <Link to="/owners/events/new">
+              <Button size="m"> Create New Event </Button></Link>
+                <Nav className="justify-content-end">
+                  <Button size="m" onClick={(event) => { event.preventDefault();
+                                                      logout_validation()}}>Logout</Button>
+               </Nav>
+          </>
+          }    
+        </Navbar.Collapse>
+      </Navbar>
+
+      <div className="message-page">
       <div className="message-page-left">
           <ListGroup>
-          {contactList.map(({id, first_name, last_name}) => {
+          {contactList && contactList.map(({id, first_name, last_name}) => {
             return (
               <ListGroup.Item
                 active={currentContact.id === id}
@@ -189,11 +217,12 @@ export default function Messages(props)  {
           style={{height:'20vh', margin: '2vh 0vh', resize:'none'}}
           >
           </Form.Control>
-          <Button type="submit" variant="primary" block>Submit</Button>
+          <Button id="message-submit" type="submit" variant="primary" block>Submit</Button>
           </Form>
         </div>
       </div>
     </div>
+    </>
     )
     
 } 
