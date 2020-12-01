@@ -58,11 +58,12 @@ export default function EventId(props) {
     const commentRequest = axios.get(comment)
     //Making all 3 requests
     Promise.all([eventRequest, teamRequest, commentRequest])
-      .then((responses) => {
-        //Request data
-        const eventData = responses[0]
-        const teamData = responses[1]
-        const commentData = responses[2]
+    .then((responses) => {
+      //Request data
+      const eventData = responses[0]
+      const teamData = responses[1]
+      const commentData = responses[2]
+      console.log(commentData)
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
