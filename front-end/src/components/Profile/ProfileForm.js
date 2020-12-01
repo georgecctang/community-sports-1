@@ -27,7 +27,7 @@ export default function ProfileForm (props) {
         <NavDropdown.Item href="#action/3.2">Past Events</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.3">My Events</NavDropdown.Item>
       </NavDropdown>
-    <Nav.Link href="/profile">My Profile</Nav.Link>
+    <Nav.Link href="/profile"></Nav.Link>
     <Button onClick={() => {logout_validation()}}>Logout</Button>
     
     </Nav> 
