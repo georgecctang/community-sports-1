@@ -26,14 +26,70 @@ VALUES
 (1, 1, 1, 'Goalie' ), 
 
 (2, 2, 1, 'Striker' ), 
-(2, 22, 2, 'Midfielder' );
+(2, 22, 2, 'Midfielder' ),
 
--- (4, 1, 1, 'Midfielder' ),
--- (5, 1, 1, 'Midfielder' ),
--- (6, 1, 1, 'Midfielder' ),
--- (7, 1, 1, 'Midfielder' ),
--- (9, 1, 1, 'Midfielder' ),
--- (11, 1, 1, 'Midfielder' );
+(4, 1, 1, 'Striker'),
+(4, 3, 1, 'Striker'), 
+(4, 13, 2, 'Striker' ),
+(4, 27, 2, 'Striker' ),
+(4, 2, 2, 'Midfielder'),
+(4, 4, 1, 'Midfielder'), 
+(4, 5, 2, 'Midfielder'), 
+(4, 6, 1, 'Midfielder'), 
+(4, 7, 1, 'Midfielder'), 
+(4, 8, 1, 'Midfielder'), 
+(4, 9, 2, 'Midfielder'),
+(4, 15, 2, 'Midfielder'),
+(4, 10, 2, 'Defender'),
+(4, 21, 2, 'Defender' ),
+(4, 12, 1, 'Defender' ),
+(4, 14, 1, 'Defender' ),
+(4, 16, 1, 'Defender' ),
+(4, 17, 2, 'Defender' ),
+(4, 18, 1, 'Defender' ),
+(4, 19, 2, 'Defender' ),
+
+(5, 5, 2, 'Goalie'), 
+(5, 6, 1, 'Midfielder'), 
+(5, 7, 1, 'Striker'), 
+(5, 8, 1, 'Striker'), 
+
+(6, 19, 1, 'Striker'), 
+
+(8, 7, 1, 'Midfielder'), 
+(8, 8, 1, 'Midfielder'), 
+(8, 9, 2, 'Defender'),
+(8, 15, 2, 'Defender'),
+(8, 10, 2, 'Defender'),
+(8, 21, 2, 'Defender' ),
+(8, 12, 1, 'Striker' ),
+(8, 14, 1, 'Striker' ),
+(8, 16, 1, 'Striker' ),
+(8, 17, 2, 'Defender' ),
+(8, 18, 1, 'Defender' ),
+(8, 19, 2, 'Defender' ),
+(8, 27, 1, 'Goalie' ),
+(8, 22, 2, 'Goalie' ),
+
+(9, 7, 1, 'Midfielder'), 
+(9, 8, 1, 'Midfielder'), 
+(9, 9, 2, 'Defender'),
+(9, 15, 2, 'Midfielder'),
+(9, 10, 2, 'Defender'),
+(9, 21, 2, 'Defender' ),
+(9, 12, 1, 'Striker' ),
+(9, 14, 1, 'Striker' ),
+(9, 16, 1, 'Striker' ),
+(9, 17, 2, 'Defender' ),
+(9, 18, 1, 'Defender' ),
+(9, 19, 2, 'Defender' ),
+(9, 27, 1, 'Goalie' ),
+(9, 22, 2, 'Striker' ),
+(9, 1, 2, 'Striker' ),
+
+(10, 26, 1, 'Goalie' );
+
+
 
 
 -- Goalie 1-1, Defender 4-4, Midfielder 4-4, Striker 2-2
