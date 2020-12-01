@@ -142,7 +142,6 @@ export default function EventId(props) {
       })
   }
 
-
   useEffect(() => {
     eventData()
   }, [setComments])
@@ -159,7 +158,7 @@ export default function EventId(props) {
     axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`)
     setRedirect(true)
   }
-
+  
   return (
     <>
     <div className="eventID">
@@ -285,11 +284,11 @@ export default function EventId(props) {
         </div>
 
         <div className='comments-container'>
-          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
+          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments} />
           {comments.map(comment => (
             <div className='comment'>
               <h5 id="user-comment"> {comment.fullName} </h5>
-              {/* <h5 id="user-comment"> {comment.time } </h5> */}
+              {/* <h5 id="user-comment">  {date} </h5> */}
               <p className="p-comment"> {comment.comment} </p>
             </div>
           ))}

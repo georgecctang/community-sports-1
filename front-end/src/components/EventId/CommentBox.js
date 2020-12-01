@@ -22,7 +22,6 @@ export default function CommentBox(props) {
   const containerRef = useRef(null);
   useDynamicHeightField(textRef, commentValue);
 
-
   const onExpand = () => {
     if (!isExpanded) {
       outerHeight.current = containerRef.current.scrollHeight;
@@ -46,13 +45,9 @@ export default function CommentBox(props) {
       //   return axios.get(`http://localhost:8001/api/events/${props.eventId}/comments`)
       // })
       // .then((res) => {
-        
-      console.log(`${props.user.first_name} ${props.user.last_name}`)
-
       props.setComments(prev => [{fullName: `${props.user.first_name} ${props.user.last_name}`, user_id: props.user.id, event_id: props.eventId, comment: commentValue }, ...prev])
       })
   };
-
   return (
     <div className="container">
       <form
