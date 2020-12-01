@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+
+.carousel-image1 {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('homepage.jpg') no-repeat center center fixed; 
+}
+
+.carousel-image2 {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer1.jpeg') no-repeat center center fixed; 
+}
+
+.carousel-image3 {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer2.jpeg') no-repeat center center fixed; 
+}
+
+.overlay { 
+  font-family: Lobster, sans-serif;
+  font-size: 3rem;
+  color:white;
+  position:absolute;
+  z-index:12;
+  top:40%;
+  left:50;
+  width:100%;
+  text-align:center;
+  letter-spacing: 3px;
+}

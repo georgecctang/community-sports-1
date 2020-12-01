@@ -141,8 +141,8 @@ export default function Messages(props)  {
   }
 
   const conversation = messageObj[currentContact.id] || [];
-  // console.log('messages', messages);
-  // console.log('messageObj', messageObj);
+  console.log('messages', messages);
+  console.log('messageObj', messageObj);
   console.log('currentContact',currentContact);
   console.log('contactList', contactList);
 

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
-import {  Nav,Navbar, Button } from 'react-bootstrap/';
+import {  Nav, Navbar, Button,  Card} from 'react-bootstrap/';
 import { Link,Redirect, useHistory } from 'react-router-dom'
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
 import CommentBox from './CommentBox'
-import Card from 'react-bootstrap/Card'
+import logo from './logo.png'
 require('dotenv').config()
 
 export default function EventId(props) {
@@ -31,7 +31,7 @@ export default function EventId(props) {
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const proxyurl = "https://limitless-headland-00064.herokuapp.com/";
     const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=${location.x}%2C${location.y}&key=${process.env.REACT_APP_geocodeKey}`
     const myInit = {
       method: 'GET',
@@ -63,7 +63,6 @@ export default function EventId(props) {
         const eventData = responses[0]
         const teamData = responses[1]
         const commentData = responses[2]
-
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
@@ -144,7 +143,6 @@ export default function EventId(props) {
       })
   }
 
-
   useEffect(() => {
     eventData()
   }, [setComments])
@@ -161,7 +159,8 @@ export default function EventId(props) {
     axios.delete(`http://localhost:8001/api/owners/events/${id}/delete`)
     setRedirect(true)
   }
-
+  
+  // redirect to messages page to chat with owner
   const handleContactOwner = () => {
     history.push({
       pathname: "/messages",
@@ -175,123 +174,141 @@ export default function EventId(props) {
 
   return (
     <>
+    <div className="eventID">
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Brand href="/events"><img src={logo} alt="logo"/></Navbar.Brand>
+        {props.user &&  <h3 className='display-name'> {props.user.first_name} {props.user.last_name} </h3>}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
           {props.user &&
            <>
-           <h3 className='display-name'> {props.user.first_name} {props.user.last_name} </h3>
-          <Link to="/owners/events/new">
-          <Button size="sm"> Create New Event </Button></Link>
-            <Nav className="justify-content-end">
-              <Button size="sm" onClick={(event) => {
-                event.preventDefault();
-                logout_validation()
-              }}>Logout</Button>
-            </Nav>
-            </>
-            }
+            <Link to="/owners/events/new">
+              <Button size="m"> Create New Event </Button></Link>
+                <Nav className="justify-content-end">
+                  {/* <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text> */}
+                  <Button size="m" onClick={(event) => { event.preventDefault();
+                                                      logout_validation()}}>Logout</Button>
+               </Nav>
+          </>
+          }    
         </Navbar.Collapse>
       </Navbar>
+
       <section>
-        <h1> {event.title} </h1>
-        <h3> Hosted By: {event.first_name} {event.last_name}</h3>
-        <div className='midpage'>
-          <div className='additional-info'>
-            <p> {event.additional_info} </p>
-          </div>
+        <div id="title">
+          <h1> {event.title} </h1>
+            <h3 id="hostname"> Hosted By: {event.first_name} {event.last_name}</h3></div>
+            <div className='midpage'>
+              <div className='additional-info'>
+                <div className="info">i</div>
+                <h5> {event.additional_info} </h5>
+              </div>
+            </div>
           <div className='map-container'>
-            <p> This location is {distance.distance} away</p>
-            <p> It will take you {distance.time} to get there</p>
+            <div className="map-container_text">
+              <p> This location is {distance.distance} away</p>
+              <p> It will take you {distance.time} to get there</p>
+            </div>
             <div className="map-container_smallMap">
             {event.location && (<MapContainer location={event.location} title={event.title} />)}</div>
           </div>
-        </div>
-        {/* <aside className='right-column'> */}
-        <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
-          <h4> Event Details </h4>
-          <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite} alt="soccer icon"/></h5>
-          <h5> {event.start_time}-{event.end_time}</h5>
-          <h5> {event.address}, {event.city}</h5>
-          {/* <h5> From Your Location: {distance.distance} | {distance.time}</h5> */}
-          <h5> Gender Restriction: {event.gender_restriction}</h5>
-          <h5> Skill Level: {event.skill_level}</h5>
-          {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
+        
+         {/* <aside className='right-column'> */}
+         <Nav className="col-md-12 d-none d-md-block bg-light sidebar">
+          <div className="card-text">
+            <h4> Event Details </h4>
+            <h5> {event.current_participants}/{event.max_participants} <img src={soccerIconwhite}   alt="soccer icon"/></h5>
+            <p> {event.start_time}-{event.end_time}</p>
+            <p> {event.address}, {event.city}</p>
+            {/* <p> From Your Location: {distance.distance} | {distance.time}</p> */}
+            <p> Gender Restriction: {event.gender_restriction}</p> 
+            <p> Skill Level: {event.skill_level}</p>
+            <div id="button-group">
+            {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
           {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
           {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
-            <Button variant='primary'> Edit </Button>
+            <Button id="edit-event"> Edit Event </Button>
           </Card.Link>}
-          {isOwner && <Button variant="danger" onClick={() => deleteEvent(eventId)}> Delete Event
+          {isOwner && <Button onClick={() => deleteEvent(eventId)}> Delete Event
           </Button>}
-        </Nav>
-        {/* </aside> */}
-        <div className='game-container'>
-          <div className='team1-container'>
-            <div className='position-container'>
-              <h1> Goalies</h1>
-              {team1.goalies.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Defenders</h1>
-              {team1.defenders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Midfielders</h1>
-              {team1.midfielders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Strikers</h1>
-              {team1.strikers.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
+          {!isOwner && <Button onClick={handleContactOwner}>Contact Owner</Button>}
           </div>
+          </div>
+        </Nav>
+          <div className='game-container'>
+            <div className='team1-container'>
+              <div><h2 id="teams">TEAM BLUE</h2></div> 
+                <div className="teamblue">
+                 <div className='position-container'>
+                   <h4> <bold>Goalies</bold></h4>
+                    {team1.goalies.map(player => (
+                      <p className='player-info-blue'> {player} </p>
+                     ))}
+                  </div>
+                  <div className='position-container'>
+                    <h4> Defenders</h4>
+                      {team1.defenders.map(player => (
+                      <p className='player-info-blue'> {player} </p>
+                    ))}
+                  </div>
+                  <div className='position-container'>
+                    <h4> Midfielders</h4>
+                      {team1.midfielders.map(player => (
+                      <p className='player-info-blue'> {player} </p>
+                      ))}
+                  </div>
+                  <div className='position-container'>
+                    <h4> Strikers</h4>
+                      {team1.strikers.map(player => (
+                      <p className='player-info-blue'> {player} </p>
+                      ))}
+                  </div>
+                  </div>
+              </div>
   
           <div className='team2-container'>
-            <div className='position-container'>
-              <h1> Goalies</h1>
-              {team2.goalies.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Defenders</h1>
-              {team2.defenders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Midfielders</h1>
-              {team2.midfielders.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
-            <div className='position-container'>
-              <h1> Strikers</h1>
-              {team2.strikers.map(player => (
-                <div className='player-info'> {player} </div>
-              ))}
-            </div>
+            <div id="teams"><h2><bold>TEAM RED</bold></h2></div> 
+              <div className="teamred">
+                <div className='position-container'>
+                  <h4> Goalies</h4>
+                    {team2.goalies.map(player => (
+                    <p className='player-info-red'> {player} </p>
+                    ))}
+                  </div>
+                <div className='position-container'>
+                  <h4> Defenders</h4>
+                    {team2.defenders.map(player => (
+                    <p className='player-info-red'> {player} </p>
+                    ))}
+                </div>
+                 <div className='position-container'>
+                    <h4> Midfielders</h4>
+                    {team2.midfielders.map(player => (
+                     <p className='player-info-red'> {player} </p>
+                    ))}
+                  </div>
+                <div className='position-container'>
+                  <h4> Strikers</h4>
+                  {team2.strikers.map(player => (
+                    <p className='player-info-red'> {player} </p>
+                  ))}
+                </div>
+              </div>
           </div>
         </div>
+
         <div className='comments-container'>
-          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments}/>
+          <CommentBox user={props.user} eventId={eventId} setComments={setComments} comments={comments} />
           {comments.map(comment => (
             <div className='comment'>
-              <h1> {comment.fullName} </h1>
-              <h5> {comment.comment} </h5>
+              <h5 id="user-comment"> {comment.fullName} </h5>
+              {/* <h5 id="user-comment">  {date} </h5> */}
+              <p className="p-comment"> {comment.comment} </p>
             </div>
           ))}
         </div>
       </section>
-      <Button onClick={handleContactOwner}>Contact Owner</Button>
-      </>
+      </div>
+    </>
     )
 }

@@ -8,7 +8,6 @@ module.exports = db => {
     router.get("/events", (req, res) => {
       const currentDate = new Date();
 
-      console.log('GET events');
       db.query(
         `
         SELECT e.*, u.first_name, u.last_name FROM events AS e
@@ -89,8 +88,6 @@ module.exports = db => {
   //Add a comment to an event page 
   router.post("/events/:event_id/comments", (req, res) => {
     const eventId = req.params.event_id
-    console.log(req.params)
-    //req.body -> { userId: 1, comment: 'Check Check' }
     const {userId, comment} = req.body
     db.query(` 
     INSERT INTO comments (user_id, event_id, comment) 
@@ -105,8 +102,6 @@ module.exports = db => {
 
     const userId = req.params.user_id;
     const currentDate = new Date();
-
-    console.log("GET /events/users/:user_id");
 
     db.query(`
       SELECT e.*, u.first_name, u.last_name FROM events AS e

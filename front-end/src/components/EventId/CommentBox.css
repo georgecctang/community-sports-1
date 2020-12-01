@@ -26,7 +26,7 @@ textarea::placeholder {
   color: var(--gray);
 }
 
-label {
+#label {
   height: 0;
   width: 0;
   visibility: hidden;

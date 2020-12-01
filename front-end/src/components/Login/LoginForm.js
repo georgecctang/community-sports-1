@@ -2,14 +2,13 @@ import  { useState, React } from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import { Form, Button, Navbar, Nav } from 'react-bootstrap';
-import './Login.scss'
+import './Login.scss';
+import logo from './logo.png';
 
 export default function Login (props) {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError ] = useState("")
-
 
   const userLoggedin =  function() {
     if (email === "") {
@@ -24,8 +23,6 @@ export default function Login (props) {
     
     { 
       window.localStorage.setItem('userData', JSON.stringify(res.data)) 
-
-
        if(res.data === "Email does not exist") {
          setError(res.data)
         
@@ -37,14 +34,14 @@ export default function Login (props) {
     )
   }
   if (props.islogin) {
-    console.log('should redirect');
     return <Redirect to="/events"/>
   };
 
   return (
     <>
+    {/* <div className="Login"> */}
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="justify-content-end">
@@ -52,20 +49,19 @@ export default function Login (props) {
       <Nav.Link href="/register">Register</Nav.Link>
     </Nav> 
     </Navbar.Collapse>
-      
   </Navbar>
     <div className="Login">
     <Form 
-    id="login"
+    id="login-form"
     onSubmit={event => {
                   event.preventDefault();
                   userLoggedin()
 
                 }}>
       <Form.Group size="lg" controlId="formBasicEmail">
-        <Form.Label>Email</Form.Label>
         <Form.Control 
           type="email"  
+          placeholder="Email"
            value={email} 
           onChange={(event) => {
             setEmail(event.target.value)
@@ -73,9 +69,9 @@ export default function Login (props) {
        />
     </Form.Group> 
       <Form.Group size="lg" controlId="password">
-        <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
+          placeholder="Password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />

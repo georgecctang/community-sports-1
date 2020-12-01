@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { Redirect } from "react-router-dom";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Navbar, Nav } from 'react-bootstrap';
 import './Register.scss'
+import logo from './logo.png';
 
 export default function Register (props) {
   const [error, setError ] = useState("")
@@ -30,6 +31,19 @@ export default function Register (props) {
   };
   
   return (
+    <>
+    <div className="register" >
+      <Navbar bg="light" expand="lg">
+      <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="justify-content-end">
+      <Nav.Link href="/login">Login</Nav.Link>
+      <Nav.Link href="/register">Register</Nav.Link>
+    </Nav> 
+    </Navbar.Collapse>
+  </Navbar>
+  </div>   
     <div className="Register">
       <Form onSubmit={event => {
                             event.preventDefault();
@@ -54,14 +68,14 @@ export default function Register (props) {
         <Form.Group size="lg" controlId="formGroupEmail">
         <Form.Control
           type="email"
-          placeholder="email"
+          placeholder="Email"
           value={user.email}
           onChange={(event) => setUser({...user, email: event.target.value })}
         />
         </Form.Group>
         <Form.Group size="lg" controlId="formGroupPassword">
         <Form.Control
-          type="password"
+          type="Password"
           value={user.password}
           placeholder="password"
           onChange={(event) => setUser({...user, password: event.target.value })}
@@ -93,9 +107,10 @@ export default function Register (props) {
             <option> Other</option>
           </Form.Control>
         </Form.Group>
-        <Button block size="lg" type="submit"> Register </Button>
+        <Button id="btn-register" size="lg" type="submit"> Register </Button>
      </Form>
     <h2>{error}</h2>
     </div>
+    </>
   );
 }

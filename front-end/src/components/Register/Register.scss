@@ -1,10 +1,25 @@
-@media all and (min-width: 480px) {
-  .Register {
-    padding: 60px 0;
-  }
+.Register {
+  padding: 60px;
+  margin: 7em auto;
+  max-width: 30%;
+  border: 3px solid rgba(185, 181, 181, 0.87);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+.Register form {
+  margin: 0 auto;
+  max-width: 320px;
+  visibility: visible;
+}
 
-  .Register form {
-    margin: 0 auto;
-    max-width: 320px;
-  }
+#btn-register:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+}
+#btn-register {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
 }
