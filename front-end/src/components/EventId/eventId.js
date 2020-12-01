@@ -30,7 +30,7 @@ export default function EventId(props) {
 
   const distanceApi = (coords, location) => {
     //Distance Matrix API
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const proxyurl = "https://limitless-headland-00064.herokuapp.com/";
     const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${coords[0]},${coords[1]}&destinations=${location.x}%2C${location.y}&key=${process.env.REACT_APP_geocodeKey}`
     const myInit = {
       method: 'GET',
