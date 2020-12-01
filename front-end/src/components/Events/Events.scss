@@ -35,6 +35,10 @@ a:hover {
 .events {
   display: flex;
   justify-content: flex-end;
+<<<<<<< HEAD
+=======
+  margin-bottom: 6em;
+>>>>>>> e148b80a2c15996a0639c51d672c2e6e3fa48626
   .event {
     background-color: #080808e5;
   }
@@ -134,6 +138,7 @@ h3, .h3 {
     .gender {
       #gender-form {
         position: relative;
+        margin-top: 3em;
         bottom: 25px;
       }
     }

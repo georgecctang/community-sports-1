@@ -3,7 +3,11 @@ import axios from 'axios';
 import MapContainer from '../MapContainer/MapContainer'
 import { GetPosition } from '../../hooks/usePosition'
 import {  Nav, Navbar, Button,  Card} from 'react-bootstrap/';
+<<<<<<< HEAD
 import { Link,Redirect, useHistory } from 'react-router-dom'
+=======
+import { Link,Redirect } from 'react-router-dom'
+>>>>>>> e148b80a2c15996a0639c51d672c2e6e3fa48626
 import './eventId.scss';
 import soccerIconwhite from './soccerIconwhite.png'
 import Navigation from '../Navigation/Navigation'
@@ -160,6 +164,7 @@ export default function EventId(props) {
     setRedirect(true)
   }
   
+<<<<<<< HEAD
   // redirect to messages page to chat with owner
   const handleContactOwner = () => {
     history.push({
@@ -172,6 +177,8 @@ export default function EventId(props) {
     })
   }
 
+=======
+>>>>>>> e148b80a2c15996a0639c51d672c2e6e3fa48626
   return (
     <>
     <div className="eventID">
@@ -231,9 +238,14 @@ export default function EventId(props) {
           </Card.Link>}
           {isOwner && <Button onClick={() => deleteEvent(eventId)}> Delete Event
           </Button>}
+<<<<<<< HEAD
           {!isOwner && <Button onClick={handleContactOwner}>Contact Owner</Button>}
           </div>
           </div>
+=======
+          </div>
+          </div>
+>>>>>>> e148b80a2c15996a0639c51d672c2e6e3fa48626
         </Nav>
           <div className='game-container'>
             <div className='team1-container'>
@@ -307,8 +319,16 @@ export default function EventId(props) {
             </div>
           ))}
         </div>
+<<<<<<< HEAD
       </section>
       </div>
     </>
     )
 }
+=======
+        </section>
+      </div>
+    </>
+  );
+}
+>>>>>>> e148b80a2c15996a0639c51d672c2e6e3fa48626
