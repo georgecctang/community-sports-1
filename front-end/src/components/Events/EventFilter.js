@@ -23,7 +23,6 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
     }
   } 
 
-
   return (
     
     <Form className="form">
@@ -91,7 +90,7 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
 
       <div onChange={(e) => handleCategoryChange('referee', e.target.value)} >
       <Form.Group controlId="driving-time">
-        <Form.Label>Referee</Form.Label>
+        {/* <Form.Label>Referee</Form.Label> */}
         <h4> Referee</h4>
           <Form.Control as="select" size="sm" className="form-select_button">
             <option type="radio" value='' name="referee" label="(Show All)" defaultChecked>1</option>
@@ -100,7 +99,6 @@ export default function EventFilter ({setCategoryFilter, setIsUpcoming, setIsAll
           </Form.Control>
         </Form.Group>
       </div>
-
-    </Form>)
- 
+    </Form>
+    )
 };

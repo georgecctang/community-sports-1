@@ -1,21 +1,25 @@
+.Register {
+  padding: 60px;
+  margin: 7em auto;
+  max-width: 30%;
+  border: 3px solid rgba(185, 181, 181, 0.87);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+.Register form {
+  margin: 0 auto;
+  max-width: 320px;
+  visibility: visible;
+}
 
-  .Register {
-    padding: 60px;
-    margin: 7em auto;
-    max-width: 30%;
-    border: 3px solid rgba(185, 181, 181, 0.87);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .Register form {
-    margin: 0 auto;
-    max-width: 320px;
-    visibility: visible;
-  }
-  #btn-register {
-    color : white;
-    background-color: black;
-    border-radius: 20px;
-    border: none;
-    width: -webkit-fill-available;
-  }
+#btn-register:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+}
+#btn-register {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
+}

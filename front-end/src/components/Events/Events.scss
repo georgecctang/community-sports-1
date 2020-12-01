@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+body {
+  background: url('homepage.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+}
 .card {
   width: 55%;
   height: 25%;
@@ -27,8 +35,6 @@ a:hover {
 .events {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 3em;
-
   .event {
     background-color: #080808e5;
   }
@@ -51,8 +57,6 @@ a:hover {
   background-color: rgb(1, 37, 10);
 }
 
-
-
 .btn-primary:hover {
   color: rgb(150, 129, 13); 
   background-color: white;
@@ -71,7 +75,6 @@ a:hover {
   width: 250px;
   height: 90%;
   margin-top: 2em;
-  margin-bottom: 2em;
   left: 1em;
   padding: 48px 0 0;
   border-radius: 15px 50px 30px;
@@ -107,15 +110,10 @@ h3, .h3 {
   font-family: 'Prata', serif;
 }
 
-// .navbar-light .navbar-nav .nav-link .navbar-text {
-//   color: white;
 
 .navbar-light .navbar-nav .nav-link {
   font-family: 'Prata', serif;
   color: white;
-  // &:hover {
-  //   background-color: blue;
-  // }
 }
 .navbar-light .navbar-text {
   color: white;

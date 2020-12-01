@@ -3,14 +3,14 @@ import './Main.scss'
 import CarouselComponent from '../CarouselComponent/CarouselComponent'
 import player from './player.jpeg'
 import referee from './referee.jpeg'
-
+import logo from './logo.png'
 export default function Main (props) {
  
   return (
     <>
-    <div className="homepage" >
+      <div id="homepage" >
         <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/">LOGO</Navbar.Brand>
+        <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="justify-content-end">
@@ -20,8 +20,7 @@ export default function Main (props) {
     </Navbar.Collapse>
   </Navbar>
   <CarouselComponent />
-
-
+  
   <Container>
   <Row className='my-3'>
     <Col xs={6} md={4}>

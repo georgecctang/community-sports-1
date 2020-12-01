@@ -3,6 +3,7 @@ import {useState} from 'react';
 import { Redirect } from "react-router-dom";
 import { Form, Button, Navbar, Nav } from 'react-bootstrap';
 import './Register.scss'
+import logo from './logo.png';
 
 export default function Register (props) {
   const [error, setError ] = useState("")
@@ -31,9 +32,9 @@ export default function Register (props) {
   
   return (
     <>
-    <div className="homepage" >
+    <div className="register" >
       <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Sports</Navbar.Brand>
+      <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="justify-content-end">

@@ -2,7 +2,8 @@ import  { useState, React } from "react";
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import { Form, Button, Navbar, Nav } from 'react-bootstrap';
-import './Login.scss'
+import './Login.scss';
+import logo from './logo.png';
 
 export default function Login (props) {
   const [email, setEmail] = useState("");
@@ -38,8 +39,9 @@ export default function Login (props) {
 
   return (
     <>
+    {/* <div className="Login"> */}
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/">Sports</Navbar.Brand>
+    <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="justify-content-end">

@@ -1,13 +1,17 @@
-// @import "styles/variables.scss";
 .login-form {
   visibility: visible;
 }
+#btn_login:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+}
 #btn_login {
-  color : white;
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
   background-color: black;
-  border-radius: 20px;
-  border: none;
-  width: -webkit-fill-available;
 }
 .Login {
   padding: 60px;

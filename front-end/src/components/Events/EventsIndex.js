@@ -221,6 +221,7 @@ export default function EventsIndex(props) {
   }
   return (
     <>
+    <div className="eventIndex">
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/events"> <img src={logo} alt="logo"/> </Navbar.Brand>
         {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
@@ -248,6 +249,7 @@ export default function EventsIndex(props) {
         />
     </Nav>
     {eventElements.length ? eventElements : <p>There's no event with your criteria.</p>}
+    </div>
   </>
     )
 }

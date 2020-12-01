@@ -74,6 +74,5 @@ export default function App(props) {
         </Switch>
       </Router>
     </div>
-    
   );
 }

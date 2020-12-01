@@ -1,6 +1,16 @@
 // border: 3px solid rgba(185, 181, 181, 0.87);
 // box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 
-#edit-buttons {
- background-color: black !important;
+
+#save-button:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+}
+#save-button {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
 }

@@ -1,7 +1,6 @@
 import { Form, Button } from 'react-bootstrap';
-
+import './Forms.scss';
 export default function EventForm ({newEvent, setnewEvent, newEventfunction, cancel}) {
-//  console.log('newEvent', newEvent)
   return (
     <div className="newEvent">
       <Form 
@@ -175,13 +174,11 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
         />
         </Form.Group>
         <div div="event-buttons"> 
-          <Button id="edit-button" type="submit"> Save </Button> 
-          <Button onClick={cancel} > Cancel </Button>
+          <Button id="save-button" type="submit" size="m"> Save </Button> 
+          <Button size="m" onClick={cancel} > Cancel </Button>
         </div>
      </Form>
-    
-    </div>
-     
+    </div> 
   );
   
 }

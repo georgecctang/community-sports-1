@@ -65,7 +65,7 @@ export default function Navigation(props) {
     if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
       props.setUserJoined(true)
       return (
-        <button type="button" onClick={() => leaveEvent()}> Leave Event</button>
+        <button id="leave-event" type="button" onClick={() => leaveEvent()}> Leave Event</button>
       )
     }
     for (const positionGroup in props.team2) {
@@ -73,7 +73,7 @@ export default function Navigation(props) {
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
         props.setUserJoined(true)
         return (
-          <button type="button"  onClick={() => leaveEvent()}>Leave Event</button>
+          <button id="event-leave" type="button"  onClick={() => leaveEvent()}>Leave Event</button>
         )
       }
     }

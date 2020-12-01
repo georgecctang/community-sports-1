@@ -162,8 +162,9 @@ export default function EventId(props) {
 
   return (
     <>
+    <div className="eventID">
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events"><img src={logo}/></Navbar.Brand>
+        <Navbar.Brand href="/events"><img src={logo} alt="logo"/></Navbar.Brand>
         {props.user &&  <h3 className='display-name'> {props.user.first_name} {props.user.last_name} </h3>}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -214,7 +215,7 @@ export default function EventId(props) {
             {!isOwner && <Navigation eventId={eventId} team1={team1} team2={team2} team='Blue' user={props.user} setUserJoined={setUserJoined} teamState={team1} setTeam={setTeam1} />}
           {!isOwner && !userJoined && <Navigation eventId={eventId} team1={team1} team2={team2} team='Red' user={props.user} setUserJoined={setUserJoined} teamState={team2} setTeam={setTeam2} />}
           {isOwner && <Card.Link  href={`http://localhost:3000/owners/events/${eventId}/edit`} >
-            <Button > Edit </Button>
+            <Button id="edit-event"> Edit Event </Button>
           </Card.Link>}
           {isOwner && <Button onClick={() => deleteEvent(eventId)}> Delete Event
           </Button>}
@@ -288,12 +289,13 @@ export default function EventId(props) {
           {comments.map(comment => (
             <div className='comment'>
               <h5 id="user-comment"> {comment.fullName} </h5>
-              {/* <h5 id="user-comment"> {comment.time} </h5> */}
+              {/* <h5 id="user-comment"> {comment.time } </h5> */}
               <p className="p-comment"> {comment.comment} </p>
             </div>
           ))}
         </div>
         </section>
+      </div>
     </>
   );
 }

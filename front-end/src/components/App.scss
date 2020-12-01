@@ -6,7 +6,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 .App {
   text-align: center;
   overflow: hidden;
@@ -23,6 +22,7 @@ body {
   font-family: 'Prata', serif;
   font-weight: bold;
   background-color: black;
+  margin: 0.5em;
 }
 .App-header {
   min-height: 100vh;
@@ -34,7 +34,4 @@ body {
   color: white;
 }
 
-// body {
-//   margin-bottom: 2em;
-// }
 
