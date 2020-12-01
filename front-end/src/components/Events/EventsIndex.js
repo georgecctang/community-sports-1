@@ -7,7 +7,10 @@ import NavBar from '../NavBar/NavBar';
 import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
-import './Events.scss'
+import logo from './logo.png'
+import Loading from './Loading'
+
+import './Events.scss';
 
 export default function EventsIndex(props) {
   const { path } = useRouteMatch();
@@ -177,18 +180,17 @@ export default function EventsIndex(props) {
           eventsByDate[date].map(event => {
             return (
               <div className="events">
-                <Card >
-                  {/* <Link to={`${path}/${event.id}`} >{event.title}</Link> */}
-                  <Card.Link href={`/events/${event.id}`}>
-                    <div id="card-top">
-                      <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
+              <Card className='event'>
+                <Card.Link href={`/events/${event.id}`}>
+                <div id="card-top">
+                <Card.Header > {event.start_time && event.start_time.slice(0, 5)} - {event.end_time && event.end_time.slice(0, 5)}</Card.Header>
                       {distanceFlag && <Card.Header > {distanceFlag && distanceArr[index]} away </Card.Header>}
                 <Card.Header>{event.first_name} {event.last_name} </Card.Header>
                 </div>
                 <Card.Body >
                   <Card.Title>{event.title}</Card.Title>
                   <Card.Text>
-                    <small className="text-muted">{event.province}</small>
+                    <small className="text-muted">{event.city}, {event.province}</small>
                   </Card.Text>
                   <div id="card-bottom">
                     <Card.Text>
@@ -224,13 +226,14 @@ export default function EventsIndex(props) {
     )
   });
   if (!distanceFlag) {
-    return 'loading'
+    return <Loading />
   }
   return (
     <>
   
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/events">Sports</Navbar.Brand>
+        <Navbar.Brand href="/events"> <img src={logo} /> </Navbar.Brand>
+          {props.currentUser &&  <h3 className='display-name'> {props.currentUser.first_name} {props.currentUser.last_name} </h3>}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {props.currentUser &&
@@ -238,7 +241,6 @@ export default function EventsIndex(props) {
           <Link to="owners/events/new">
           <Button size="sm"> Create New Event </Button></Link>
             <Nav className="justify-content-end">
-              <Nav.Link href="/profile">My Profile<span>{props.currentUser.first_name} {props.currentUser.last_name}</span></Nav.Link>
               <Button size="sm" onClick={(event) => {
                 event.preventDefault();
                 logout_validation()
