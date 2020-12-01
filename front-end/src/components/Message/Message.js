@@ -149,7 +149,7 @@ export default function Messages(props)  {
   return (
     <div className="message-page">
       
-      <div className="message-left">
+      <div className="message-page-left">
           <ListGroup>
           {contactList.map(({id, first_name, last_name}) => {
             return (
@@ -164,12 +164,18 @@ export default function Messages(props)  {
           }
           </ListGroup>
       </div>
-      <div className="message-right flex-column">
+      <div className="message-page-right flex-column">
       
         <div className="conversation">
             {conversation.sort(compareObjectsById).map((message, index) => {
+              const messageClass = message.sender_id === currentUser.id ? "message-user" : "message-contact";
+              const messageContainerClass = message.sender_id === currentUser.id ? "message-container-user" : "message-container-contact";
               return (
-                <div key={index}>{message.body}</div>
+                <div className={messageContainerClass}>
+                  <div key={index} className={messageClass}>
+                  {message.body}
+                  </div>
+                </div>
               )
               })
             }
