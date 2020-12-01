@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap/';
 import Card from 'react-bootstrap/Card'
 import logo from './logo.png'
+import Loading from './Loading'
+
 import './Events.scss';
 
 export default function EventsIndex(props) {
@@ -217,7 +219,7 @@ export default function EventsIndex(props) {
     )
   });
   if (!distanceFlag) {
-    return 'loading'
+    return <Loading />
   }
   return (
     <>
