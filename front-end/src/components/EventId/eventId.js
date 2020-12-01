@@ -280,6 +280,7 @@ export default function EventId(props) {
           ))}
         </div>
       </section>
+      <Button>Contact Owner</Button>
       </>
     )
 }
