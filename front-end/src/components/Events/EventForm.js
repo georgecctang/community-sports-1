@@ -100,7 +100,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             onChange={(event) => {
                                 setnewEvent({...newEvent, skill_level: event.target.value })}}
 
-          > 
+          > <option> Choose Skill Level </option>
             <option> Beginner </option>
             <option> Intermediate </option>
             <option> Advanced </option>
@@ -115,7 +115,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.gender_restriction}
             placeholder="Gender"
             onChange={(event) => setnewEvent({...newEvent, gender_restriction: event.target.value })}
-          > 
+          > <option> Choose Gender Restriction</option>
             <option> Male only</option>
             <option> Female Only</option>
             <option> Other Only</option>
@@ -130,7 +130,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.referee}
             placeholder="Referee?"
             onChange={(event) => setnewEvent({...newEvent, referee: event.target.value })}
-          > 
+          > <option> Referee </option>
             <option> TRUE </option>
             <option> FALSE</option>
           </Form.Control>
@@ -143,7 +143,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.team}
             placeholder="Choose your team"
             onChange={(event) => setnewEvent({...newEvent, team: event.target.value })}
-          > 
+          > <option> Choose Your Team </option>
             <option> Team1 </option>
             <option> Team2 </option>
           </Form.Control>
@@ -156,7 +156,7 @@ export default function EventForm ({newEvent, setnewEvent, newEventfunction, can
             value={newEvent.position}
             placeholder="Choose you position"
             onChange={(event) => setnewEvent({...newEvent, position: event.target.value })}
-          > 
+          > <option> Choose Your Position </option>
             <option> Goalie </option>
             <option> Striker </option>
             <option> Midfield </option>
