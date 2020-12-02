@@ -203,7 +203,7 @@ export default function EventId(props) {
             <div className='midpage'>
               <div className='additional-info'>
                 <div className="info">i</div>
-                <h5> {event.additional_info} </h5>
+                <h5 id="info-text"> {event.additional_info} </h5>
               </div>
             </div>
           <div className='map-container'>
