@@ -68,6 +68,7 @@ export default function Navigation(props) {
         <button id="leave-event" type="button" onClick={() => leaveEvent()}> Leave Event</button>
       )
     }
+  }
     for (const positionGroup in props.team2) {
       const positionPlayers = props.team2[positionGroup]
       if (positionPlayers.includes(`${props.user.first_name} ${props.user.last_name}`)) {
@@ -155,5 +156,5 @@ export default function Navigation(props) {
       </>
     )
   }
-}
+// }
 
