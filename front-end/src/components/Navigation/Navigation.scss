@@ -18,6 +18,18 @@
   background-color: white;
   border-color: white;
 }
+#leave-event {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
+}
+#event-leave {
+  width: -webkit-fill-available !important;
+  background-color: black;
+  color:rgb(150, 129, 13);
+}
 #event-leave:hover {
   color: rgb(150, 129, 13); 
   background-color: white;

@@ -49,7 +49,7 @@ export default function Messages(props)  {
     if (currentContact.id && contactList && !contactList.find(contact => contact.id === currentContact.id)) {
       setContactList(prev => [currentContact, ...prev])
     } 
-  },[contactList, currentContact])
+  },[currentContact, contactList])
 
   useEffect(() => {
     if (!currentContact.id && contactList && contactList.length > 0) {
