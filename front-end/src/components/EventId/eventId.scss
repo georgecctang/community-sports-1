@@ -28,6 +28,8 @@ section {
   }
   .additional-info {
     margin-top: 2em;
+    
+  
     .info {
       color: #FAD02C;
       border-color: #FAD02C;
@@ -37,6 +39,9 @@ section {
       height: 30px;
       border-radius: 50%;
       margin-right: 1em ;
+    }
+    #info-text {
+      width: 40em;
     }
   }
   .midpage {

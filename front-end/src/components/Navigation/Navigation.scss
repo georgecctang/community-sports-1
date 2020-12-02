@@ -9,6 +9,9 @@
   width: -webkit-fill-available !important;
   background-color: black;
   color:rgb(150, 129, 13);
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
 }
 #leave-event:hover {
   color: rgb(150, 129, 13); 
@@ -33,6 +36,7 @@
   border-color: white;
 }
 #event-leave {
+  width: -webkit-fill-available !important;
   color: rgb(150, 129, 13); 
   border-color: white;
   font-family: 'Prata', serif;
@@ -70,7 +74,7 @@
   #position-midfield_1 {
     position: absolute;
     top: 9em;
-    left: 20em;
+    left: 19.5em;
   } 
   #position-midfield_2 {
     position: absolute;
@@ -130,22 +134,22 @@
   #position-midfield_1 {
     position: absolute;
     top: 11em;
-    left: 25.5em;
+    left: 25em;
   } 
   #position-midfield_2 {
     position: absolute;
     top: 25.5em;
-    left: 25.5em;
+    left: 25em;
   } 
   #position-midfield_3 {
     position: absolute;
     top: 6.5em;
-    left: 33em;
+    left: 32.5em;
   } 
   #position-midfield_4 {
     position: absolute;
     top: 30em;
-    left: 33em;
+    left: 32.5em;
   } 
   #position-striker_1 {
     position: absolute;

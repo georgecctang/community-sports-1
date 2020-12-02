@@ -3,28 +3,42 @@
   flex-direction: row;
   justify-content: center;
 }
+#message-submit:hover {
+  color: rgb(150, 129, 13); 
+  background-color: white;
+  border-color: white;
+  
+}
+#message-submit {
+  color: rgb(150, 129, 13); 
+  border-color: white;
+  font-family: 'Prata', serif;
+  font-weight: bold;
+  background-color: black;
+  width: 30em;
+}
 
 .message-page-left {
   width: 250px;
-  margin: 20px;
-  height: 95vh;
+  margin-top: 5em;
+  height: 70vh;
   background:rgba($color: #000000, $alpha:0.5);
 }
 
 .message-page-right {
   width: 500px;
-  margin: 20px;
-  height: 95vh;
+  margin: 5em;
+  height: 70vh;
   background:rgba($color: #000000, $alpha:0.5);
 }
 
 .conversation {
-  height: 65vh;
+  height: 40vh;
   overflow: auto;
 }
 
 .new-message-form {
-  height:25vh
+  height:20vh
 }
 
 .message-container-user {

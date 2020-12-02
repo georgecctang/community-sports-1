@@ -58,11 +58,12 @@ export default function EventId(props) {
     const commentRequest = axios.get(comment)
     //Making all 3 requests
     Promise.all([eventRequest, teamRequest, commentRequest])
-      .then((responses) => {
-        //Request data
-        const eventData = responses[0]
-        const teamData = responses[1]
-        const commentData = responses[2]
+    .then((responses) => {
+      //Request data
+      const eventData = responses[0]
+      const teamData = responses[1]
+      const commentData = responses[2]
+      console.log(commentData)
         //Destructuring data from request
         const { id, owner_id, date, start_time, end_time, additional_info, address, city, current_participants, gender_restriction, location, max_participants,
           province, referee, skill_level, title, first_name, last_name } = eventData.data[0]
@@ -184,8 +185,9 @@ export default function EventId(props) {
            <>
             <Link to="/owners/events/new">
               <Button size="m"> Create New Event </Button></Link>
+              <Link to="/messages">
+              <Button size="m"> Message </Button></Link>
                 <Nav className="justify-content-end">
-                  {/* <Navbar.Text>{props.user.first_name} {props.user.last_name}</Navbar.Text> */}
                   <Button size="m" onClick={(event) => { event.preventDefault();
                                                       logout_validation()}}>Logout</Button>
                </Nav>
@@ -201,7 +203,7 @@ export default function EventId(props) {
             <div className='midpage'>
               <div className='additional-info'>
                 <div className="info">i</div>
-                <h5> {event.additional_info} </h5>
+                <h5 id="info-text"> {event.additional_info} </h5>
               </div>
             </div>
           <div className='map-container'>
