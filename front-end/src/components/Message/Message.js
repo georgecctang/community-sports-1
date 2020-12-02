@@ -9,7 +9,7 @@ export default function Messages(props)  {
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('userData')));
   const [messages, setMessages] = useState([]);
   const [messageObj, setMessageObj] = useState({});
-  const [contactList, setContactList] = useState([]);
+  const [contactList, setContactList] = useState(null);
   const [currentContact, setCurrentContact] = useState({});
   // const [conversation, setConversation] = useState([{}]);
   const [newMessageText, setNewMessageText] = useState('');
@@ -45,13 +45,13 @@ export default function Messages(props)  {
     console.log('useEffect1 currentContact', currentContact);
     console.log('useEffect1 contactList', contactList);
 
-    if (currentContact.id && contactList.length > 0 && !contactList.find(contact => contact.id === currentContact.id)) {
+    if (currentContact.id && contactList && !contactList.find(contact => contact.id === currentContact.id)) {
       setContactList(prev => [currentContact, ...prev])
     } 
-  },[contactList])
+  },[currentContact, contactList])
 
   useEffect(() => {
-    if (!currentContact.id && contactList.length > 0) {
+    if (!currentContact.id && contactList && contactList.length > 0) {
       setCurrentContact(() => contactList[0]);
     }
   },[contactList])
@@ -151,7 +151,7 @@ export default function Messages(props)  {
       
       <div className="message-page-left">
           <ListGroup>
-          {contactList.map(({id, first_name, last_name}) => {
+          {contactList && contactList.map(({id, first_name, last_name}) => {
             return (
               <ListGroup.Item
                 active={currentContact.id === id}
