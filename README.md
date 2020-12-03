@@ -1,5 +1,5 @@
 # Community Soccer
-This is the final project for the Lighthouse Labs web development bootcamp prepared by Bill Watters, Ozge Guner and George Tang.
+This is the final project for the Lighthouse Labs web development bootcamp prepared by [Bill Watters](https://github.com/WattersIV), [Ozge Guner](https://github.com/ozggnr) and [George Tang](https://github.com/georgecctang).
 
 ## Motivation
 One challenge soccer lovers face is that it is difficult to organize a proper game. For a game that requires a minimum of 22 players, having many fellow players available at the same time can be difficult. On top of that, not every players are willing to switch from their favorite positions, leading to imbalanced teams (e.g. a team with many strikers but no defeneder.)
