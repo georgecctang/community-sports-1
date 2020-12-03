@@ -117,6 +117,7 @@ export default function Messages(props)  {
       recipientId: currentContact.id, 
       body: newMessageText
     }
+    // console.log(reqBody);
     e.preventDefault();
     axios.post("http://localhost:8001/api/messages", reqBody)
     .then(res => {
