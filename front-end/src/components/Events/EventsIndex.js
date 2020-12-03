@@ -174,7 +174,7 @@ export default function EventsIndex(props) {
   // 
   const eventElements = Object.keys(eventsByDate).map((date, index) => {
     return (
-      <div classNames="days" key={date}>
+      <div className="days" key={date}>
           <h5 id="days">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h5>
         {
           eventsByDate[date].map(event => {
