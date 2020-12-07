@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
   } from "react-router-dom";
 import Login from './Login/LoginForm'
 import EventId from './EventId/eventId'
@@ -13,11 +12,10 @@ import Register from './Register/RegisterForm'
 import EventsIndex from './Events/EventsIndex';
 import MyEventsIndex from './MyEvents/MyEventsIndex';
 import Message from './Message/Message';
-// import Test from './Test/Test';
 import Main from './Main/Main';
 import EditEvent from './Events/EditEvent'
 import CreateEvent from './Events/CreateEvent'
-import { useState , useEffect} from 'react';
+import { useState , useEffect } from 'react';
 import './App.scss';
 
 export default function App(props) {

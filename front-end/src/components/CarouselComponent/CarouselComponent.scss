@@ -1,22 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
+@mixin carousel-image {
+  background-repeat: no-repeat;
+  background-size: cover; 
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
 
 .carousel-image1 {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('homepage.jpg') no-repeat center center fixed; 
+  @include carousel-image;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('homepage.jpg');
+
 }
 
 .carousel-image2 {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer1.jpeg') no-repeat center center fixed; 
+  @include carousel-image;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer1.jpeg');
 }
 
 .carousel-image3 {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer2.jpeg') no-repeat center center fixed; 
+  @include carousel-image;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url('soccer2.jpeg');
 }
 
 .overlay { 
@@ -31,3 +36,5 @@
   text-align:center;
   letter-spacing: 3px;
 }
+
+// no-repeat center center fixed
