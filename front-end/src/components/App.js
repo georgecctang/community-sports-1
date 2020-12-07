@@ -21,18 +21,18 @@ import './App.scss';
 export default function App(props) {
 
 
-  const [islogin, setisLogin] = useState(false)
+  // const [islogin, setisLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState(JSON.parse(window.localStorage.getItem('userData')));
 
   //console.log('before useEffect', currentUser)
 
-  useEffect(() => {
-      axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
-      { 
+  // useEffect(() => {
+  //     axios.get('http://localhost:8001/api/cookies', {withCredentials:true}).then((res) => 
+  //     { 
         
-        return setCurrentUser(res.data)        
-      })
-    },[islogin])
+  //       return setCurrentUser(res.data)        
+  //     })
+  //   },[islogin])
     
 //console.log('after useEffect', currentUser)
   return (
@@ -43,12 +43,10 @@ export default function App(props) {
             <Main />
           </Route>
           <Route path='/login'>
-            <Login 
-            islogin ={islogin}
-            setisLogin = {setisLogin} />
+            <Login  />
           </Route>
           <Route path='/register'>
-            <Register islogin={islogin} setisLogin={setisLogin} />
+            <Register />
           </Route> 
           <Route exact path='/events' > 
            <EventsIndex  

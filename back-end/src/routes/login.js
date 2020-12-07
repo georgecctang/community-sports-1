@@ -1,7 +1,8 @@
 const router = require("express").Router(); 
 module.exports = db => {
   router.post("/login", (req, res) => { 
-    const {email, password} = req.body 
+    const {email, password} = req.body;
+    console.log("POST /login");
     db.query(`
       SELECT id, first_name, last_name 
       FROM users 
@@ -10,11 +11,12 @@ module.exports = db => {
     , [email, password])
     .then(({rows}) => {
       if (rows.length !== 0) {
-        req.session.user_id = rows[0].id 
+        req.session.user_id = rows[0].id;
+        res.json(rows[0]); 
       } else {
-        res.json(rows[0])
+        console.log("Incorrect login information");
+        res.send("Incorrect login information");
       }
-      res.json(rows[0]) 
     })
   })
   return router;

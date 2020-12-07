@@ -1,86 +1,74 @@
+import { useHistory } from 'react-router-dom';
 import  { useState, React } from "react";
-import { Redirect } from "react-router-dom";
 import axios from 'axios';
-import { Form, Button, Navbar, Nav } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import NavBar from '../NavBar/NavBar';
 import './Login.scss';
-import logo from './logo.png';
 
 export default function Login (props) {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError ] = useState("")
+  const [error, setError] = useState("")
 
-  const userLoggedin =  function() {
-    if (email === "") {
-      setError("this cannot be blank")
-      return;
-    }
-    if (password === "") {
-      setError("this cannot be blank")
-      return;
-    }
+  const loginUser =  function() {
     axios.post('http://localhost:8001/api/login', { email, password },{withCredentials:true}).then((res) =>
     
     { 
-      window.localStorage.setItem('userData', JSON.stringify(res.data)) 
-       if(res.data === "Email does not exist") {
-         setError(res.data)
+      if(res.data === "Incorrect login information") {
+        setError(res.data);
+        return;
         
-       } else {
-        console.log('setisLogin to true');
-        props.setisLogin(true);
+      } else {
+        window.localStorage.setItem('userData', JSON.stringify(res.data));
+        console.log('logined');
+        history.push("/events");
        }
       }
     )
   }
-  if (props.islogin) {
-    return <Redirect to="/events"/>
-  };
 
   return (
     <>
     {/* <div className="Login"> */}
-    <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="/"><img src={logo} alt="logo"/> </Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="justify-content-end">
-      <Nav.Link href="/login">Login</Nav.Link>
-      <Nav.Link href="/register">Register</Nav.Link>
-    </Nav> 
-    </Navbar.Collapse>
-  </Navbar>
+    <NavBar />
     <div className="Login">
     <Form 
     id="login-form"
     onSubmit={event => {
                   event.preventDefault();
-                  userLoggedin()
-
+                  loginUser()
                 }}>
-      <Form.Group size="lg" controlId="formBasicEmail">
-        <Form.Control 
-          type="email"  
-          placeholder="Email"
-           value={email} 
-          onChange={(event) => {
-            setEmail(event.target.value)
-          }}
-       />
-    </Form.Group> 
-      <Form.Group size="lg" controlId="password">
+      <Form.Group as={Row} size="lg" controlId="formBasicEmail">
+        <Form.Label column sm="2">Email</Form.Label>
+        <Col sm="10">
         <Form.Control
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+        required
+        type="email"  
+        placeholder="Enter your email"
+        value={email} 
+        onChange={(event) => {setEmail(event.target.value)}}
         />
+        </Col>
+    </Form.Group> 
+      <Form.Group as={Row} size="lg" controlId="password">
+      <Form.Label column sm="2">Password</Form.Label>
+      <Col sm="10">
+      <Form.Control
+      required
+      type="password"
+      placeholder="Enter your password"
+      value={password}
+      onChange={(event) => setPassword(event.target.value)}
+      />
+      </Col>
       </Form.Group>
+      
       <Button id="btn_login" block size="lg" type="submit">
         Login
       </Button>
     </Form>
-    <h2>{error}</h2>
+    <h4 className="error-message">{error}</h4>
     </div>
     </>
   );
