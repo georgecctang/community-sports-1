@@ -3,10 +3,13 @@ import  { useState, React } from "react";
 import axios from 'axios';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import NavBar from '../NavBar/NavBar';
+
+import useLocalStorage from '../../hooks/useLocalStorage';
 import './Login.scss';
 
 export default function Login (props) {
   const history = useHistory();
+  const [user, setUser] = useLocalStorage('user', "");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("")
@@ -20,7 +23,7 @@ export default function Login (props) {
         return;
         
       } else {
-        window.localStorage.setItem('userData', JSON.stringify(res.data));
+        setUser(res.data);
         console.log('logined');
         history.push("/events");
        }

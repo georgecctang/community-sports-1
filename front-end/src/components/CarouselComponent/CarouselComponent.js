@@ -5,7 +5,7 @@ export default function CarouselComponent (props) {
 
 return (
   <>
-  <div class="overlay"><span>Join the locals for the games<br></br> you've always loved.</span></div>  
+  <div className="overlay"><span>Join the locals for the games<br></br> you've always loved.</span></div>  
   <Carousel controls={false} pause={false} interval={8000}> 
     <Carousel.Item  >
       <div className="carousel-image1"></div>
